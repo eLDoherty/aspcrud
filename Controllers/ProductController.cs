@@ -11,7 +11,7 @@ namespace learnnet.Controllers
 {
     public class ProductController : Controller
     {
-        public IList<Product> ProductList = new List<Product>
+        static IList<Product> ProductList = new List<Product>
         {
                new Product() { ProductId = 1, Name = "Product 1", Price = 18 } ,
                new Product() { ProductId = 2, Name = "Product 2", Price = 19 } ,
@@ -22,7 +22,7 @@ namespace learnnet.Controllers
         {
             ViewBag.Message = "Product page is created!";
 
-            return View(ProductList);
+            return View(ProductList.OrderBy(s => s.ProductId).ToList());
         }
 
         [System.Web.Mvc.HttpGet]
@@ -39,6 +39,19 @@ namespace learnnet.Controllers
             ProductList.Remove(product);
             ProductList.Add(prd);
 
+            return RedirectToAction("Index");
+        }
+
+        [System.Web.Mvc.HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [System.Web.Mvc.HttpPost]
+        public ActionResult Create(Product prd)
+        {
+            ProductList.Add(prd);
             return RedirectToAction("Index");
         }
 
