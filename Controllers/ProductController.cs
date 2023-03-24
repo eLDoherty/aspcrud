@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Mvc;
+using System.Web.WebPages.Html;
 using learnnet.Models;
 
 namespace learnnet.Controllers
@@ -35,11 +36,23 @@ namespace learnnet.Controllers
         [System.Web.Mvc.HttpPost]
         public ActionResult Edit(Product prd)
         {
-            var product = ProductList.Where(s => s.ProductId == prd.ProductId).FirstOrDefault();
-            ProductList.Remove(product);
-            ProductList.Add(prd);
+            if(ModelState.IsValid)
+            {
+                var productAlreadyExist = ProductList.Where(s => s.Name == prd.Name).FirstOrDefault() == null ? true : false;
 
-            return RedirectToAction("Index");
+                if(!productAlreadyExist)
+                {
+                    ModelState.AddModelError("Name", "The product is already exists");
+                    return View(prd);
+                }
+  
+                var product = ProductList.Where(s => s.ProductId == prd.ProductId).FirstOrDefault();
+                ProductList.Remove(product);
+                ProductList.Add(prd);
+
+                return RedirectToAction("Index");
+            }
+            return View(prd);
         }
 
         [System.Web.Mvc.HttpGet]
