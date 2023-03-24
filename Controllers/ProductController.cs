@@ -69,7 +69,7 @@ namespace learnnet.Controllers
             {
                 var product = ProductList.Where(s => s.Name == prd.Name).FirstOrDefault();
 
-                //Auto increment ProductId -- Get bigget productId and + 1
+                //Auto increment ProductId -- Get the biggest productId and add by 1
                 int uniqueProductId = ProductList.Max(s => (int)s.ProductId) + 1;
 
                 if(product != null)
