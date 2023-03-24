@@ -38,11 +38,12 @@ namespace learnnet.Controllers
         {
             if(ModelState.IsValid)
             {
-                bool productAlreadyExist = ProductList.Where(s => s.Name == prd.Name).FirstOrDefault() == null ? true : false;
+                var editedProduct = ProductList.Where(s => s.Name == prd.Name).FirstOrDefault();
+                bool productAlreadyExist = editedProduct == null ? false : true;
 
-                if(!productAlreadyExist)
+                if(productAlreadyExist && editedProduct.ProductId != prd.ProductId)
                 {
-                    ModelState.AddModelError("Name", "The product is already exists");
+                    ModelState.AddModelError("Name", "The product is already exist");
                     return View(prd);
                 }
   
@@ -68,7 +69,7 @@ namespace learnnet.Controllers
             {
                 var product = ProductList.Where(s => s.Name == prd.Name).FirstOrDefault();
 
-                //Auto increment ProductId
+                //Auto increment ProductId -- Get bigget productId and + 1
                 int uniqueProductId = ProductList.Max(s => (int)s.ProductId) + 1;
 
                 if(product != null)
