@@ -38,7 +38,7 @@ namespace learnnet.Controllers
         {
             if(ModelState.IsValid)
             {
-                var productAlreadyExist = ProductList.Where(s => s.Name == prd.Name).FirstOrDefault() == null ? true : false;
+                bool productAlreadyExist = ProductList.Where(s => s.Name == prd.Name).FirstOrDefault() == null ? true : false;
 
                 if(!productAlreadyExist)
                 {
@@ -64,9 +64,31 @@ namespace learnnet.Controllers
         [System.Web.Mvc.HttpPost]
         public ActionResult Create(Product prd)
         {
-            ProductList.Add(prd);
+            if (ModelState.IsValid)
+            {
+                var product = ProductList.Where(s => s.Name == prd.Name).FirstOrDefault();
+
+                if(product != null)
+                {
+                    ModelState.AddModelError("Name", "The product is already exist");
+                    return View(prd);
+                }
+
+                ProductList.Add(prd);
+                return RedirectToAction("Index");
+            }
+
+            return View(prd);
+        }
+
+        [System.Web.Mvc.HttpGet]
+        public ActionResult Delete(int Id)
+        {
+            var product = ProductList.Where(s => s.ProductId == Id).FirstOrDefault();
+            ProductList.Remove(product);
             return RedirectToAction("Index");
         }
 
     }
+
 }
