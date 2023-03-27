@@ -21,7 +21,7 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 320px;
 }
 
 h2.page-title {
@@ -30,8 +30,10 @@ h2.page-title {
     font-weight: 700;
 }
 
+/* Overriding BS Jumbotron */
 .jumbotron {
     margin-top: 40px;
+    text-align: center;
 }
 
 

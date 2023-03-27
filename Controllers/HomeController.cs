@@ -12,13 +12,13 @@ namespace learnnet.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.Description = "Learn .NET MVC -- First Page";
             return View();
         }
 
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page. Testing";
-
             return View();
         }
 

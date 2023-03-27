@@ -1,0 +1,25 @@
+﻿.navbar-primary {
+    padding: 20px 0;
+}
+
+.form-product-page {
+    text-align: center;
+}
+
+.form-product-page .input-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.form-product-page .input-wrapper label {
+    text-align: center;
+}
+.form-product-page .input-wrapper input {
+    margin: 0 auto;
+}
+body .form-product-page .btn-success {
+    width: 130px;
+    max-width: unset;
+}

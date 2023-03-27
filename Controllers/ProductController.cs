@@ -21,7 +21,7 @@ namespace learnnet.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Message = "Product page is created!";
+            ViewBag.Description = "Products page, and also CRUD page";
 
             return View(ProductList.OrderBy(s => s.ProductId).ToList());
         }

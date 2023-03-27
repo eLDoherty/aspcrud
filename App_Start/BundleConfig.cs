@@ -28,6 +28,10 @@ namespace learnnet
 
             bundles.Add(new ScriptBundle("~/bundles/main").Include(
                 "~/Scripts/Main.js"));
+
+            bundles.Add(new StyleBundle("~/Content/productStyle").Include(
+                    "~/Content/ProductPage.css"
+                ));
         }
     }
 }
