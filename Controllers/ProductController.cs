@@ -67,18 +67,23 @@ namespace learnnet.Controllers
         {
             if (ModelState.IsValid)
             {
-                var product = ProductList.Where(s => s.Name == prd.Name).FirstOrDefault();
+
+                var product = ProductList != null ? ProductList.Where(s => s.Name == prd.Name).FirstOrDefault() : null;
 
                 //Auto increment ProductId -- Get the biggest productId and add by 1
-                int uniqueProductId = product != null ? ProductList.Max(s => (int)s.ProductId) : 1;
+                if (ProductList != null && ProductList.Any())
+                {
+                    prd.ProductId = ProductList.Max(s => (int)s.ProductId) + 1;
+                } else
+                {
+                    prd.ProductId = 1;
+                }
 
                 if(product != null)
                 {
                     ModelState.AddModelError("Name", "The product is already exist");
                     return View(prd);
                 }
-
-                prd.ProductId = uniqueProductId;
 
                 ProductList.Add(prd);
                 return RedirectToAction("Index");

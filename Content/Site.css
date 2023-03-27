@@ -22,3 +22,9 @@ select,
 textarea {
     max-width: 280px;
 }
+
+h2.page-title {
+    font-size: 40px;
+    margin: 30px 0;
+    font-weight: 700;
+}
