@@ -4,35 +4,38 @@
     function validateForm(elm) {
         $(elm).validate({
             submitHandler: function (form) {
+                $('#button_create_product').val('Loading');
                 $("#name_error").text("");
                 $("#price_error").text("");
 
-                var errors = [];
+                var errors = {};
                 var numbs = /\d+/g;
 
                 // Name cant be empty
-                $('.add_product_name').val().replace(/ /g, "").length == 0 ? errors["name"] = "Product name should'nt empty" : [];
+                $('.add_product_name').val().replace(/ /g, "").length == 0 ? errors["name"] =  { msg: "Product name should'nt empty"} : {};
 
                 // Only numbers
-                $('.add_product_price').val().match(numbs) ? [] : errors["price"] = "Price only filled by number";
+                $('.add_product_price').val().match(numbs) ? [] : errors["price"] = { msg: "Price only filled by number" };
 
                 // Price cant be empty
-                $('.add_product_price').val().replace(/ /g, "").length == 0 ? errors["price"] = "Price can't be empty" : [];
+                $('.add_product_price').val().replace(/ /g, "").length == 0 ? errors["price"] = { msg: "Price can't be empty" } : {};
 
-                if (errors === undefined || errors.length == 0) {
-                    errors["name"] && $("#name_error").text(errors["name"]);
-                    errors["price"] && $("#price_error").text(errors["price"]);
-                } else {
+                if (Object.keys(errors).length === 0) {
                     $(form).submit();
+                } else {
+                    $('#button_create_product').val('Save');
+                    errors.name && $('#name_error').text(errors.name.msg);
+                    errors.price && $('#price_error').text(errors.price.msg);
                 }
             }
         });
     }
 
-    // Validate Create Form
+    // Validate create form -- should put this into event click / submit button?
     validateForm("#create_product_form");
 
-    // Validate Edit Form
+    // Validate edit form -- should put this into event click / submit button?
     validateForm("#edit_product_form");
+  
     
 });
