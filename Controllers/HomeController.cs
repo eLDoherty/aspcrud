@@ -12,7 +12,7 @@ namespace learnnet.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Description = "Learn .NET MVC -- First Page";
+            ViewBag.Description = "Learn .NET MVC -- Front Page";
             return View();
         }
 

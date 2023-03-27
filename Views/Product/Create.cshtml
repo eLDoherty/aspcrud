@@ -1,27 +1,31 @@
 ﻿@model learnnet.Models.Product
 
 @{
-    ViewBag.Title = "Add Product";
+    ViewBag.Title = "Add New Product";
 }
 <div class="form-product-page">
 
     <h2 class="page-title" style="margin-bottom: 50px">@ViewBag.Title</h2>
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "create_product_form" }))
     {
         @Html.AntiForgeryToken()
-
+        <div class="error has-error">
+            <span></span>
+        </div>
         <div class="form-horizontal">
             <div class="form-group input-wrapper">
                 @Html.LabelFor(model => Model.Name, htmlAttributes: new { @class = "control-label col-md-1" })
                 <div class="col-md-11" style="margin-bottom: 15px;">
-                    @Html.EditorFor(model => Model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => Model.Name, new { htmlAttributes = new { @class = "form-control add_product_name" } })
                     @Html.ValidationMessageFor(model => Model.Name, "", new { @class = "text-danger" })
+                    <div id="name_error" class="has-error"></div>
                 </div>
                 @Html.LabelFor(model => Model.Price, htmlAttributes: new { @class = "control-label col-md-1" })
                 <div class="col-md-11">
-                    @Html.EditorFor(model => Model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => Model.Price, new { htmlAttributes = new { @class = "form-control add_product_price" } })
                     @Html.ValidationMessageFor(model => Model.Price, "", new { @class = "text-danger" })
+                    <div id="price_error" class="has-error"></div>
                 </div>
             </div>
 
