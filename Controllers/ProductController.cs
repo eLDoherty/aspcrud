@@ -14,7 +14,7 @@ namespace learnnet.Controllers
     {
         static IList<Product> ProductList = new List<Product>
         {
-               new Product() { ProductId = 1, Name = "Product 1", Price = 18, Image= "https://source.unsplash.com/random/350x350?sig=1"  } ,
+               new Product() { ProductId = 1, Name = "Product 1", Price = 18, Image= "https://source.unsplash.com/random/350x350?sig=1" } ,
                new Product() { ProductId = 2, Name = "Product 2", Price = 19, Image= "https://source.unsplash.com/random/350x350?sig=2" } ,
                new Product() { ProductId = 3, Name = "Product 3", Price = 20, Image= "https://source.unsplash.com/random/350x350?sig=3" } ,
         };
