@@ -5,30 +5,35 @@
     int i = 0;
 }
 
-<h2 class="page-title">@ViewBag.Title</h2>
-<table class="table table-bordered">
-    <tr>
-        <th>No.</th>
-        <th>@Html.DisplayNameFor(model => model.Name)</th>
-        <th>@Html.DisplayNameFor(model => model.Price)</th>
-        <th>Action</th>
-    </tr>
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">My fisrt page in ASP, CRUD product with static data.</p>
+    <p>@Html.ActionLink("Create Product", "Create", "Product", false, new { @class = "btn btn-success" })</p>
+</div>
+
+<div class="row">
     @if (Model.Any())
     {
         foreach (var item in Model)
         {
-            i++;
-            <tr>
-                <td>@i</td>
-                <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                <td>$@Html.DisplayFor(modelItem => item.Price)</td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
-                </td>
-            </tr>
+            <div class="col-md-4">
+                <div class="card-wrapper">
+                    <div class="card-thumbnail">
+                        <img src=@Html.DisplayFor(modelItem => item.Image) alt=@Html.DisplayFor(modelItem => item.Name) />
+                    </div>
+                    <h2 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h2>
+                    <div class="card-action">
+                        <div class="row">
+                            <div class="col-md-6">
+                                @Html.ActionLink("Edit", "Edit", "Product", new { id = item.ProductId }, new { @class = "btn btn-info" })
+                            </div>
+                            <div class="col-md-6">
+                                @Html.ActionLink("Delete", "Delete", "Product", new { id = item.ProductId }, new { @class = "btn btn-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
     }
-</table>
-
-@Html.ActionLink("Add Product", "Create", false, new { @class = "btn btn-info" } )
+</div>

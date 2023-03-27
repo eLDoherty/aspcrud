@@ -17,5 +17,8 @@ namespace learnnet.Models
 
         [RegularExpression("^[0-9]+$")]
         public int Price { get; set; }
+
+        public string Image { get; set; }
     }
+
 }

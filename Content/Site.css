@@ -7,6 +7,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    margin-top: 40px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -27,4 +28,28 @@ h2.page-title {
     font-size: 40px;
     margin: 30px 0;
     font-weight: 700;
+}
+
+.jumbotron {
+    margin-top: 40px;
+}
+
+
+/* Card */
+.navbar-inverse {
+    padding: 20px 0;
+}
+.card-wrapper {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+.card-wrapper img {
+    width: 100%;
+    object-fit: cover;
+}
+.card-title {
+    text-align: center;
+}
+.card-wrapper .btn {
+    width: 100%;
 }
