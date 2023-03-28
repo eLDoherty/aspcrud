@@ -84,3 +84,7 @@ C:\project\excercise\asp\learnnet\learnnet\bin\System.Web.Http.WebHost.dll
 C:\project\excercise\asp\learnnet\learnnet\bin\System.Net.Http.Formatting.xml
 C:\project\excercise\asp\learnnet\learnnet\bin\System.Web.Http.xml
 C:\project\excercise\asp\learnnet\learnnet\bin\System.Web.Http.WebHost.xml
+C:\project\excercise\asp\learnnet\learnnet\bin\EntityFramework.dll
+C:\project\excercise\asp\learnnet\learnnet\bin\EntityFramework.SqlServer.dll
+C:\project\excercise\asp\learnnet\learnnet\bin\EntityFramework.xml
+C:\project\excercise\asp\learnnet\learnnet\bin\EntityFramework.SqlServer.xml

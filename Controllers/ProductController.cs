@@ -4,58 +4,54 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Data.SqlClient;
 using System.Web.Mvc;
 using System.Web.WebPages.Html;
 using learnnet.Models;
+using System.Configuration;
+using System.Data;
 
 namespace learnnet.Controllers
 {
     public class ProductController : Controller
     {
-        static IList<Product> ProductList = new List<Product>
+        public List<Product> GetData()
         {
-               new Product() { ProductId = 1, Name = "Product 1", Price = 18, Image= "https://source.unsplash.com/random/350x350?sig=1" } ,
-               new Product() { ProductId = 2, Name = "Product 2", Price = 19, Image= "https://source.unsplash.com/random/350x350?sig=2" } ,
-               new Product() { ProductId = 3, Name = "Product 3", Price = 20, Image= "https://source.unsplash.com/random/350x350?sig=3" } ,
-        };
+            List<Product> ProductList = new List<Product>();
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM products", con)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    var prd = new Product
+                    {
+                        name = rdr["name"].ToString(),
+                        price = Convert.ToInt32(rdr["price"]),
+                        slug = rdr["slug"].ToString(),
+                        thumbnail = rdr["thumbnail"].ToString(),
+                    };
+
+                    ProductList.Add(prd);
+                }
+            }
+            return ProductList;
+        }
 
         public ActionResult Index()
         {
-            ViewBag.Description = "Products page, and also CRUD page";
-
-            return View(ProductList.OrderBy(s => s.ProductId).ToList());
+            var data = GetData();
+            return View(data);
         }
 
-        [System.Web.Mvc.HttpGet]
-        public ActionResult Edit(int Id)
-        {
-            var prod = ProductList.Where(s => s.ProductId == Id).FirstOrDefault();
-            return View(prod);
-        }
 
-        [System.Web.Mvc.HttpPost]
-        public ActionResult Edit(Product prd)
-        {
-            if(ModelState.IsValid)
-            {
-                var editedProduct = ProductList.Where(s => s.Name == prd.Name).FirstOrDefault();
-                bool productAlreadyExist = editedProduct == null ? false : true;
-
-                if(productAlreadyExist && editedProduct.ProductId != prd.ProductId)
-                {
-                    ModelState.AddModelError("Name", "The product is already exist");
-                    return View(prd);
-                }
-  
-                var product = ProductList.Where(s => s.ProductId == prd.ProductId).FirstOrDefault();
-                ProductList.Remove(product);
-                ProductList.Add(prd);
-
-                return RedirectToAction("Index");
-            }
-            return View(prd);
-        }
-
+        //Create Product Handler
         [System.Web.Mvc.HttpGet]
         public ActionResult Create()
         {
@@ -67,40 +63,59 @@ namespace learnnet.Controllers
         {
             if (ModelState.IsValid)
             {
-                var product = ProductList != null ? ProductList.Where(s => s.Name == prd.Name).FirstOrDefault() : null;
+                var product = GetData() != null ? GetData().Where(s => s.name == prd.name).FirstOrDefault() : null;
 
-                //Auto increment ProductId -- Get the biggest productId and add by 1
-                if (ProductList != null && ProductList.Any())
+                if (product != null)
                 {
-                    prd.ProductId = ProductList.Max(s => (int)s.ProductId) + 1;
-                    prd.Image = "https://source.unsplash.com/random/350x350?sig=" + prd.ProductId;
-                } else
-                {
-                    prd.ProductId = 1;
-                    prd.Image = "https://source.unsplash.com/random/350x350?sig=" + prd.ProductId;
+                    ModelState.AddModelError("Name", "The product is already exist");
+                    return View(prd);
                 }
+                prd.thumbnail = "https://source.unsplash.com/random/350x350?sig=" + product.id; 
+                GetData().Add(prd);
+                return RedirectToAction("Index");
+            }
+            return View(prd);
+        }
 
-                if(product != null)
+        // Edit product
+        [System.Web.Mvc.HttpGet]
+        public ActionResult Edit(int id)
+        {
+            var prod = GetData().Where(s => s.id == id).FirstOrDefault();
+            return View(prod);
+        }
+
+        [System.Web.Mvc.HttpPost]
+        public ActionResult Edit(Product prd)
+        {
+            if (ModelState.IsValid)
+            {
+                var editedProduct = GetData().Where(s => s.name == prd.name).FirstOrDefault();
+                bool productAlreadyExist = editedProduct == null ? false : true;
+
+                if (productAlreadyExist && editedProduct.id != prd.id)
                 {
                     ModelState.AddModelError("Name", "The product is already exist");
                     return View(prd);
                 }
 
-                ProductList.Add(prd);
+                var product = GetData().Where(s => s.id == prd.id).FirstOrDefault();
+                GetData().Remove(product);
+                prd.thumbnail = "https://source.unsplash.com/random/350x350?sig=" + prd.id;
+                GetData().Add(prd);
+
                 return RedirectToAction("Index");
             }
-
             return View(prd);
         }
 
+        // Delete product
         [System.Web.Mvc.HttpGet]
-        public ActionResult Delete(int Id)
+        public ActionResult Delete(int id)
         {
-            var product = ProductList.Where(s => s.ProductId == Id).FirstOrDefault();
-            ProductList.Remove(product);
+            var product = GetData().Where(s => s.id == id).FirstOrDefault();
+            GetData().Remove(product);
             return RedirectToAction("Index");
         }
-
     }
-
 }

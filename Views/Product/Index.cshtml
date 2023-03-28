@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "Product List";
-    int i = 0;
 }
 
 <div class="jumbotron">
@@ -19,16 +18,16 @@
             <div class="col-md-4">
                 <div class="card-wrapper">
                     <div class="card-thumbnail">
-                        <img src=@Html.DisplayFor(modelItem => item.Image) alt=@Html.DisplayFor(modelItem => item.Name) />
+                        <img src=@Html.DisplayFor(modelItem => item.thumbnail) alt=@Html.DisplayFor(modelItem => item.name) />
                     </div>
-                    <h2 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h2>
+                    <h2 class="card-title">@Html.DisplayFor(modelItem => item.name)</h2>
                     <div class="card-action">
                         <div class="row">
                             <div class="col-md-6">
-                                @Html.ActionLink("Edit", "Edit", "Product", new { id = item.ProductId }, new { @class = "btn btn-info" })
+                                @Html.ActionLink("Edit", "Edit", "Product", new { id = item.id }, new { @class = "btn btn-info" })
                             </div>
                             <div class="col-md-6">
-                                @Html.ActionLink("Delete", "Delete", "Product", new { id = item.ProductId }, new { @class = "btn btn-danger" })
+                                @Html.ActionLink("Delete", "Delete", "Product", new { id = item.id }, new { @class = "btn btn-danger" })
                             </div>
                         </div>
                     </div>
