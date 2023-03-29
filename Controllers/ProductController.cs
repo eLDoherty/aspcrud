@@ -17,7 +17,6 @@ namespace learnnet.Controllers
             return View(data);
         }
 
-
         //Create Product Handler
         [System.Web.Mvc.HttpGet]
         public ActionResult Create()
