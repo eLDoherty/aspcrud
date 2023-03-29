@@ -33,5 +33,14 @@
 
     // Validate edit form -- should put this into event click / submit button?
     validateForm("#edit_product_form");
-  
+    
+    // Handle delete button
+    $(".delete_button").click(function (e) {
+        e.preventDefault();
+        var cnfrm = confirm("Are you sure?");
+        var url = $(this).attr("href");
+        if (cnfrm) {
+            window.location = url;
+        }
+    });
 });

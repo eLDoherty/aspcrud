@@ -9,7 +9,7 @@
     <p class="lead">@ViewBag.Description</p>
     <p>@Html.ActionLink("Create Product", "Create", "Product", false, new { @class = "btn btn-success" })</p>
 </div>
-
+<p class="text-action-message">@TempData["message"]</p>
 <div class="row">
     @if (Model.Any())
     {
@@ -28,7 +28,7 @@
                                 @Html.ActionLink("Edit", "Edit", "Product", new { id = item.id }, new { @class = "btn btn-info" })
                             </div>
                             <div class="col-md-6">
-                                @Html.ActionLink("Delete", "Delete", "Product", new { id = item.id }, new { @class = "btn btn-danger" })
+                                @Html.ActionLink("Delete", "Delete", "Product", new { id = item.id }, new { @class = "btn btn-danger delete_button" })
                             </div>
                         </div>
                     </div>

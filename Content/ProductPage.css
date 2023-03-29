@@ -26,3 +26,9 @@ body .form-product-page .btn-success {
 .has-error {
     color: red;
 }
+.text-action-message {
+    text-align: center;
+    margin: 20px 0;
+    color: cadetblue;
+    font-size: 3rem;
+}

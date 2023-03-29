@@ -69,3 +69,7 @@ h2.page-title {
 .card-wrapper .btn {
     width: 100%;
 }
+
+.btn_submit_product:focus {
+    outline: none !important;
+}

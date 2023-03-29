@@ -41,6 +41,7 @@ namespace learnnet.Controllers
                 var pushData =  CustomQuery.InsertData(prd.name, prd.price);
                 if (pushData)
                 {
+                    TempData["message"] = "Product addition successfully!";
                     return RedirectToAction("Index");
                 }
                
@@ -70,7 +71,7 @@ namespace learnnet.Controllers
                 }
 
                 var update = CustomQuery.EditData(prd);
-
+                TempData["message"] = "Edit data successfully!";
                 return RedirectToAction("Index");
             }
             return View(prd);
@@ -83,9 +84,11 @@ namespace learnnet.Controllers
             var removeData = CustomQuery.DeletData(id);
             if (removeData)
             {
+                TempData["message"] = "Data has been removed!";
                 return RedirectToAction("Index");
             } else
             {
+                TempData["message"] = "Delete data failed!";
                 return RedirectToAction("Index");
             }
         }
