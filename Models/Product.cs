@@ -13,8 +13,10 @@ namespace learnnet.Models
     {
         public int id { get; set; }
 
+        [Required]
         public string name { get; set; }
 
+        [Required]
         public decimal price { get; set; }
 
         public string slug { get; set; }

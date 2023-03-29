@@ -15,15 +15,15 @@
         </div>
         <div class="form-horizontal">
             <div class="form-group input-wrapper">
-                @Html.LabelFor(model => Model.name, htmlAttributes: new { @class = "control-label col-md-1" })
+                <label class="control-label col-md-3" for="name">Product Name</label>
                 <div class="col-md-11" style="margin-bottom: 15px;">
                     @Html.EditorFor(model => Model.name, new { htmlAttributes = new { @class = "form-control add_product_name" } })
                     @Html.ValidationMessageFor(model => Model.name, "", new { @class = "text-danger" })
                     <div id="name_error" class="has-error"></div>
                 </div>
-                @Html.LabelFor(model => Model.price, htmlAttributes: new { @class = "control-label col-md-1" })
+                <label class="control-label col-md-3" for="price">Product Price</label>
                 <div class="col-md-11">
-                    @Html.EditorFor(model => Model.price, new { htmlAttributes = new { @class = "form-control add_product_price" } })
+                    @Html.EditorFor(model => Model.price, new { htmlAttributes = new { @class = "form-control add_product_price", @type = "number" } })
                     @Html.ValidationMessageFor(model => Model.price, "", new { @class = "text-danger" })
                     <div id="price_error" class="has-error"></div>
                 </div>

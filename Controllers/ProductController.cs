@@ -10,43 +10,17 @@ using System.Web.WebPages.Html;
 using learnnet.Models;
 using System.Configuration;
 using System.Data;
+using learnnet.Helper;
 
 namespace learnnet.Controllers
 {
     public class ProductController : Controller
     {
-        public List<Product> GetData()
-        {
-            List<Product> ProductList = new List<Product>();
-            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
-            using (SqlConnection con = new SqlConnection(CS))
-            {
-                con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT * FROM products", con)
-                {
-                    CommandType = CommandType.Text
-                };
-
-                SqlDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
-                {
-                    var prd = new Product
-                    {
-                        name = rdr["name"].ToString(),
-                        price = Convert.ToInt32(rdr["price"]),
-                        slug = rdr["slug"].ToString(),
-                        thumbnail = rdr["thumbnail"].ToString(),
-                    };
-
-                    ProductList.Add(prd);
-                }
-            }
-            return ProductList;
-        }
+        readonly CustomQuery CQ = new CustomQuery();
 
         public ActionResult Index()
         {
-            var data = GetData();
+            var data = CustomQuery.GetData();
             return View(data);
         }
 
@@ -63,16 +37,24 @@ namespace learnnet.Controllers
         {
             if (ModelState.IsValid)
             {
-                var product = GetData() != null ? GetData().Where(s => s.name == prd.name).FirstOrDefault() : null;
+                var product = CustomQuery.GetData()?.Where(s => s.name == prd.name).FirstOrDefault();
+                Random rnd = new Random();
+                int sig = rnd.Next(1, 13);
 
                 if (product != null)
                 {
                     ModelState.AddModelError("Name", "The product is already exist");
                     return View(prd);
                 }
-                prd.thumbnail = "https://source.unsplash.com/random/350x350?sig=" + product.id; 
-                GetData().Add(prd);
-                return RedirectToAction("Index");
+
+                var thumbnail = "https://source.unsplash.com/random/350x350?sig=" + sig; 
+
+                var pushData =  CustomQuery.InsertData(prd.name, prd.price, thumbnail);
+                if (pushData)
+                {
+                    return RedirectToAction("Index");
+                }
+               
             }
             return View(prd);
         }
@@ -81,7 +63,7 @@ namespace learnnet.Controllers
         [System.Web.Mvc.HttpGet]
         public ActionResult Edit(int id)
         {
-            var prod = GetData().Where(s => s.id == id).FirstOrDefault();
+            var prod = CustomQuery.GetData().Where(s => s.id == id).FirstOrDefault();
             return View(prod);
         }
 
@@ -90,7 +72,7 @@ namespace learnnet.Controllers
         {
             if (ModelState.IsValid)
             {
-                var editedProduct = GetData().Where(s => s.name == prd.name).FirstOrDefault();
+                var editedProduct = CustomQuery.GetData().Where(s => s.name == prd.name).FirstOrDefault();
                 bool productAlreadyExist = editedProduct == null ? false : true;
 
                 if (productAlreadyExist && editedProduct.id != prd.id)
@@ -99,10 +81,10 @@ namespace learnnet.Controllers
                     return View(prd);
                 }
 
-                var product = GetData().Where(s => s.id == prd.id).FirstOrDefault();
-                GetData().Remove(product);
+                var product = CustomQuery.GetData().Where(s => s.id == prd.id).FirstOrDefault();
+                CustomQuery.GetData().Remove(product);
                 prd.thumbnail = "https://source.unsplash.com/random/350x350?sig=" + prd.id;
-                GetData().Add(prd);
+                CustomQuery.GetData().Add(prd);
 
                 return RedirectToAction("Index");
             }
@@ -113,8 +95,8 @@ namespace learnnet.Controllers
         [System.Web.Mvc.HttpGet]
         public ActionResult Delete(int id)
         {
-            var product = GetData().Where(s => s.id == id).FirstOrDefault();
-            GetData().Remove(product);
+            var product = CustomQuery.GetData().Where(s => s.id == id).FirstOrDefault();
+           CustomQuery.GetData().Remove(product);
             return RedirectToAction("Index");
         }
     }
