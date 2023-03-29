@@ -4,10 +4,8 @@
     function validateForm(elm) {
         $(elm).validate({
             submitHandler: function (form) {
-                $('#button_create_product').val('Loading');
                 $("#name_error").text("");
                 $("#price_error").text("");
-
                 var errors = {};
                 var numbs = /\d+/g;
 
@@ -23,7 +21,6 @@
                 if (Object.keys(errors).length === 0) {
                     $(form).submit();
                 } else {
-                    $('#button_create_product').val('Save');
                     errors.name && $('#name_error').text(errors.name.msg);
                     errors.price && $('#price_error').text(errors.price.msg);
                 }
@@ -37,5 +34,4 @@
     // Validate edit form -- should put this into event click / submit button?
     validateForm("#edit_product_form");
   
-    
 });

@@ -77,6 +77,18 @@ namespace learnnet.Helper
             }
         }
 
+        // Find data by ID
+        public static Product ChooseData(int id)
+        {
+            return GetData().Where(data => data.id == id).FirstOrDefault();
+        }
+
+        // Edit data
+        public static bool EditData(int id)
+        {
+            return true;
+        }
+
 
 
 
