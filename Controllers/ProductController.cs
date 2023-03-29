@@ -20,6 +20,7 @@ namespace learnnet.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.Description = "Product page with CRUD";
             var data = CustomQuery.GetData();
             return View(data);
         }
@@ -38,8 +39,6 @@ namespace learnnet.Controllers
             if (ModelState.IsValid)
             {
                 var product = CustomQuery.GetData()?.Where(s => s.name == prd.name).FirstOrDefault();
-                Random rnd = new Random();
-                int sig = rnd.Next(1, 13);
 
                 if (product != null)
                 {
@@ -47,9 +46,7 @@ namespace learnnet.Controllers
                     return View(prd);
                 }
 
-                var thumbnail = "https://source.unsplash.com/random/350x350?sig=" + sig; 
-
-                var pushData =  CustomQuery.InsertData(prd.name, prd.price, thumbnail);
+                var pushData =  CustomQuery.InsertData(prd.name, prd.price);
                 if (pushData)
                 {
                     return RedirectToAction("Index");
@@ -63,8 +60,7 @@ namespace learnnet.Controllers
         [System.Web.Mvc.HttpGet]
         public ActionResult Edit(int id)
         {
-            var prod = CustomQuery.GetData().Where(s => s.id == id).FirstOrDefault();
-            return View(prod);
+            return View(CustomQuery.ChooseData(id));
         }
 
         [System.Web.Mvc.HttpPost]
@@ -81,10 +77,7 @@ namespace learnnet.Controllers
                     return View(prd);
                 }
 
-                var product = CustomQuery.GetData().Where(s => s.id == prd.id).FirstOrDefault();
-                CustomQuery.GetData().Remove(product);
-                prd.thumbnail = "https://source.unsplash.com/random/350x350?sig=" + prd.id;
-                CustomQuery.GetData().Add(prd);
+                var update = CustomQuery.EditData(prd);
 
                 return RedirectToAction("Index");
             }

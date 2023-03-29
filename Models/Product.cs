@@ -16,7 +16,7 @@ namespace learnnet.Models
         [Required]
         public string name { get; set; }
 
-        [Required, RegularExpression("^[0-9]+$")]
+        [Required, RegularExpression("^[0-9.]+$")]
         public decimal price { get; set; }
 
         public string slug { get; set; }

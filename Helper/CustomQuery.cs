@@ -32,6 +32,7 @@ namespace learnnet.Helper
                 {
                     var prd = new Product
                     {
+                        id = Convert.ToInt32(rdr["id"]),
                         name = rdr["name"].ToString(),
                         price = Convert.ToInt32(rdr["price"]),
                         slug = rdr["slug"].ToString(),
@@ -45,12 +46,13 @@ namespace learnnet.Helper
         }
 
         // Insert data to DB
-        public static bool InsertData(string name, decimal price, string thumbnail)
+        public static bool InsertData(string name, decimal price)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             using (SqlConnection con = new SqlConnection(CS))
 
             {
+                var thumbnail = GetRandomImageURL();
                 con.Open();
                 var query = "INSERT INTO dbo.products (name ,price ,slug ,thumbnail) VALUES ('"+name+"','"+price+"','"+Slugify(name)+"','"+thumbnail+"')";
                 using (SqlCommand command = new SqlCommand(query, con))
@@ -83,16 +85,41 @@ namespace learnnet.Helper
             return GetData().Where(data => data.id == id).FirstOrDefault();
         }
 
-        // Edit data
-        public static bool EditData(int id)
+        //  Edit data in DB
+        public static bool EditData(Product prd)
         {
-            return true;
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                var thumbnail = GetRandomImageURL();
+                con.Open();
+                var query = "UPDATE dbo.products SET name = '"+prd.name+"',price = '"+prd.price+"' ,slug = '"+Slugify(prd.name)+"' ,thumbnail = '"+thumbnail+"' WHERE id=" + prd.id;
+                using (SqlCommand command = new SqlCommand(query, con))
+                {
+                    try
+                    {
+                        var result = command.ExecuteNonQuery();
+                        if(result > 0)
+                        {
+                            return true;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                    return false;
+                }
+            }
         }
 
-
-
-
         // Utility -- should create on another class?
+
+        // Slugify string
         public static string Slugify(string input)
         {
             if (string.IsNullOrEmpty(input))
@@ -114,6 +141,15 @@ namespace learnnet.Helper
             }
 
             return stringBuilder.ToString().ToLower();
+        }
+
+        // Get unsplash random image
+        public static string GetRandomImageURL()
+        {
+            Random rnd = new Random();
+            int sig = rnd.Next(1, 13);
+            var thumbnail = "https://source.unsplash.com/random/350x350?sig=" + sig;
+            return thumbnail;
         }
     }
 }

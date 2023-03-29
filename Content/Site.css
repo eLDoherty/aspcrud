@@ -52,6 +52,20 @@ h2.page-title {
 .card-title {
     text-align: center;
 }
+.card-price {
+    text-align: center;
+    color: #326207;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+}
+.card-price::before {
+    content: "$";
+    display: block;
+    font-size: 20px;
+    color: #326207;
+}    
 .card-wrapper .btn {
     width: 100%;
 }
