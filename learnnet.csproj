@@ -178,7 +178,9 @@
     <None Include="Views\Home\Test.cshtml" />
     <Content Include="Views\Product\_ViewStart.cshtml" />
     <None Include="Views\Shared\_ProductLayout.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
