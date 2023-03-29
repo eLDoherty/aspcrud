@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using System.Data.SqlClient;
+﻿using System.Linq;
 using System.Web.Mvc;
-using System.Web.WebPages.Html;
 using learnnet.Models;
-using System.Configuration;
 using System.Data;
 using learnnet.Helper;
 
@@ -88,9 +80,14 @@ namespace learnnet.Controllers
         [System.Web.Mvc.HttpGet]
         public ActionResult Delete(int id)
         {
-            var product = CustomQuery.GetData().Where(s => s.id == id).FirstOrDefault();
-           CustomQuery.GetData().Remove(product);
-            return RedirectToAction("Index");
+            var removeData = CustomQuery.DeletData(id);
+            if (removeData)
+            {
+                return RedirectToAction("Index");
+            } else
+            {
+                return RedirectToAction("Index");
+            }
         }
     }
 }

@@ -5,7 +5,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using learnnet.Models;
 
@@ -117,9 +116,42 @@ namespace learnnet.Helper
             }
         }
 
-        // Utility -- should create on another class?
+        // Delete data by ID
+        public static bool DeletData(int id)
+        {
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                con.Open();
+                var query = "DELETE FROM dbo.products WHERE id=" + id;
+                using (SqlCommand command = new SqlCommand(query, con))
+                {
+                    try
+                    {
+                        var result = command.ExecuteNonQuery();
+                        if(result > 0)
+                        {
+                            return true;
+                        }
+                    }
+                    catch (Exception)
+                    {
 
-        // Slugify string
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                    return false;
+                }
+            }
+        }
+
+        /* 
+         * Utility -- should create on another class?
+         * 
+         * Slugify string
+         */
         public static string Slugify(string input)
         {
             if (string.IsNullOrEmpty(input))
