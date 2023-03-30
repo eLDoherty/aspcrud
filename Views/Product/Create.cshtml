@@ -15,6 +15,7 @@
         </div>
         <div class="form-horizontal">
             <div class="form-group input-wrapper">
+                <img id="image-previewer" src="" />
                 <label class="control-label col-md-3" for="thumbnail">Product Thumbnail</label>
                 <div class="col-md-11">
                     @Html.EditorFor(model => Model.thumbnail, new { htmlAttributes = new { @class = "form-control", @type = "file", accept = "image/png, image/jpeg, image/jpg" } })

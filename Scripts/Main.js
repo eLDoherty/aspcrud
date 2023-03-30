@@ -43,4 +43,69 @@
             window.location = url;
         }
     });
+
+    // Pagination with ajax
+    $("#load_more_product").click(function () {
+
+        $(this).val(parseInt($(this).val()) + 1);
+
+        $.ajax({
+            url: $(".endpoint_pagination_request").attr("href"),
+            type: 'POST',
+            data: {
+                page: $(this).val()
+            },
+            success: function (res) {
+                var data = JSON.parse(res);
+                var item = "";
+                var edit_product_link = $('.edit_product_link').attr("href");
+                var delete_product_link = $('.delete_product_link').attr("href");
+                console.log(data);
+                $.each(data, function (key, val) {
+                    item += `<div class="col-md-4">
+                                <div class="card-wrapper">
+                                    <div class="card-thumbnail">
+                                        <img src="/Uploads/${val.thumbnail}" alt="${val.name}" />
+                                    </div>
+                                        <h2 class="card-title">${val.name}</h2>
+                                        <p class="card-price">${val.price}</p>
+                                        <div class="card-action">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <a href="${edit_product_link}/${val.id}" class="btn btn-info">Edit</a>
+                                       
+                                                </div>
+                                                <div class="col-md-6">
+                                                     <a href="${delete_product_link}/${val.id}" class="btn btn-danger delete_button">Delete</a>
+                                      
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                });
+                $("#main_page").append(item);
+            },
+        })
+    })
+
+    // Show image before upload
+    if ($("#image-previewer").length > 0) {
+        $("#image-previewer").attr("src").length > 0 ? $("#image-previewer").show() : $("#image-previewer").hide();
+    }
+    $("#thumbnail").change(function () {
+        const file = this.files[0];
+        if (file) {
+            let reader = new FileReader();
+            $("#image-previewer").show();
+            reader.onload = function (event) {
+                $("#image-previewer").attr("src", event.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+
+
+
 });

@@ -36,3 +36,14 @@ body .form-product-page .btn-success {
     color: cadetblue;
     font-size: 3rem;
 }
+#image-previewer {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+}
+.endpoint_pagination_request {
+    display: none;
+}
+.delete_product_link, .edit_product_link {
+    display: none;
+}

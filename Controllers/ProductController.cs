@@ -6,6 +6,8 @@ using learnnet.Helper;
 using System.Web;
 using System.IO;
 using System;
+using learnnet.Models;
+using System.Web.Script.Serialization;
 
 namespace learnnet.Controllers
 {
@@ -16,8 +18,21 @@ namespace learnnet.Controllers
         public ActionResult Index()
         {
             ViewBag.Description = "Product page with CRUD";
-            var data = CustomQuery.GetData();
+            var data = CustomQuery.GetDataPagination(1);
             return View(data);
+        }
+
+        [System.Web.Mvc.HttpPost]
+        public string Pagination(int page)
+        {
+            if(page != null)
+            {
+                var data = CustomQuery.GetDataPagination(page);
+                return new JavaScriptSerializer().Serialize(data);
+            } else
+            {
+                return "Nothing";
+            }
         }
 
         //Create Product Handler

@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Product List";
+    var request = HttpContext.Current.Request;
 }
 
 <div class="jumbotron">
@@ -10,7 +11,7 @@
     <p>@Html.ActionLink("Create Product", "Create", "Product", false, new { @class = "btn btn-success" })</p>
 </div>
 <p class="text-action-message">@TempData["message"]</p>
-<div class="row">
+<div class="row" id="main_page">
     @if (Model.Any())
     {
         foreach (var item in Model)
@@ -18,7 +19,7 @@
             <div class="col-md-4">
                 <div class="card-wrapper">
                     <div class="card-thumbnail">
-                        <img src="~/Uploads/@item.thumbnail" alt=@Html.DisplayFor(modelItem => item.name) />
+                        <img src="~/Uploads/@item.thumbnail" alt="@Html.DisplayFor(modelItem => item.name)" />
                     </div>
                     <h2 class="card-title">@Html.DisplayFor(modelItem => item.name)</h2>
                     <p class="card-price">@Html.DisplayFor(modelItem => item.price)</p>
@@ -37,3 +38,7 @@
         }
     }
 </div>
+@Html.ActionLink("Index Url", "Pagination", "Product", null, new { @class = "endpoint_pagination_request" })
+@Html.ActionLink("Delete", "Delete", "Product", null, new { @class = "btn btn-danger delete_product_link" })
+@Html.ActionLink("Edit", "Edit", "Product", null, new { @class = "btn btn-danger edit_product_link" })
+<button value="1" id="load_more_product">Load More</button>

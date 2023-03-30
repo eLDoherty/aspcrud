@@ -145,6 +145,48 @@ namespace learnnet.Helper
             }
         }
 
+        // Get data with pagination
+        public static List<Product> GetDataPagination(int currentPage)
+        {
+            List<Product> ProductList = new List<Product>();
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            int page = currentPage;
+            string query = @"DECLARE @PageNumber AS INT
+                             DECLARE @RowsOfPage AS INT
+                             SET @PageNumber="+page+@"
+                             SET @RowsOfPage=3
+                             SELECT * FROM dbo.products
+                             ORDER BY id 
+                             OFFSET (@PageNumber-1)*@RowsOfPage ROWS
+                             FETCH NEXT @RowsOfPage ROWS ONLY";
+
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand(query, con)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    var prd = new Product
+                    {
+                        id = Convert.ToInt32(rdr["id"]),
+                        name = rdr["name"].ToString(),
+                        price = Convert.ToInt32(rdr["price"]),
+                        slug = rdr["slug"].ToString(),
+                        thumbnail = rdr["thumbnail"].ToString(),
+                    };
+
+                    ProductList.Add(prd);
+                }
+            }
+            return ProductList;
+        }
+
+
         /* 
          * Utility -- should create on another class?
          * 
