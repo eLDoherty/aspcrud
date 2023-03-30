@@ -6,6 +6,10 @@
     text-align: center;
 }
 
+.card-wrapper img {
+    height: 250px;
+}
+
 .form-product-page .input-wrapper {
     display: flex;
     flex-direction: column;

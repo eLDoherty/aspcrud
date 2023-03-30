@@ -3,6 +3,9 @@ using System.Web.Mvc;
 using learnnet.Models;
 using System.Data;
 using learnnet.Helper;
+using System.Web;
+using System.IO;
+using System;
 
 namespace learnnet.Controllers
 {
@@ -25,7 +28,7 @@ namespace learnnet.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult Create(Product prd)
+        public ActionResult Create(Product prd, HttpPostedFileBase thumbnail)
         {
             if (ModelState.IsValid)
             {
@@ -37,13 +40,24 @@ namespace learnnet.Controllers
                     return View(prd);
                 }
 
-                var pushData =  CustomQuery.InsertData(prd.name, prd.price);
-                if (pushData)
+                string path = Server.MapPath("~/Uploads/");
+                if (!Directory.Exists(path))
                 {
-                    TempData["message"] = "Product addition successfully!";
-                    return RedirectToAction("Index");
+                    Directory.CreateDirectory(path);
                 }
-               
+
+                if (thumbnail != null)
+                {
+                    string productThumbnailName = "IMG-" + DateTime.Now.Ticks.ToString() + "-" + thumbnail.FileName;
+                    string fileName =  Path.GetFileName(productThumbnailName);
+                    thumbnail.SaveAs(path + fileName);
+                    var pushData = CustomQuery.InsertData(prd.name, prd.price, productThumbnailName);
+                    if (pushData)
+                    {
+                        TempData["message"] = "Product addition successfully!";
+                        return RedirectToAction("Index");
+                    }
+                }
             }
             return View(prd);
         }
@@ -56,7 +70,7 @@ namespace learnnet.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult Edit(Product prd)
+        public ActionResult Edit(Product prd, HttpPostedFileBase thumbnail)
         {
             if (ModelState.IsValid)
             {
@@ -69,9 +83,16 @@ namespace learnnet.Controllers
                     return View(prd);
                 }
 
-                var update = CustomQuery.EditData(prd);
-                TempData["message"] = "Edit data successfully!";
-                return RedirectToAction("Index");
+                string path = Server.MapPath("~/Uploads/");
+                if (thumbnail != null)
+                {
+                    string productThumbnailName = "IMG-" + DateTime.Now.Ticks.ToString() + "-" + thumbnail.FileName;
+                    string fileName = Path.GetFileName(productThumbnailName);
+                    thumbnail.SaveAs(path + fileName);
+                    var update = CustomQuery.EditData(prd, productThumbnailName);
+                    TempData["message"] = "Edit data successfully!";
+                    return RedirectToAction("Index");
+                }
             }
             return View(prd);
         }

@@ -7,7 +7,7 @@
 
     <h2 class="page-title" style="margin-bottom: 50px">@ViewBag.Title</h2>
 
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "create_product_form" }))
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "create_product_form", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         <div class="error has-error">
@@ -15,6 +15,12 @@
         </div>
         <div class="form-horizontal">
             <div class="form-group input-wrapper">
+                <label class="control-label col-md-3" for="thumbnail">Product Thumbnail</label>
+                <div class="col-md-11">
+                    @Html.EditorFor(model => Model.thumbnail, new { htmlAttributes = new { @class = "form-control", @type = "file", accept = "image/png, image/jpeg, image/jpg" } })
+                    @Html.ValidationMessageFor(model => Model.thumbnail, "", new { @class = "text-danger" })
+                    <div id="thumbnail_error" class="has-error"></div>
+                </div>
                 <label class="control-label col-md-3" for="name">Product Name</label>
                 <div class="col-md-11" style="margin-bottom: 15px;">
                     @Html.EditorFor(model => Model.name, new { htmlAttributes = new { @class = "form-control add_product_name" } })

@@ -45,13 +45,12 @@ namespace learnnet.Helper
         }
 
         // Insert data to DB
-        public static bool InsertData(string name, decimal price)
+        public static bool InsertData(string name, decimal price, string thumbnail)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             using (SqlConnection con = new SqlConnection(CS))
 
             {
-                var thumbnail = GetRandomImageURL();
                 con.Open();
                 var query = "INSERT INTO dbo.products (name ,price ,slug ,thumbnail) VALUES ('"+name+"','"+price+"','"+Slugify(name)+"','"+thumbnail+"')";
                 using (SqlCommand command = new SqlCommand(query, con))
@@ -85,12 +84,11 @@ namespace learnnet.Helper
         }
 
         //  Edit data in DB
-        public static bool EditData(Product prd)
+        public static bool EditData(Product prd, string thumbnail)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             using (SqlConnection con = new SqlConnection(CS))
             {
-                var thumbnail = GetRandomImageURL();
                 con.Open();
                 var query = "UPDATE dbo.products SET name = '"+prd.name+"',price = '"+prd.price+"' ,slug = '"+Slugify(prd.name)+"' ,thumbnail = '"+thumbnail+"' WHERE id=" + prd.id;
                 using (SqlCommand command = new SqlCommand(query, con))
