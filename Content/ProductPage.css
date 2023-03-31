@@ -2,10 +2,6 @@
     padding: 20px 0;
 }
 
-.form-product-page {
-    text-align: center;
-}
-
 .card-wrapper img {
     height: 250px;
 }
@@ -13,12 +9,15 @@
 .form-product-page .input-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     text-align: center;
 }
 .form-product-page .input-wrapper label {
-    text-align: center;
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: 500;
+    font-size: 14px;
+    padding-top: 0;
 }
 .form-product-page .input-wrapper input {
     margin: 0 auto;
@@ -36,14 +35,48 @@ body .form-product-page .btn-success {
     color: cadetblue;
     font-size: 3rem;
 }
-#image-previewer {
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
-}
 .endpoint_pagination_request {
     display: none;
 }
 .delete_product_link, .edit_product_link {
     display: none;
+}
+.load-more-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+/* Create Product Page */
+.add_product_name {
+    margin-bottom: 30px;
+}
+body .row .product-description {
+    height: 200px;
+}
+.form-horizontal {
+    margin-left: 20px;
+}
+input#thumbnail {
+    margin-bottom: 20px;
+}
+.checkbox {
+    display: flex;
+}
+.checkbox label {
+    display: flex;
+    align-items: center;
+    padding-left: 0;
+}
+.checkbox span {
+    margin-left: 17px;
+}
+#image-previewer {
+    width: 100%;
+    max-width: 300px;
+    height: 250px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+.product-status {
+    margin-bottom: 20px;
 }

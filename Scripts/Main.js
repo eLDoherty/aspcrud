@@ -105,7 +105,9 @@
         }
     });
 
-
-
+    // Test
+    $('#trending').on("change", function () {
+        console.log($(this).val());
+    })
 
 });

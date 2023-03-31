@@ -36,6 +36,9 @@ namespace learnnet.Helper
                         price = Convert.ToInt32(rdr["price"]),
                         slug = rdr["slug"].ToString(),
                         thumbnail = rdr["thumbnail"].ToString(),
+                        description = rdr["description"].ToString(),
+                        status = rdr["status"].ToString(),
+                        trending = rdr["trending"].ToString()
                     };
 
                     ProductList.Add(prd);
@@ -45,14 +48,15 @@ namespace learnnet.Helper
         }
 
         // Insert data to DB
-        public static bool InsertData(string name, decimal price, string thumbnail)
+        public static bool InsertData(Product prd, string thumbnail)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             using (SqlConnection con = new SqlConnection(CS))
 
             {
                 con.Open();
-                var query = "INSERT INTO dbo.products (name ,price ,slug ,thumbnail) VALUES ('"+name+"','"+price+"','"+Slugify(name)+"','"+thumbnail+"')";
+                var query = @"INSERT INTO dbo.products (name ,price ,slug ,thumbnail, description, status, trending) 
+                            VALUES ('"+prd.name+"','"+prd.price+"','"+Slugify(prd.name)+"','"+thumbnail+"', '"+prd.description+"','"+prd.status+"','"+1+"')";
                 using (SqlCommand command = new SqlCommand(query, con))
                 {
                     try
@@ -83,14 +87,22 @@ namespace learnnet.Helper
             return GetData().Where(data => data.id == id).FirstOrDefault();
         }
 
-        //  Edit data in DB
+        //  Edit data in DB 
         public static bool EditData(Product prd, string thumbnail)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
-                var query = "UPDATE dbo.products SET name = '"+prd.name+"',price = '"+prd.price+"' ,slug = '"+Slugify(prd.name)+"' ,thumbnail = '"+thumbnail+"' WHERE id=" + prd.id;
+                var query = @"UPDATE dbo.products 
+                            SET name = '"+prd.name+"'," +
+                            "price = '"+prd.price+"' ," +
+                            "slug = '"+Slugify(prd.name)+"' ," +
+                            "thumbnail = '"+thumbnail+"' ," +
+                            "description = '"+prd.description+"' ," +
+                            "status = '" + prd.status + "' ," +
+                            "trending = '" + 1 + "' ," +
+                            "WHERE id=" + prd.id;
                 using (SqlCommand command = new SqlCommand(query, con))
                 {
                     try

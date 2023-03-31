@@ -23,6 +23,7 @@
                     </div>
                     <h2 class="card-title">@Html.DisplayFor(modelItem => item.name)</h2>
                     <p class="card-price">@Html.DisplayFor(modelItem => item.price)</p>
+                    <p class="short-description">@item.description</p>
                     <div class="card-action">
                         <div class="row">
                             <div class="col-md-6">
@@ -41,4 +42,7 @@
 @Html.ActionLink("Index Url", "Pagination", "Product", null, new { @class = "endpoint_pagination_request" })
 @Html.ActionLink("Delete", "Delete", "Product", null, new { @class = "btn btn-danger delete_product_link" })
 @Html.ActionLink("Edit", "Edit", "Product", null, new { @class = "btn btn-danger edit_product_link" })
-<button value="1" id="load_more_product">Load More</button>
+<div class="load-more-wrapper">
+    <button class="btn btn-success" value="1" id="load_more_product">Load More</button>
+</div>
+

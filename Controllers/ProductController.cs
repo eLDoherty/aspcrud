@@ -66,7 +66,7 @@ namespace learnnet.Controllers
                     string productThumbnailName = "IMG-" + DateTime.Now.Ticks.ToString() + "-" + thumbnail.FileName;
                     string fileName =  Path.GetFileName(productThumbnailName);
                     thumbnail.SaveAs(path + fileName);
-                    var pushData = CustomQuery.InsertData(prd.name, prd.price, productThumbnailName);
+                    var pushData = CustomQuery.InsertData(prd, productThumbnailName);
                     if (pushData)
                     {
                         TempData["message"] = "Product addition successfully!";

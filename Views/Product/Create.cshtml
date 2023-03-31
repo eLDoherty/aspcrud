@@ -5,7 +5,7 @@
 }
 <div class="form-product-page">
 
-    <h2 class="page-title" style="margin-bottom: 50px">@ViewBag.Title</h2>
+    <h2 class="page-title">@ViewBag.Title</h2>
 
     @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "create_product_form", enctype = "multipart/form-data" }))
     {
@@ -13,31 +13,47 @@
         <div class="error has-error">
             <span></span>
         </div>
-        <div class="form-horizontal">
-            <div class="form-group input-wrapper">
-                <img id="image-previewer" src="" />
-                <label class="control-label col-md-3" for="thumbnail">Product Thumbnail</label>
-                <div class="col-md-11">
-                    @Html.EditorFor(model => Model.thumbnail, new { htmlAttributes = new { @class = "form-control", @type = "file", accept = "image/png, image/jpeg, image/jpg" } })
-                    @Html.ValidationMessageFor(model => Model.thumbnail, "", new { @class = "text-danger" })
-                    <div id="thumbnail_error" class="has-error"></div>
-                </div>
-                <label class="control-label col-md-3" for="name">Product Name</label>
-                <div class="col-md-11" style="margin-bottom: 15px;">
-                    @Html.EditorFor(model => Model.name, new { htmlAttributes = new { @class = "form-control add_product_name" } })
-                    @Html.ValidationMessageFor(model => Model.name, "", new { @class = "text-danger" })
-                    <div id="name_error" class="has-error"></div>
-                </div>
-                <label class="control-label col-md-3" for="price">Product Price</label>
-                <div class="col-md-11">
-                    @Html.EditorFor(model => Model.price, new { htmlAttributes = new { @class = "form-control add_product_price", @type = "number" } })
-                    @Html.ValidationMessageFor(model => Model.price, "", new { @class = "text-danger" })
-                    <div id="price_error" class="has-error"></div>
-                </div>
+        <div class="row">
+            <div class="col-md-6">
+                 @Html.EditorFor(model => Model.name, new { htmlAttributes = new { @class = "form-control add_product_name", placeholder="Product name" } })
+                 @Html.ValidationMessageFor(model => Model.name, "", new { @class = "text-danger" })
+                 <div id="name_error" class="has-error"></div>
+                <textarea class="product-description form-control" id="description" name="description" placeholder="Product description"></textarea>
             </div>
+            <div class="col-md-4">
+                <div class="form-horizontal">
+                    <div class="form-group input-wrapper">
+                        <div class="input-wrapper">
+                            <select name="status" id="status" class="product-status form-control">
+                                <option value="none">Status product</option>
+                                <option value="publish">Publish</option>
+                                <option value="draft">Draft</option>
+                                <option value="trash">Trash</option>
+                            </select>
+                        </div>
+                        <img id="image-previewer" src="" />
+                        <label class="control-label" for="thumbnail">Product Thumbnail</label>
+                        <div class="input-wrapper">
+                            @Html.EditorFor(model => Model.thumbnail, new { htmlAttributes = new { @class = "form-control", @type = "file", accept = "image/png, image/jpeg, image/jpg" } })
+                            @Html.ValidationMessageFor(model => Model.thumbnail, "", new { @class = "text-danger" })
+                            <div id="thumbnail_error" class="has-error"></div>
+                        </div>
 
-            <div class="form-group">
-                 <input type="submit" id="button_create_product" class="btn btn-success btn_submit_product" value="Save" />
+                        <div class="input-wrapper">
+                            @Html.EditorFor(model => Model.price, new { htmlAttributes = new { @class = "form-control add_product_price", @type = "number", placeholder = "Product price" } })
+                            @Html.ValidationMessageFor(model => Model.price, "", new { @class = "text-danger" })
+                            <div id="price_error" class="has-error"></div>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="trending" id="trending"><span>Best seller</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" id="button_create_product" class="btn btn-success btn_submit_product" value="Save" />
+                    </div>
+                </div>
             </div>
         </div>
     }

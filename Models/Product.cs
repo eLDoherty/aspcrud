@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using learnnet.Models;
 
 namespace learnnet.Models
 
@@ -16,8 +18,16 @@ namespace learnnet.Models
         public string slug { get; set; }
 
         [Required(ErrorMessage = "Please select an image!")]
-       // [RegularExpression(@"([^\s]+(\.(?i)(jpg|png|gif|bmp))$)", ErrorMessage = "Only Image files allowed (JPG & PNG).")]
         public string thumbnail { get; set; }
+
+        public string description { get; set; }
+
+        public string status { get; set; }
+
+        public string trending { get; set; }
+
+        public ICollection<Category> Categories { get; set; }
     }
+
 
 }
