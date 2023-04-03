@@ -83,8 +83,8 @@ C:\project\excercise\asp\learnnet\learnnet\bin\Antlr3.Runtime.pdb
 C:\project\excercise\asp\learnnet\learnnet\bin\System.Diagnostics.DiagnosticSource.xml
 C:\project\excercise\asp\learnnet\learnnet\bin\Microsoft.AspNet.TelemetryCorrelation.xml
 C:\project\excercise\asp\learnnet\learnnet\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\project\excercise\asp\learnnet\learnnet\obj\Debug\learnnet.csprojAssemblyReference.cache
 C:\project\excercise\asp\learnnet\learnnet\obj\Debug\learnnet.csproj.CoreCompileInputs.cache
 C:\project\excercise\asp\learnnet\learnnet\obj\Debug\learnnet.csproj.CopyComplete
 C:\project\excercise\asp\learnnet\learnnet\obj\Debug\learnnet.dll
 C:\project\excercise\asp\learnnet\learnnet\obj\Debug\learnnet.pdb
-C:\project\excercise\asp\learnnet\learnnet\obj\Debug\learnnet.csprojAssemblyReference.cache

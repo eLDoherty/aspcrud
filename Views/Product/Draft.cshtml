@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<learnnet.Models.Product>
 
 @{
-    ViewBag.Title = "Product List";
+    ViewBag.Title = "Draft product";
     var request = HttpContext.Current.Request;
 }
 
@@ -16,14 +16,10 @@
     {
         foreach (var item in Model)
         {
-            if (item.status == "publish")
+            if (item.status == "draft")
             {
                 <div class="col-md-4">
                     <div class="card-wrapper">
-                        @if(item.trending == "1")
-                        {
-                            <span class="best-seller">Best Seller</span>
-                        }
                         <div class="card-thumbnail">
                             <img src="~/Uploads/@item.thumbnail" alt="@Html.DisplayFor(modelItem => item.name)" />
                         </div>
@@ -49,7 +45,12 @@
 @Html.ActionLink("Index Url", "Pagination", "Product", null, new { @class = "endpoint_pagination_request" })
 @Html.ActionLink("Delete", "Delete", "Product", null, new { @class = "btn btn-danger delete_product_link" })
 @Html.ActionLink("Edit", "Edit", "Product", null, new { @class = "btn btn-danger edit_product_link" })
-<div class="load-more-wrapper">
-    <button class="btn btn-success" value="1" id="load_more_product">Load More</button>
-</div>
+
+@if (Model.Any())
+{
+    <div class="load-more-wrapper">
+        <button class="btn btn-success" value="1" id="load_more_product">Load More</button>
+    </div>
+}
+
 

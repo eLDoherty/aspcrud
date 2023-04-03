@@ -15,10 +15,12 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                 @Html.EditorFor(model => Model.name, new { htmlAttributes = new { @class = "form-control add_product_name", placeholder="Product name" } })
-                 @Html.ValidationMessageFor(model => Model.name, "", new { @class = "text-danger" })
-                 <div id="name_error" class="has-error"></div>
+                @Html.EditorFor(model => Model.name, new { htmlAttributes = new { @class = "form-control add_product_name", placeholder="Product name" } })
+                @Html.ValidationMessageFor(model => Model.name, "", new { @class = "text-danger" })
+                <div id="name_error" class="has-error"></div>
                 <textarea class="product-description form-control" id="description" name="description" placeholder="Product description"></textarea>
+                <label class="label-category" for="category">Category</label>
+                <input type="text" id="category" name="category" class="form-control" />
             </div>
             <div class="col-md-4">
                 <div class="form-horizontal">

@@ -91,18 +91,22 @@ namespace learnnet.Helper
         public static bool EditData(Product prd, string thumbnail)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            var data = prd;
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
-                var query = @"UPDATE dbo.products 
-                            SET name = '"+prd.name+"'," +
+
+                int trending = prd.trending != null ? 1 : 0;
+                string slug = Slugify(prd.name);
+
+                string query = @"UPDATE dbo.products SET name = '"+prd.name+"'," +
                             "price = '"+prd.price+"' ," +
-                            "slug = '"+Slugify(prd.name)+"' ," +
+                            "slug = '"+slug+"' ," +
                             "thumbnail = '"+thumbnail+"' ," +
                             "description = '"+prd.description+"' ," +
                             "status = '" + prd.status + "' ," +
-                            "trending = '" + 1 + "' ," +
-                            "WHERE id=" + prd.id;
+                            "trending = '" + trending + "'WHERE id=" + prd.id;
+
                 using (SqlCommand command = new SqlCommand(query, con))
                 {
                     try
@@ -166,7 +170,7 @@ namespace learnnet.Helper
             string query = @"DECLARE @PageNumber AS INT
                              DECLARE @RowsOfPage AS INT
                              SET @PageNumber="+page+@"
-                             SET @RowsOfPage=3
+                             SET @RowsOfPage=4
                              SELECT * FROM dbo.products
                              ORDER BY id 
                              OFFSET (@PageNumber-1)*@RowsOfPage ROWS
@@ -190,12 +194,50 @@ namespace learnnet.Helper
                         price = Convert.ToInt32(rdr["price"]),
                         slug = rdr["slug"].ToString(),
                         thumbnail = rdr["thumbnail"].ToString(),
+                        description = rdr["description"].ToString(),
+                        status = rdr["status"].ToString(),
+                        trending = rdr["trending"].ToString()
                     };
-
                     ProductList.Add(prd);
                 }
             }
             return ProductList;
+        }
+
+        /*
+         *  Insert category
+         */
+         public static bool InsertCategory(string category)
+        {
+
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(CS))
+
+            {
+                con.Open();
+                var query = @"INSERT INTO dbo.categories (category) VALUES ('" + category + "')";
+                using (SqlCommand command = new SqlCommand(query, con))
+                {
+                    try
+                    {
+                        var result = command.ExecuteNonQuery();
+
+                        if (result > 0)
+                        {
+                            return true;
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                    return false;
+                }
+            }
         }
 
 
@@ -227,13 +269,6 @@ namespace learnnet.Helper
             return stringBuilder.ToString().ToLower();
         }
 
-        // Get unsplash random image
-        public static string GetRandomImageURL()
-        {
-            Random rnd = new Random();
-            int sig = rnd.Next(1, 13);
-            var thumbnail = "https://source.unsplash.com/random/350x350?sig=" + sig;
-            return thumbnail;
-        }
+
     }
 }

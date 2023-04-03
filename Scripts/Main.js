@@ -64,11 +64,13 @@
                 $.each(data, function (key, val) {
                     item += `<div class="col-md-4">
                                 <div class="card-wrapper">
+                                    ${val.trending == "1" ? "<span class='best-seller'>Best Seller</span>" : ""}
                                     <div class="card-thumbnail">
                                         <img src="/Uploads/${val.thumbnail}" alt="${val.name}" />
                                     </div>
                                         <h2 class="card-title">${val.name}</h2>
                                         <p class="card-price">${val.price}</p>
+                                        <p class="short-description">${val.description}</p>
                                         <div class="card-action">
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -93,6 +95,7 @@
     if ($("#image-previewer").length > 0) {
         $("#image-previewer").attr("src").length > 0 ? $("#image-previewer").show() : $("#image-previewer").hide();
     }
+
     $("#thumbnail").change(function () {
         const file = this.files[0];
         if (file) {

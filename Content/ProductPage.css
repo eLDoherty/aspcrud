@@ -80,3 +80,24 @@ input#thumbnail {
 .product-status {
     margin-bottom: 20px;
 }
+.label-category {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/*
+ * Product Card
+ */
+
+.card-wrapper {
+    position: relative;
+}
+.best-seller {
+    padding: 5px;
+    background-color: #ffcf00db;
+    color: white;
+    border-radius: 5px;
+    top: 20px;
+    left: 20px;
+    position: absolute;
+}

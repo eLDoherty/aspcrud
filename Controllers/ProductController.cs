@@ -6,7 +6,6 @@ using learnnet.Helper;
 using System.Web;
 using System.IO;
 using System;
-using learnnet.Models;
 using System.Web.Script.Serialization;
 
 namespace learnnet.Controllers
@@ -22,10 +21,17 @@ namespace learnnet.Controllers
             return View(data);
         }
 
+        public ActionResult Draft()
+        {
+            ViewBag.Description = "Your draft list, ready to publish";
+            var data = CustomQuery.GetDataPagination(1);
+            return View(data);
+        }
+
         [System.Web.Mvc.HttpPost]
         public string Pagination(int page)
         {
-            if(page != null)
+            if(page > 0 || page != 0)
             {
                 var data = CustomQuery.GetDataPagination(page);
                 return new JavaScriptSerializer().Serialize(data);
@@ -43,8 +49,11 @@ namespace learnnet.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult Create(Product prd, HttpPostedFileBase thumbnail)
+        public ActionResult Create(Product prd, HttpPostedFileBase thumbnail, FormCollection form)
         {
+            var data = prd;
+            var data1 = form;
+
             if (ModelState.IsValid)
             {
                 var product = CustomQuery.GetData()?.Where(s => s.name == prd.name).FirstOrDefault();
@@ -67,6 +76,9 @@ namespace learnnet.Controllers
                     string fileName =  Path.GetFileName(productThumbnailName);
                     thumbnail.SaveAs(path + fileName);
                     var pushData = CustomQuery.InsertData(prd, productThumbnailName);
+                    string cats = form["category"];
+                    var pushCategory = CustomQuery.InsertCategory(form["category"]);
+
                     if (pushData)
                     {
                         TempData["message"] = "Product addition successfully!";
@@ -76,7 +88,7 @@ namespace learnnet.Controllers
             }
             return View(prd);
         }
-
+         
         // Edit product
         [System.Web.Mvc.HttpGet]
         public ActionResult Edit(int id)
@@ -97,17 +109,19 @@ namespace learnnet.Controllers
                     ModelState.AddModelError("Name", "The product is already exist");
                     return View(prd);
                 }
+                var currentProduct = CustomQuery.GetData().Where(s => s.id == prd.id).FirstOrDefault();
+                string productThumbnailName = currentProduct.thumbnail;
 
-                string path = Server.MapPath("~/Uploads/");
                 if (thumbnail != null)
                 {
-                    string productThumbnailName = "IMG-" + DateTime.Now.Ticks.ToString() + "-" + thumbnail.FileName;
+                    string path = Server.MapPath("~/Uploads/");
+                    productThumbnailName = "IMG-" + DateTime.Now.Ticks.ToString() + "-" + thumbnail.FileName;
                     string fileName = Path.GetFileName(productThumbnailName);
                     thumbnail.SaveAs(path + fileName);
-                    var update = CustomQuery.EditData(prd, productThumbnailName);
-                    TempData["message"] = "Edit data successfully!";
-                    return RedirectToAction("Index");
-                }
+                } 
+                var update = CustomQuery.EditData(prd, productThumbnailName);
+                TempData["message"] = "Edit data successfully!";
+                return RedirectToAction("Index");
             }
             return View(prd);
         }

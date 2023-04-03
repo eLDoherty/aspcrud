@@ -3,7 +3,7 @@
     ViewBag.Title = "Edit Product";
 }
 <div class="form-product-page">
-
+     
     <h2 class="page-title">@ViewBag.Title</h2>
 
     @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "edit_product_form", enctype = "multipart/form-data" }))
@@ -16,6 +16,7 @@
                 @Html.ValidationMessageFor(model => Model.name, "", new { @class = "text-danger" })
                 <div id="name_error" class="has-error"></div>
                 <textarea class="product-description form-control" id="description" name="description">@Model.description</textarea>
+                <input type="hidden" value="@Model.id" name="id" id="id" />
             </div>
             <div class="col-md-4">
                 <div class="form-horizontal">
@@ -31,7 +32,7 @@
                         <img id="image-previewer" src="~/Uploads/@Model.thumbnail" />
                         <label class="control-label" for="thumbnail">Product Thumbnail</label>
                         <div class="input-wrapper">
-                            @Html.EditorFor(model => Model.thumbnail, new { htmlAttributes = new { @class = "form-control", @type = "file", accept = "image/png, image/jpeg, image/jpg" } })
+                            @Html.EditorFor(model => Model.thumbnail, new { htmlAttributes = new { @class = "form-control", @type = "file", accept = "image/png, image/jpeg, image/jpg", @Value = Model.thumbnail } })
                             @Html.ValidationMessageFor(model => Model.thumbnail, "", new { @class = "text-danger" })
                             <div id="thumbnail_error" class="has-error"></div>
                         </div>
@@ -43,7 +44,7 @@
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" @(Model.trending =="1" ? "checked" : "") name="trending" id="trending"><span>Best seller</span>
+                                <input type="checkbox" @(Model.trending == "1" ? "checked" : "") name="trending" id="trending"><span>Best seller</span>
                             </label>
                         </div>
                     </div>

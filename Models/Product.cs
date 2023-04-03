@@ -17,7 +17,6 @@ namespace learnnet.Models
 
         public string slug { get; set; }
 
-        [Required(ErrorMessage = "Please select an image!")]
         public string thumbnail { get; set; }
 
         public string description { get; set; }
@@ -28,6 +27,5 @@ namespace learnnet.Models
 
         public ICollection<Category> Categories { get; set; }
     }
-
 
 }
