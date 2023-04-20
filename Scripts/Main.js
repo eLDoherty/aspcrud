@@ -16,10 +16,10 @@
                 var item = "";
                 var edit_product_link = $('.edit_product_link').attr("href");
                 var delete_product_link = $('.delete_product_link').attr("href");
-                console.log(data);
-                $.each(data, function (key, val) {
-                    if (val.status == "publish") {
-                        item += `<div class="card-container__item">
+                if ($('.appear_is_admin').length > 1) {
+                    $.each(data, function (key, val) {
+                        if (val.status == "publish") {
+                            item += `<div class="card-container__item">
                                     <div class="card-wrapper">
                                         ${val.trending == "1" ? "<span class='best-seller'>Best Seller</span>" : ""}
                                         <div class="card-thumbnail">
@@ -40,8 +40,29 @@
                                             </div>
                                       </div>
                                 </div>`;
-                    }
-                });
+                        }
+                    });
+                } else {
+                    $.each(data, function (key, val) {
+                        if (val.status == "publish") {
+                            item += `<div class="card-container__item">
+                                    <div class="card-wrapper">
+                                        ${val.trending == "1" ? "<span class='best-seller'>Best Seller</span>" : ""}
+                                        <div class="card-thumbnail">
+                                            <img src="/Uploads/${val.thumbnail}" alt="${val.name}" />
+                                        </div>
+                                            <h2 class="card-title">${val.name}</h2>
+                                            <p class="card-price">${val.price}</p>
+                                            <p class="short-description">${val.description}</p>
+                                      </div>
+                                </div>`;
+                        }
+                    });
+                }
+
+                if (data.length < 3) {
+                    $('#load_more_product').hide();
+                }
                 $("#main_page").append(item);
             },
         })
@@ -71,7 +92,6 @@
                 var item = "";
                 var edit_product_link = $('.edit_product_link').attr("href");
                 var delete_product_link = $('.delete_product_link').attr("href");
-
                 $.each(data, function (key, val) {
                     if (val.status == "publish") {
                         item += `<div class="card-container__item">
