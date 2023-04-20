@@ -13,7 +13,7 @@ namespace learnnet.Controllers
         public ActionResult UserList()
         {
             bool isSuperadmin = CustomQuery.IsSuperAdmin(User.Identity.Name);
-            if (AdminAuthorization())
+            if (AdminAuthorization() && isSuperadmin)
             {
                 var data = CustomQuery.GetAllUser();
                 return View(data);
@@ -97,7 +97,7 @@ namespace learnnet.Controllers
 
         protected ActionResult UnauthorizedRedirection()
         {
-            TempData["authorization"] = "Login as admin to access the page";
+            TempData["authorization"] = "Login as superadmin / authorize admin to access those page";
             return RedirectToAction("Index", "Home");
         }
     }

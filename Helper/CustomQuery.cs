@@ -93,7 +93,7 @@ namespace learnnet.Helper
 
         //  Edit data in DB 
         public static bool EditData(Product prd)
-        {
+        { 
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             string desc = prd.description.Replace("'", "");
             using (SqlConnection con = new SqlConnection(CS))
@@ -102,7 +102,7 @@ namespace learnnet.Helper
                 int trending = prd.trending == "on" ? 1 : Convert.ToInt32(prd.trending);
                 string slug = Slugify(prd.name);
 
-                string query = @"UPDATE dbo.ysers SET name = '" + prd.name + "'," +
+                string query = @"UPDATE dbo.products SET name = '" + prd.name + "'," +
                             "price = '" + prd.price + "' ," +
                             "slug = '" + slug + "' ," +
                             "thumbnail = '" + prd.thumbnail + "' ," +
@@ -121,9 +121,9 @@ namespace learnnet.Helper
                             return true;
                         }
                     }
-                    catch (Exception)
+                    catch (Exception err)
                     {
-
+                        var test = err;
                     }
                     finally
                     {

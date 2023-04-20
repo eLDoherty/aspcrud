@@ -270,7 +270,7 @@ namespace learnnet.Controllers
 
         protected ActionResult UnauthorizedRedirection()
         {
-            TempData["authorization"] = "Login as admin to access the page";
+            TempData["authorization"] = "Login as superadmin / authorize admin to access those page";
             return RedirectToAction("Index", "Home");
         }
     }
