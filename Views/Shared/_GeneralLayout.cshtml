@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/productStyle")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top bg-info navbar-primary">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("LearnNET", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    @if (!HttpContext.Current.User.Identity.IsAuthenticated)
+                    {
+                    <li>@Html.ActionLink("Login", "Login", "Auth")</li>
+                    }
+                    @if (Utils.IsAdmin(User.Identity.Name.ToString()))
+                    {
+                    <li>@Html.ActionLink("Create", "Create", "Product")</li>
+                    <li>@Html.ActionLink("Draft", "Draft", "Product")</li>
+                    if (Utils.IsSuperadmin(User.Identity.Name))
+                    {
+                    <li>@Html.ActionLink("Category Setting", "Category", "Product")</li>
+                    }
+                    <li>@Html.ActionLink("Media", "Media", "Product")</li>
+                    if (Utils.IsSuperadmin(User.Identity.Name))
+                    {
+                    <li>@Html.ActionLink("Manage User", "UserList", "Admin")</li>
+                    }
+                    }
+                    @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                    {
+                    <li>@Html.ActionLink("Logout", "Logout", "Auth")</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    @Scripts.Render("~/bundles/general")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

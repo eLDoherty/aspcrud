@@ -1,0 +1,35 @@
+﻿
+@model learnnet.Models.User
+@{
+    ViewBag.Title = "AddUser";
+    Layout = "~/Views/Shared/_GeneralLayout.cshtml";
+}
+<div class="add-user-wrapper">
+    <h2>Add new user</h2>
+    <h2>@TempData["message"]</h2>
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "add_user_form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            @Html.ValidationMessageFor(model => Model.username, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => Model.username, new { htmlAttributes = new { @class = "form-control add_product_name", placeholder = "Username" } })
+        </div>
+        <div class="form-group">
+            @Html.ValidationMessageFor(model => Model.email, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => Model.email, new { htmlAttributes = new { @class = "form-control add_product_name", placeholder = "Email" } })
+        </div>
+        <div class="form-group">
+            <select class="form-control" id="role" name="role">
+                <option value="user">Choose user role</option>
+                <option value="admin">admin</option>
+                <option value="user">user</option>
+            </select>
+        </div>
+        <div class="form-group">
+            @Html.ValidationMessageFor(model => Model.password, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => Model.password, new { htmlAttributes = new { @class = "form-control add_product_name", type = "password", placeholder = "Password" } })
+        </div>
+        <button type="submit" class="btn btn-info">Save</button>
+    }
+
+</div>

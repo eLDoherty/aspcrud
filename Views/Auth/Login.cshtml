@@ -1,0 +1,29 @@
+﻿@model learnnet.Models.User
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_GeneralLayout.cshtml";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<h3>@TempData["loginError"]</h3>
+<div class="login-wrapper">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "login_form" }))
+    {
+        @Html.AntiForgeryToken()
+    <div class="form-group">
+        <div id="email_error" class="has-error"></div>
+        @Html.ValidationMessageFor(model => Model.email, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => Model.email, new { htmlAttributes = new { @class = "form-control add_product_name", placeholder = "Email", @required = "required" } })
+    </div>
+    <div class="form-group">
+        @Html.ValidationMessageFor(model => Model.password, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => Model.password, new { htmlAttributes = new { @class = "form-control add_product_name", type = "password", placeholder = "Password", @required = "required" } })
+    </div>
+    <div class="login-button-wrapper">
+        <button id="button_login" type="submit" class="btn btn-info">Log in</button>
+        <p>Don't have an account? <a href="/Auth/Register">Go to register</a></p>
+    </div>
+    }
+</div>

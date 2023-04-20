@@ -25,7 +25,7 @@
                         </div>
                         <h2 class="card-title">@Html.DisplayFor(modelItem => item.name)</h2>
                         <p class="card-price">@Html.DisplayFor(modelItem => item.price)</p>
-                        <p class="short-description">@Html.DisplayFor(modelItem => item.description)</p>
+                        <p class="short-description">@(new HtmlString(item.description))</p>
                         <div class="card-action">
                             <div class="row">
                                 <div class="col-md-6">
@@ -46,11 +46,5 @@
 @Html.ActionLink("Delete", "Delete", "Product", null, new { @class = "btn btn-danger delete_product_link" })
 @Html.ActionLink("Edit", "Edit", "Product", null, new { @class = "btn btn-danger edit_product_link" })
 
-@if (Model.Any())
-{
-    <div class="load-more-wrapper">
-        <button class="btn btn-success" value="1" id="load_more_product">Load More</button>
-    </div>
-}
 
 

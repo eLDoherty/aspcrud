@@ -1,0 +1,49 @@
+﻿@model learnnet.Models.Image
+
+@{
+    ViewBag.Title = "Media";
+    Layout = "~/Views/Shared/_GeneralLayout.cshtml";
+}
+
+<div class="form-product-page">
+
+    <h2 class="page-title">@ViewBag.Title</h2>
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form_upload_images", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="error has-success">
+            <span>@TempData["message"]</span>
+        </div>
+        <div class="media-wrapper" id="media-wrapper">
+            <div class="form-group">
+                @Html.ValidationMessageFor(model => Model.name, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => Model.name, new { htmlAttributes = new { @class = "form-control add_media_image", type = "text", placeholder = "Image name" } })
+            </div>
+            <div class="form-group">
+                @Html.ValidationMessageFor(model => Model.uri, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => Model.uri, new { htmlAttributes = new { @class = "form-control add_media_image", type = "file" } })
+            </div>
+            <div class="media-wrapper__button">
+                <button type="submit" class="btn btn-success" id="save_media">Save</button>
+            </div>
+        </div>
+    }
+    <button class="btn btn-success" id="add_media">Add Media</button>
+    <div class="gallery-media-list row">
+        @if (ViewBag.Images != null)
+        {
+            foreach (var item in ViewBag.Images)
+            {
+                <div class="col-md-3">
+                    <a target="_blank" href="~/Uploads/@item.uri">
+                        <img src="~/Uploads/@item.uri" alt="Images" />
+                    </a>
+                </div>
+            }
+        }
+    </div>
+
+</div>
+

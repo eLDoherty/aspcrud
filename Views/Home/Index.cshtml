@@ -1,12 +1,15 @@
 ﻿@model IEnumerable<learnnet.Models.Product>
 
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Login";
 }
 
 <div class="jumbotron mt-4">
+    <h2>@TempData["loginSuccess"]</h2>
+    <h2 style="color: red;">@TempData["authorization"]</h2>
     <h1>ASP.NET</h1>
+    <h3>Hello @HttpContext.Current.User.Identity.Name </h3>
     <p class="lead">@ViewBag.Description</p>
-    <p>@Html.ActionLink("Product Page", "Index", "Product", false , new { @class = "btn btn-info" })</p>
+    <p>@Html.ActionLink("Product Page", "Index", "Product", false, new { @class = "btn btn-info" })</p>
 </div>
 

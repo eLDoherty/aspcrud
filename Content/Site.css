@@ -66,3 +66,18 @@
 .btn_submit_product:focus {
     outline: none !important;
 }
+
+/* Login page */
+.login-button-wrapper {
+    display: flex;
+    align-items: center;
+}
+body div.login-button-wrapper p {
+    margin: 0;
+    margin-left: 20px;
+}
+
+/* Edit user */
+#admin_setting {
+    margin-bottom: 20px;
+}

@@ -8,19 +8,34 @@
 <div class="jumbotron">
     <h1>ASP.NET</h1>
     <p class="lead">@ViewBag.Description</p>
-    <p>@Html.ActionLink("Create Product", "Create", "Product", false, new { @class = "btn btn-success" })</p>
+    @if (Utils.IsAdmin(User.Identity.Name.ToString()))
+    {
+        <p>@Html.ActionLink("Create Product", "Create", "Product", false, new { @class = "btn btn-success" })</p>
+    }  
 </div>
 <p class="text-action-message">@TempData["message"]</p>
-<div class="row" id="main_page">
+<div class="product-filter">
+    @if (ViewBag.Countries != null)
+    {
+        <select name="filter_product" id="filter_product" class="form-control">
+            <option value="all">Search product by country</option>
+            @foreach (var item in ViewBag.Countries)
+            {
+                <option value="@item">@item</option>
+            }
+        </select>
+    }
+</div>
+<div class="card-container" id="main_page">
     @if (Model.Any())
     {
         foreach (var item in Model)
         {
             if (item.status == "publish")
             {
-                <div class="col-md-4">
+                <div class="card-container__item">
                     <div class="card-wrapper">
-                        @if(item.trending == "1")
+                        @if (item.trending == "1")
                         {
                             <span class="best-seller">Best Seller</span>
                         }
@@ -29,17 +44,21 @@
                         </div>
                         <h2 class="card-title">@Html.DisplayFor(modelItem => item.name)</h2>
                         <p class="card-price">@Html.DisplayFor(modelItem => item.price)</p>
-                        <p class="short-description">@Html.DisplayFor(modelItem => item.description)</p>
-                        <div class="card-action">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    @Html.ActionLink("Edit", "Edit", "Product", new { id = item.id }, new { @class = "btn btn-info" })
-                                </div>
-                                <div class="col-md-6">
-                                    @Html.ActionLink("Delete", "Delete", "Product", new { id = item.id }, new { @class = "btn btn-danger delete_button" })
+                        <p class="short-description">@(new HtmlString(item.description))</p>
+                        <div class="product-category">
+                        </div>
+                        @if(Utils.IsAdmin(User.Identity.Name.ToString())){ 
+                            <div class="card-action appear_is_admin">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        @Html.ActionLink("Edit", "Edit", "Product", new { id = item.id }, new { @class = "btn btn-info" })
+                                    </div>
+                                    <div class="col-md-6">
+                                        @Html.ActionLink("Delete", "Delete", "Product", new { id = item.id }, new { @class = "btn btn-danger delete_button" })
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                     </div>
                 </div>
             }
@@ -49,6 +68,8 @@
 @Html.ActionLink("Index Url", "Pagination", "Product", null, new { @class = "endpoint_pagination_request" })
 @Html.ActionLink("Delete", "Delete", "Product", null, new { @class = "btn btn-danger delete_product_link" })
 @Html.ActionLink("Edit", "Edit", "Product", null, new { @class = "btn btn-danger edit_product_link" })
+@Html.ActionLink("Filter Data", "FilterProduct", "Product", null, new { @class = "endpoint_filter_request" })
+
 <div class="load-more-wrapper">
     <button class="btn btn-success" value="1" id="load_more_product">Load More</button>
 </div>

@@ -1,0 +1,22 @@
+﻿@model learnnet.Models.Category
+
+<h2>Category Settings</h2>
+<p class="text-action-message">@TempData["message"]</p>
+
+<div class="add-new-category__wrapper">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "create_product_form" }))
+    {
+        @Html.AntiForgeryToken();
+        <div class="row">
+            <div class="col-md-8">
+                @Html.ValidationMessageFor(model => Model.category, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => Model.category, new { htmlAttributes = new { @class = "form-control", placeholder = "Category name" } })
+            </div>
+            <div class="col-md-4">
+                <input type="submit" id="button_insert_category" class="btn btn-success btn_submit_product" value="Add" />
+            </div>
+        </div>
+    }
+</div>
+
+

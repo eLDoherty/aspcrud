@@ -1,0 +1,54 @@
+﻿@model learnnet.Models.User
+@{
+    ViewBag.Title = "EditUser";
+    Layout = "~/Views/Shared/_GeneralLayout.cshtml";
+}
+<div class="edit-user-wrapper">
+    <h2>Edit data @Model.username</h2>
+    <h2>@TempData["message"]</h2>
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "edit_user_form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <div id="username_error" class="has-error"></div>
+            @Html.ValidationMessageFor(model => Model.username, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => Model.username, new { htmlAttributes = new { @class = "form-control add_product_name", placeholder = "Username" } })
+        </div>
+        <div class="form-group">
+            <div id="email_error" class="has-error"></div>
+            @Html.ValidationMessageFor(model => Model.email, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => Model.email, new { htmlAttributes = new { @class = "form-control add_product_name", placeholder = "Email" } })
+        </div>
+        <div class="form-group">
+            <select class="form-control" selected="@Model.role" id="role" name="role">
+                <option value="admin" @(Model.role == "admin" ? "selected" : "")>Admin</option>
+                <option value="user" @(Model.role == "user" ? "selected" : "")>User</option>
+            </select>
+        </div>
+        <div class="form-group">
+            @Html.ValidationMessageFor(model => Model.password, "", new { @class = "text-danger" })
+            <input type="password" name="password" class="form-control" placeholder="Create new password" />
+        </div>
+
+        <div class="admin-setting" id="admin_setting">
+            <div class="form-group">
+                <label for="canCreate">Can create user?</label>
+                <input id="canCreate" name="canCreate" type="checkbox" value="true" @(Utils.HasCreate(Model.email) ? "checked" : "")>
+            </div>
+            <div class="form-group">
+                <label for="canEdit">Can edit user?</label>
+                <input id="canEdit" name="canEdit" type="checkbox" value="true" @(Utils.HasEdit(Model.email) ? "checked" : "")>
+            </div>
+            <div class="from-group">
+                <label for="canDelete">Can delete user?</label>
+                <input id="canDelete" name="canDelete" type="checkbox" value="true" @(Utils.HasDelete(Model.email) ? "checked" : "")>
+            </div>
+        </div>
+
+        <button id="edit_user" type="submit" class="btn btn-info">Change</button>
+    }
+
+    <div style="margin-top: 30px;">
+        @Html.ActionLink("Back to List", "UserList")
+    </div>
+</div>

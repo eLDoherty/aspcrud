@@ -1,6 +1,8 @@
 ﻿@model learnnet.Models.Product
 @{ 
+    Layout = "~/Views/Shared/_CrudLayout.cshtml";
     ViewBag.Title = "Edit Product";
+    var i = 0;
 }
 <div class="form-product-page">
      
@@ -12,40 +14,101 @@
         
         <div class="row">
             <div class="col-md-6">
+                <div id="name_error" class="has-error"></div>
                 @Html.EditorFor(model => Model.name, new { htmlAttributes = new { @class = "form-control add_product_name", placeholder = "Product name" } })
                 @Html.ValidationMessageFor(model => Model.name, "", new { @class = "text-danger" })
-                <div id="name_error" class="has-error"></div>
+                <div id="description_error" class="has-error"></div>
                 <textarea class="product-description form-control" id="description" name="description">@Model.description</textarea>
+                <!--- Categories -->
+                <div class="category-list">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width:10%;">No</th>
+                                <th style="width:45%;">Category</th>
+                                <th style="width:20%;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.TableCategories != null)
+                            {
+                                foreach (var cat in ViewBag.TableCategories)
+                                {
+                                    i++;
+                                    <tr>
+                                        <td>@i</td>
+                                        <td class="option-category">@cat.category</td>
+                                        <td><button value="@cat.id" class="btn btn-success insert_category">Insert</button></td>
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
                 <input type="hidden" value="@Model.id" name="id" id="id" />
+                <div class="select-category">
+                    <div class="select-category">
+                        <label class="label-category" for="category">Select Category</label>
+                        <select class="form-control" name="productCategory" id="choosed_category" multiple>
+                            @if (ViewBag.Categories != null)
+                            {
+                                foreach (var item in ViewBag.Categories)
+                                {
+                                    <option value="@item.id">@item.category</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="category-action">
+                        <button type="button" id="add_existing_category" class="btn btn-warning">Add Existing Category</button>
+                        <button type="button" id="remove_added_category" class="btn btn-danger">Remove</button>
+                    </div>
+                </div>
             </div>
             <div class="col-md-4">
                 <div class="form-horizontal">
                     <div class="form-group input-wrapper">
+                        <div id="status_error" class="has-error"></div>
                         <div class="input-wrapper">
                             <select name="status" selected="@Model.status" id="status" class="product-status form-control">
                                 <option value="none">Status product</option>
-                                <option value="publish" @(Model.status =="publish" ? "selected" : "")>Publish</option>
-                                <option value="draft" @(Model.status =="draft" ? "selected" : "")>Draft</option>
-                                <option value="trash" @(Model.status =="trash" ? "selected" : "")>Trash</option>
+                                <option value="publish" @(Model.status == "publish" ? "selected" : "")>Publish</option>
+                                <option value="draft" @(Model.status == "draft" ? "selected" : "")>Draft</option>
+                                <option value="trash" @(Model.status == "trash" ? "selected" : "")>Trash</option>
                             </select>
                         </div>
                         <img id="image-previewer" src="~/Uploads/@Model.thumbnail" />
+                        <input type="hidden" id="base_url_image" value="~/Uploads/" />
                         <label class="control-label" for="thumbnail">Product Thumbnail</label>
-                        <div class="input-wrapper">
-                            @Html.EditorFor(model => Model.thumbnail, new { htmlAttributes = new { @class = "form-control", @type = "file", accept = "image/png, image/jpeg, image/jpg", @Value = Model.thumbnail } })
+                        <a href="#ex1" class="btn btn-warning" id="upload_thumbnail" rel="modal:open">Change Thumbnail</a>
+                        <div style="margin-bottom: 20px;" class="input-wrapper">
+                            @Html.EditorFor(model => Model.thumbnail, new { htmlAttributes = new { @class = "form-control", @type = "hidden", accept = "image/png, image/jpeg, image/jpg", @Value = Model.thumbnail } })
                             @Html.ValidationMessageFor(model => Model.thumbnail, "", new { @class = "text-danger" })
-                            <div id="thumbnail_error" class="has-error"></div>
                         </div>
 
                         <div class="input-wrapper">
+                            <div id="price_error" class="has-error"></div>
                             @Html.EditorFor(model => Model.price, new { htmlAttributes = new { @class = "form-control add_product_price", @type = "number", placeholder = "Product price" } })
                             @Html.ValidationMessageFor(model => Model.price, "", new { @class = "text-danger" })
-                            <div id="price_error" class="has-error"></div>
                         </div>
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" @(Model.trending == "1" ? "checked" : "") name="trending" id="trending"><span>Best seller</span>
                             </label>
+                        </div>
+                        <div class="select-country">
+                            <label for="country">Select product country</label>
+                            @if (ViewBag.Countries != null)
+                            {
+                                <select selected="@Model.country" name="country" id="country" class="form-control product-country">
+                                    <option value="@Model.country">@Model.country</option>
+                                    @foreach (var item in ViewBag.Countries)
+                                    {
+                                        <option value="@item.countryDesc">@item.countryDesc (@item.countryCode)</option>
+                                    }
+                                </select>
+                            }
                         </div>
                     </div>
                     <div class="form-group">
@@ -54,9 +117,34 @@
                 </div>
             </div>
         </div>
-
+       
         <div>
             @Html.ActionLink("Back to List", "Index")
         </div>
     }
+</div>
+<div id="ex1" class="modal">
+    <h3 style="text-align:center; margin: 20px 0;">Choose Thumbnail</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.Images != null)
+            {
+                foreach (var item in ViewBag.Images)
+                {
+                    <tr>
+                        <td>@item.id</td>
+                        <td>@item.name</td>
+                        <td><a target="_blank" class="btn btn-info" href="~/Uploads/@item.uri">View</a> | <button type="button" class="btn btn-success add_thumbnail" value="@item.uri">Use</button></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
 </div>
