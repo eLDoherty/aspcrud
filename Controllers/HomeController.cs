@@ -12,6 +12,9 @@ namespace learnnet.Controllers
 
         public ActionResult Index()
         {
+            HttpCookieCollection MyCookieCollection = Request.Cookies;
+            HttpCookie MyCookie = MyCookieCollection.Get(User.Identity.Name);
+            HttpCookie test = MyCookie;
             ViewBag.Description = "Learn .NET MVC -- Front Page";
             return View();
         }

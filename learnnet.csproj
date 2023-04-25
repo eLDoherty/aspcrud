@@ -184,6 +184,7 @@
     <Content Include="Scripts\ckeditor.js.map" />
     <Content Include="Scripts\CRUD.js" />
     <Content Include="Scripts\custom.js" />
+    <Content Include="Scripts\Idle.js" />
     <Content Include="Scripts\LICENSE.md" />
     <Content Include="Scripts\README.md" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />

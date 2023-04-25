@@ -20,42 +20,42 @@
                     $.each(data, function (key, val) {
                         if (val.status == "publish") {
                             item += `<div class="card-container__item">
-                                    <div class="card-wrapper">
-                                        ${val.trending == "1" ? "<span class='best-seller'>Best Seller</span>" : ""}
-                                        <div class="card-thumbnail">
-                                            <img src="/Uploads/${val.thumbnail}" alt="${val.name}" />
-                                        </div>
-                                            <h2 class="card-title">${val.name}</h2>
-                                            <p class="card-price">${val.price}</p>
-                                            <p class="short-description">${val.description}</p>
-                                            <div class="card-action">
-                                                <div class="row"> 
-                                                    <div class="col-md-6">
-                                                        <a href="${edit_product_link}/${val.id}" class="btn btn-info">Edit</a>                                    
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                         <a href="${delete_product_link}/${val.id}" class="btn btn-danger delete_button">Delete</a>        
+                                        <div class="card-wrapper">
+                                            ${val.trending == "1" ? "<span class='best-seller'>Best Seller</span>" : ""}
+                                            <div class="card-thumbnail">
+                                                <img src="/Uploads/${val.thumbnail}" alt="${val.name}" />
+                                            </div>
+                                                <h2 class="card-title">${val.name}</h2>
+                                                <p class="card-price">${val.price}</p>
+                                                <p class="short-description">${val.description}</p>
+                                                <div class="card-action">
+                                                    <div class="row"> 
+                                                        <div class="col-md-6">
+                                                            <a href="${edit_product_link}/${val.id}" class="btn btn-info">Edit</a>                                    
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                             <a href="${delete_product_link}/${val.id}" class="btn btn-danger delete_button">Delete</a>        
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                      </div>
-                                </div>`;
+                                          </div>
+                                    </div>`;
                         }
                     });
                 } else {
                     $.each(data, function (key, val) {
                         if (val.status == "publish") {
                             item += `<div class="card-container__item">
-                                    <div class="card-wrapper">
-                                        ${val.trending == "1" ? "<span class='best-seller'>Best Seller</span>" : ""}
-                                        <div class="card-thumbnail">
-                                            <img src="/Uploads/${val.thumbnail}" alt="${val.name}" />
+                                        <div class="card-wrapper">
+                                            ${val.trending == "1" ? "<span class='best-seller'>Best Seller</span>" : ""}
+                                            <div class="card-thumbnail">
+                                                <img src="/Uploads/${val.thumbnail}" alt="${val.name}" />
+                                            </div>
+                                                <h2 class="card-title">${val.name}</h2>
+                                                <p class="card-price">${val.price}</p>
+                                                <p class="short-description">${val.description}</p>
                                         </div>
-                                            <h2 class="card-title">${val.name}</h2>
-                                            <p class="card-price">${val.price}</p>
-                                            <p class="short-description">${val.description}</p>
-                                      </div>
-                                </div>`;
+                                    </div>`;
                         }
                     });
                 }
@@ -92,31 +92,49 @@
                 var item = "";
                 var edit_product_link = $('.edit_product_link').attr("href");
                 var delete_product_link = $('.delete_product_link').attr("href");
-                $.each(data, function (key, val) {
-                    if (val.status == "publish") {
-                        item += `<div class="card-container__item">
-                                    <div class="card-wrapper">
-                                        ${val.trending == "1" ? "<span class='best-seller'>Best Seller</span>" : ""}
-                                        <div class="card-thumbnail">
-                                            <img src="/Uploads/${val.thumbnail}" alt="${val.name}" />
-                                        </div>
-                                            <h2 class="card-title">${val.name}</h2>
-                                            <p class="card-price">${val.price}</p>
-                                            <p class="short-description">${val.description}</p>
-                                            <div class="card-action">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <a href="${edit_product_link}/${val.id}" class="btn btn-info">Edit</a>                                    
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                         <a href="${delete_product_link}/${val.id}" class="btn btn-danger delete_button">Delete</a>        
+                if ($('.appear_is_admin').length > 1) {
+                    $.each(data, function (key, val) {
+                        if (val.status == "publish") {
+                            item += `<div class="card-container__item">
+                                        <div class="card-wrapper">
+                                            ${val.trending == "1" ? "<span class='best-seller'>Best Seller</span>" : ""}
+                                            <div class="card-thumbnail">
+                                                <img src="/Uploads/${val.thumbnail}" alt="${val.name}" />
+                                            </div>
+                                                <h2 class="card-title">${val.name}</h2>
+                                                <p class="card-price">${val.price}</p>
+                                                <p class="short-description">${val.description}</p>
+                                                <div class="card-action">
+                                                    <div class="row"> 
+                                                        <div class="col-md-6">
+                                                            <a href="${edit_product_link}/${val.id}" class="btn btn-info">Edit</a>                                    
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                             <a href="${delete_product_link}/${val.id}" class="btn btn-danger delete_button">Delete</a>        
+                                                        </div>
                                                     </div>
                                                 </div>
+                                          </div>
+                                    </div>`;
+                        }
+                    });
+                } else {
+                    $.each(data, function (key, val) {
+                        if (val.status == "publish") {
+                            item += `<div class="card-container__item">
+                                        <div class="card-wrapper">
+                                            ${val.trending == "1" ? "<span class='best-seller'>Best Seller</span>" : ""}
+                                            <div class="card-thumbnail">
+                                                <img src="/Uploads/${val.thumbnail}" alt="${val.name}" />
                                             </div>
-                                      </div>
-                                </div>`;
-                    }
-                });
+                                                <h2 class="card-title">${val.name}</h2>
+                                                <p class="card-price">${val.price}</p>
+                                                <p class="short-description">${val.description}</p>
+                                        </div>
+                                    </div>`;
+                        }
+                    });
+                }
                 $("#main_page").html(item);
             }
         })

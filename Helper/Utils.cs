@@ -35,6 +35,11 @@ public class Utils
         return CustomQuery.HasCreatePermission(email);
     }
 
+    public static bool LoggedUser(string email)
+    {
+        return CustomQuery.LoggedInUser(email);
+    }
+
 }
 
      

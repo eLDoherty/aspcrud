@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using learnnet.Models;
@@ -18,21 +16,49 @@ namespace learnnet.Controllers
         readonly CustomQuery CQ = new CustomQuery();
 
         [System.Web.Mvc.HttpGet]
-        public ActionResult Login()
+        public ActionResult Login(string ReturnUrl)
         {
+            string test = ReturnUrl;
+            if (CustomQuery.LoggedInUser(User.Identity.Name)) {
+                TempData["logged"] = "You are already logged in";
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
-        // Request logon
+        // Request login
         [System.Web.Mvc.HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(User user)
         {
+           
             if (UserQuery.IsValidUser(user.email, user.password))
             {
-                FormsAuthentication.SetAuthCookie(user.email, false);
-                TempData["loginSuccess"] = "You're logged in";
-                return RedirectToAction("Index", "Home");
+                string userData = user.email;
+                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
+                    1,                                     // ticket version
+                    user.email,                            // authenticated username
+                    DateTime.Now,                          // issueDate
+                    DateTime.Now.AddHours(1),              // expiryDate
+                    false,                                 // true to persist across browser sessions
+                    userData,                              // can be used to store additional user data
+                    FormsAuthentication.FormsCookiePath ); // // the path for the cookie
+
+                // Encrypt the ticket using the machine key
+                // ticket.Expiration = DateTime.Now.AddSeconds(60);
+                string encryptedTicket = FormsAuthentication.Encrypt(ticket);
+
+                // Add the cookie to the request to save it
+                HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+                cookie.HttpOnly = true;
+                Response.Cookies.Add(cookie);
+
+                // Your redirect logic
+                TempData["autoLogout"] = "You're session has been expired, please login agan";
+                Response.Redirect(FormsAuthentication.GetRedirectUrl(user.email, false));
+                
+                // FormsAuthentication.SetAuthCookie(user.email, false);
+                // return RedirectToAction("Index", "Home");
             }
             else
             {
@@ -41,11 +67,15 @@ namespace learnnet.Controllers
             return View(user);
         }
 
-
-        // GET: Auth/Details/5
+        // GET: Auth/Details
         [System.Web.Mvc.HttpGet]
         public ActionResult Register()
         {
+            if (CustomQuery.LoggedInUser(User.Identity.Name))
+            {
+                TempData["logged"] = "You are already logged in";
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -78,10 +108,10 @@ namespace learnnet.Controllers
                                 FormsAuthentication.SetAuthCookie(user.email, false);
                                 TempData["registerSuccess"] = "Register success!";
                                 return RedirectToAction("Index", "Home");
-                            }
+                            }  
                             else
                             {
-                                ModelState.AddModelError("email", "something went wrong try later!");
+                              ModelState.AddModelError("email", "something went wrong try later!");
                             }
                         }
                     }
@@ -110,7 +140,6 @@ namespace learnnet.Controllers
             try
             {
                 // TODO: Add insert logic here
-
                 return RedirectToAction("Index");
             }
             catch

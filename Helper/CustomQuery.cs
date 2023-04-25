@@ -767,7 +767,7 @@ namespace learnnet.Helper
         public static int GetCurrentUserId(string email)
         {
             var currentUser = GetAllUser()?.Where(data => data.email == email).FirstOrDefault();
-            return currentUser.id;
+            return currentUser != null ? currentUser.id : 0;
         }
 
         // Find data by ID
@@ -805,6 +805,17 @@ namespace learnnet.Helper
                     return false;
                 }
             }
+        }
+
+        // Logged in user
+        public static bool LoggedInUser(string email)
+        {
+            var user = ChooseUser(email);
+            if(user != null)
+            {
+                return true;
+            }
+            return false;
         }
 
         // Previlege validation

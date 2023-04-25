@@ -32,6 +32,9 @@ namespace learnnet
             bundles.Add(new ScriptBundle("~/bundles/general").Include(
                 "~/Scripts/General.js", "~/Scripts/userValidation.js" ));
 
+            bundles.Add(new ScriptBundle("~/bundles/idle").Include(
+                "~/Scripts/Idle.js" ));
+
             // bundles.Add(new Bundle("~/bundles/ckeditor").Include(
             // "~/Scripts/ckeditor.js"));
 

@@ -235,7 +235,7 @@ namespace learnnet.Controllers
 
         // Media
         [System.Web.Mvc.HttpPost]
-        public ActionResult Media(HttpPostedFileBase uri, string name)
+        public ActionResult Media(HttpPostedFileBase uri, string name) 
         {
             var data = CustomQuery.GetImageMedia();
             ViewBag.Images = data;

@@ -12,6 +12,7 @@ namespace learnnet.Controllers
         // GET: Admin
         public ActionResult UserList()
         {
+            string test = Response.Cookies.ToString();
             bool isSuperadmin = CustomQuery.IsSuperAdmin(User.Identity.Name);
             if (AdminAuthorization() && isSuperadmin)
             {
@@ -38,10 +39,17 @@ namespace learnnet.Controllers
         [System.Web.Mvc.HttpGet]
         public ActionResult Edit(int id)
         {
-            Previlege prevs = CustomQuery.UserPrevilege(id);
-            User user = CustomQuery.SelectUser(id);
-            ViewBag.Previleges = prevs;
-            return View(user);
+            if (AdminAuthorization())
+            {
+                Previlege prevs = CustomQuery.UserPrevilege(id);
+                User user = CustomQuery.SelectUser(id);
+                ViewBag.Previleges = prevs;
+                return View(user);
+            }
+            else
+            {
+                return UnauthorizedRedirection();
+            }
         }
 
         [System.Web.Mvc.HttpPost]
@@ -66,7 +74,16 @@ namespace learnnet.Controllers
         
         public ActionResult AddUser()
         {
-            return View();
+            bool isSuperadmin = CustomQuery.IsSuperAdmin(User.Identity.Name);
+
+            if (AdminAuthorization() && isSuperadmin)
+            {
+                return View();
+            }
+           else
+            {
+                return UnauthorizedRedirection();
+            }
         }
 
         // Add new user from dashboard
@@ -97,8 +114,8 @@ namespace learnnet.Controllers
 
         protected ActionResult UnauthorizedRedirection()
         {
-            TempData["authorization"] = "Login as superadmin / authorize admin to access those page";
-            return RedirectToAction("Index", "Home");
+            TempData["authorization"] = "Login as superadmin / authorize admin to access the page";
+            return RedirectToAction("Login", "Auth");
         }
     }
 }

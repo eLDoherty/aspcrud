@@ -28,25 +28,25 @@
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     @if (!HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                    <li>@Html.ActionLink("Login", "Login", "Auth")</li>
+                        <li>@Html.ActionLink("Login", "Login", "Auth")</li>
                     }
                     @if (Utils.IsAdmin(User.Identity.Name.ToString()))
                     {
-                    <li>@Html.ActionLink("Create", "Create", "Product")</li>
-                    <li>@Html.ActionLink("Draft", "Draft", "Product")</li>
-                    if (Utils.IsSuperadmin(User.Identity.Name))
-                    {
-                    <li>@Html.ActionLink("Category Setting", "Category", "Product")</li>
-                    }
-                    <li>@Html.ActionLink("Media", "Media", "Product")</li>
-                    if (Utils.IsSuperadmin(User.Identity.Name))
-                    {
-                    <li>@Html.ActionLink("Manage User", "UserList", "Admin")</li>
-                    }
+                        <li>@Html.ActionLink("Draft", "Draft", "Product")</li>
+                        if (Utils.IsSuperadmin(User.Identity.Name))
+                        {
+                            <li>@Html.ActionLink("Create", "Create", "Product")</li>
+                            <li>@Html.ActionLink("Category Setting", "Category", "Product")</li>
+                        }
+                        <li>@Html.ActionLink("Media", "Media", "Product")</li>
+                        if (Utils.IsSuperadmin(User.Identity.Name))
+                        {
+                            <li>@Html.ActionLink("Manage User", "UserList", "Admin")</li>
+                        }
                     }
                     @if (HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                    <li>@Html.ActionLink("Logout", "Logout", "Auth")</li>
+                        <li>@Html.ActionLink("Logout", "Logout", "Auth")</li>
                     }
                 </ul>
             </div>

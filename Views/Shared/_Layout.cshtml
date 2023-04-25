@@ -28,11 +28,11 @@
                     }
                     @if (Utils.IsAdmin(User.Identity.Name.ToString()))
                     {
-                        <li>@Html.ActionLink("Create", "Create", "Product")</li>
                         <li>@Html.ActionLink("Draft", "Draft", "Product")</li>
                         if (Utils.IsSuperadmin(User.Identity.Name))
                         {
                             <li>@Html.ActionLink("Category Setting", "Category", "Product")</li>
+                            <li>@Html.ActionLink("Create", "Create", "Product")</li>
                         }
                         <li>@Html.ActionLink("Media", "Media", "Product")</li>
                         if (Utils.IsSuperadmin(User.Identity.Name))
