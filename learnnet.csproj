@@ -181,14 +181,11 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ReadMe.md" />
     <Content Include=".gitignore" />
-    <Content Include="Scripts\ckeditor.js.map" />
     <Content Include="Scripts\CRUD.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\Idle.js" />
     <Content Include="Scripts\LICENSE.md" />
     <Content Include="Scripts\README.md" />
-    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
-    <Content Include="Scripts\ckeditor.js" />
     <Content Include="Scripts\index.html" />
     <Content Include="Scripts\sample\css\sample.css" />
     <Content Include="Scripts\sample\img\bg.png" />
@@ -268,11 +265,6 @@
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\userValidation.js" />
     <Content Include="Views\Auth\Login.cshtml" />
@@ -322,8 +314,6 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

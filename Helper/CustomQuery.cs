@@ -718,9 +718,9 @@ namespace learnnet.Helper
                             return true;
                         }
                     }
-                    catch (Exception)
+                    catch (Exception err)
                     {
-
+                        var data = err;
                     }
                     finally
                     {
@@ -856,6 +856,11 @@ namespace learnnet.Helper
             {
                 return true;
             }
+            return false;
+        }
+        
+        public static bool UserIsEditor(string email)
+        {
             return false;
         }
 

@@ -98,7 +98,6 @@ namespace learnnet.Controllers
                             cmd.Connection = con;
                             cmd.Parameters.AddWithValue("@username", user.username);
                             cmd.Parameters.AddWithValue("@email", user.email);
-                            // encode password i'm using simple base64 you can use any more secure algo
                             cmd.Parameters.AddWithValue("@password", UserQuery.Base64Encode(user.password));
                             con.Open();
                             int i = cmd.ExecuteNonQuery();
