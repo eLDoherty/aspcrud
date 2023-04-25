@@ -11,7 +11,7 @@
     @if (Utils.IsAdmin(User.Identity.Name.ToString()))
     {
         <p>@Html.ActionLink("Create Product", "Create", "Product", false, new { @class = "btn btn-success" })</p>
-    }  
+    }
 </div>
 <p class="text-action-message">@TempData["message"]</p>
 <div class="product-filter">
@@ -26,6 +26,15 @@
         </select>
     }
 </div>
+
+@if (Utils.IsEditor(User.Identity.Name))
+{
+    <div class="is_editor"></div>
+}
+@if (Utils.IsAdmin(User.Identity.Name))
+{
+    <div class="appear_is_admin"></div>
+}
 
 <div class="card-container" id="main_page">
     @if (Model.Any())
@@ -48,15 +57,6 @@
                         <p class="short-description">@(new HtmlString(item.description))</p>
                         <div class="product-category">
                         </div>
-
-                        @if (Utils.IsEditor(User.Identity.Name))
-                        {
-                            <div class="is_editor"></div>
-                        }
-                        @if (Utils.IsAdmin(User.Identity.Name))
-                        {
-                            <div class="appear_is_admin"></div>
-                        }
 
                         @if (Utils.IsEditor(User.Identity.Name.ToString()))
                         {

@@ -69,7 +69,7 @@ namespace learnnet.Controllers
         {
             bool hasCreate = CustomQuery.HasCreatePermission(User.Identity.Name);
 
-            if (AdminAuthorization() && hasCreate)
+            if (AdminAuthorization() || hasCreate)
             {
                 ViewBag.Categories = CustomQuery.GetCategories();
                 ViewBag.Countries = CustomQuery.getCountries();
@@ -119,7 +119,7 @@ namespace learnnet.Controllers
         {
             bool hasEdit = CustomQuery.HasEditPermission(User.Identity.Name);
 
-            if (AdminAuthorization() && hasEdit)
+            if (AdminAuthorization() || hasEdit)
             {
                 ViewBag.TableCategories = CustomQuery.GetCategories();
                 ViewBag.Categories = CustomQuery.GetCategoriesById(id);
@@ -169,7 +169,7 @@ namespace learnnet.Controllers
         {
             bool hasDelete = CustomQuery.HasDeletePermission(User.Identity.Name);
 
-            if (AdminAuthorization() && hasDelete)
+            if (AdminAuthorization() || hasDelete)
             {
                 var removeData = CustomQuery.DeletData(id);
                 if (removeData)
@@ -270,7 +270,7 @@ namespace learnnet.Controllers
 
         protected ActionResult UnauthorizedRedirection()
         {
-            TempData["authorization"] = "Login as superadmin / authorize admin to access those page";
+            TempData["authorization"] = "Login as superadmin / authorize admin to access the page";
             return RedirectToAction("Index", "Home");
         }
     }

@@ -23,6 +23,8 @@ namespace learnnet.Models
         public Previlege Previlege { get; set; }
         public static object Identity { get; internal set; }
 
+        public Accesbility Accesbility { get; set; }
+
         public User()
         {
             username = "";
@@ -30,6 +32,7 @@ namespace learnnet.Models
             password = "";
             role = "user";
             Previlege = new Previlege();
+            Accesbility = new Accesbility();
         }
     }
 }

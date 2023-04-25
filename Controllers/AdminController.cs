@@ -53,14 +53,35 @@ namespace learnnet.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult Edit(User user, bool? canCreate, bool? canEdit, bool? canDelete)
+        public ActionResult Edit(User user, FormCollection collection)
         {
-            bool create = canCreate != null ? true : false;
-            bool edit = canEdit != null ? true : false;
-            bool delete = canDelete != null ? true : false;
+
+            // Collection from edit user form
+            var data = user;
+            var test = collection.GetValue("mediaPage");
+            var test1 = data;
+            bool create = collection.GetValue("canCreate") != null ? true : false;
+            bool edit = collection.GetValue("canEdit") != null ? true : false;
+            bool delete = collection.GetValue("canDelete") != null ? true : false;
+            bool productAccess = collection.GetValue("productPage") != null ? true : false;
+            bool categoryAccess = collection.GetValue("categoryPage") != null ? true : false;
+            bool mediaAccess = collection.GetValue("mediaPage") != null ? true : false;
+            bool draftAccess = collection.GetValue("draftPage") != null ? true : false;
+
+            // Edit user 
             var changeUser = UserQuery.EditUser(user);
+
+            // Delete Previous Previlege
             var deleteOldPrevilege = CustomQuery.DeletePrevilege(user.id);
+
+            // Add newest previlege
             var setPrevilege = UserQuery.SetPrevilegeUser(user.id, create, edit, delete);
+
+            // Delete old accesbility
+            var deleteOldAccess = CustomQuery.DeleteAccesbility(user.id);
+
+            // Add newest accesbility
+            var setUserAccesbility = UserQuery.SetUserAccesbility(user.id, productAccess, categoryAccess, mediaAccess, draftAccess);
 
             if (changeUser)
             {

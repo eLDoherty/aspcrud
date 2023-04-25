@@ -817,6 +817,38 @@ namespace learnnet.Helper
             }
         }
 
+        // Delete User Accesbility
+        public static bool DeleteAccesbility(int id)
+        {
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                con.Open();
+                var query = "DELETE FROM dbo.accesbility WHERE user_id=" + id;
+                
+                using(SqlCommand command = new SqlCommand(query, con))
+                {
+                    try
+                    {
+                        var result = command.ExecuteNonQuery();
+                        if(result > 0)
+                        {
+                            return true;
+                        }
+                    }
+                    catch (Exception err)
+                    {
+                        var error = err;
+                    } 
+                    finally
+                    {
+                        con.Close();
+                    }
+                }
+                return false;
+            }
+        }
+
         // Logged in user
         public static bool LoggedInUser(string email)
         {

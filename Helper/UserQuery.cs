@@ -141,8 +141,6 @@ namespace learnnet.Helper
 
         public static bool SetPrevilegeUser(int id, bool canCreate, bool canEdit, bool canDelete)
         {
-            var data = canEdit;
-            var tes = data;
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             int hasCreate = canCreate ? 1 : 0;
             int hasEdit = canEdit ? 1 : 0;
@@ -171,6 +169,49 @@ namespace learnnet.Helper
                     {
                         con.Close();
                     }
+                    return false;
+                }
+            }
+        }
+
+        /**
+         * Set user accesbility 
+         */
+        public static bool SetUserAccesbility(int id, bool productPage, bool categoryPage, bool mediaPage, bool draftPage)
+        {
+            int accessProduct = productPage ? 1 : 0;
+            int accessCategory = categoryPage ? 1 : 0;
+            int accessMedia = mediaPage ? 1 : 0;
+            int accessDraft = draftPage ? 1 : 0;
+
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                con.Open();
+                var query = @"INSERT INTO dbo.previlege (productPage ,categoryPage , mediaPage, draftPage , user_id) 
+                            VALUES ('" + accessProduct + "','" + accessCategory + "','" + accessMedia + "','" + accessDraft + "','" + id + "')";
+
+                using (SqlCommand command = new SqlCommand(query, con))
+                {
+                    try
+                    {
+                        var result = command.ExecuteNonQuery();
+
+                        if(result > 0)
+                        {
+                            return true;
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+
                     return false;
                 }
             }
