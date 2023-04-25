@@ -15,24 +15,53 @@
 
     });
 
+    // Handle User role setting
     if ($('#role').length > 0) {
-       var optionSelected = $('#role').find("option:selected");
-       var valueSelected = optionSelected.val();
-       if (valueSelected == "admin") {
-            $('#admin_setting').show();
-       } else {
-            $('#admin_setting').hide();
+
+        var optionSelected = $('#role').find("option:selected");
+        var valueSelected = optionSelected.val();
+
+        if (valueSelected == "admin") {
+            $("#canCreate").prop("disabled", true);
+            $("#canEdit").prop("disabled", true);
+            $("#canDelete").prop("disabled", true);
+        } else if (valueSelected == "editor") {
+            $("#canCreate").prop("disabled", false);
+            $("#canEdit").prop("disabled", true);
+            $("#canDelete").prop("disabled", false);
+        } else {
+            $("#canCreate").prop("disabled", false);
+            $("#canEdit").prop("disabled", false);
+            $("#canDelete").prop("disabled", false);
         }
 
         $('#role').on('change', function () {
             var optionSelected = $(this).find("option:selected");
             var valueSelected = optionSelected.val();
             if (valueSelected == "admin") {
-                $('#admin_setting').slideToggle();
+                $("#canCreate").prop("disabled", true);
+                $("#canCreate").prop("checked", true);
+                $("#canEdit").prop("disabled", true);
+                $("#canEdit").prop("checked", true);
+                $("#canDelete").prop("disabled", true); 
+                $("#canDelete").prop("checked", true);
+            } else if (valueSelected == "editor") {
+                $("#canCreate").prop("disabled", false);
+                $("#canCreate").prop("checked", false);
+                $("#canEdit").prop("disabled", true);
+                $("#canEdit").prop("checked", true);
+                $("#canDelete").prop("disabled", false);
+                $("#canDelete").prop("checked", false);
             } else {
-                $('#admin_setting').slideToggle();
+                $("#canCreate").prop("disabled", false);
+                $("#canCreate").prop("checked", false);
+                $("#canEdit").prop("disabled", false);
+                $("#canEdit").prop("checked", false);
+                $("#canDelete").prop("disabled", false);
+                $("#canDelete").prop("checked", false);
             }
         })
+
     }
 
 })

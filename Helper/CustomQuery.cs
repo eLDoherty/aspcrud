@@ -670,7 +670,7 @@ namespace learnnet.Helper
                 }
             
             }
-            return Users;
+            return Users; 
         }
 
         // Find User By Email
@@ -684,6 +684,16 @@ namespace learnnet.Helper
         {
             var user = ChooseUser(email);
             if (user != null && user.role == "admin")
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static bool IsEditor(string email)
+        {
+            var user = ChooseUser(email);
+            if(user != null && user.role == "editor")
             {
                 return true;
             }

@@ -15,13 +15,18 @@ public class Utils
         return CustomQuery.IsAdmin(email);
     }
 
+    public static bool IsEditor(string email)
+    {
+        return HasEdit(email);
+    }
+     
     public static bool IsSuperadmin(string email)
     {
         return CustomQuery.IsSuperAdmin(email);
     }
 
     public static bool HasDelete(string email)
-    {
+    { 
         return CustomQuery.HasDeletePermission(email);
     }
 

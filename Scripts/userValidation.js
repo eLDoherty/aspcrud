@@ -31,6 +31,11 @@
 
         if (Object.keys(errors).length === 0) {
             // Submit if no error left
+            if ($('#canCreate').length > 0 && $('#canEdit').length > 0 && $('#canDelete').length > 0) {
+                $('#canCreate').prop('disabled', false);
+                $('#canEdit').prop('disabled', false);
+                $('#canDelete').prop('disabled', false);
+            }
             $(formId).unbind('submit').submit();
         } else {
             // Show error on frontend

@@ -8,7 +8,7 @@ using System.Text;
 using System.Web.Mvc;
 using learnnet.Models;
 using learnnet.Helper;
-
+ 
 namespace learnnet.Helper
 {
     public class UserQuery : CustomQuery
@@ -64,6 +64,8 @@ namespace learnnet.Helper
         public static bool EditUser(User user)
         {
             User currentUser = SelectUser(user.id);
+            var data = user;
+            var test = data;
             string password = user.password != null ? Base64Encode(user.password) : currentUser.password;
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             using (SqlConnection con = new SqlConnection(CS))
@@ -139,6 +141,8 @@ namespace learnnet.Helper
 
         public static bool SetPrevilegeUser(int id, bool canCreate, bool canEdit, bool canDelete)
         {
+            var data = canEdit;
+            var tes = data;
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             int hasCreate = canCreate ? 1 : 0;
             int hasEdit = canEdit ? 1 : 0;

@@ -27,7 +27,7 @@ namespace learnnet.Controllers
         [Authorize]
         public ActionResult Draft()
         {
-            if (AdminAuthorization())
+            if (AdminAuthorization() || CustomQuery.IsEditor(User.Identity.Name))
             {
                 ViewBag.Description = "Your draft list, ready to publish";
                 var data = CustomQuery.GetData();
@@ -222,7 +222,7 @@ namespace learnnet.Controllers
         [Authorize]
         public ActionResult Media()
         {
-            if (AdminAuthorization())
+            if (AdminAuthorization() || CustomQuery.IsEditor(User.Identity.Name))
             {
                 var data = CustomQuery.GetImageMedia();
                 ViewBag.Images = data;

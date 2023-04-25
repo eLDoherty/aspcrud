@@ -28,7 +28,7 @@
                     {
                         <li>@Html.ActionLink("Login", "Login", "Auth")</li>
                     }
-                    @if (Utils.IsAdmin(User.Identity.Name.ToString()))
+                    @if (Utils.IsEditor(User.Identity.Name.ToString()))
                     {
                         <li>@Html.ActionLink("Draft", "Draft", "Product")</li>
                         if (Utils.IsSuperadmin(User.Identity.Name))

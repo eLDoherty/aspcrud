@@ -79,5 +79,21 @@ body div.login-button-wrapper p {
 
 /* Edit user */
 #admin_setting {
-    margin-bottom: 20px;
+    margin-top: 7px;
+    display: flex;
+}
+.checkbox-wrapper {
+    display: flex;
+    margin: 0 !important;
+    align-items: center;
+    margin-right: 20px !important;
+}
+
+.checkbox-wrapper label {
+    margin: 0;
+    margin-right: 5px;
+}
+
+.checkbox-wrapper input {
+    margin: 0;
 }
