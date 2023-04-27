@@ -13,11 +13,12 @@ namespace learnnet.Controllers
     public class ProductController : Controller
     {
         readonly CustomQuery CQ = new CustomQuery();
+        readonly Permission permission = new Permission();
+
 
         [Authorize]
         public ActionResult Index()
-        {
-
+        {   
             ViewBag.Description = "Product page with CRUD";
             ViewBag.Countries = CustomQuery.GetSelectedCountries();
             var data = CustomQuery.GetDataPagination(1);
@@ -33,9 +34,7 @@ namespace learnnet.Controllers
                 var data = CustomQuery.GetData();
                 return View(data);
             }
-
             return UnauthorizedRedirection();
-          
         }
 
 

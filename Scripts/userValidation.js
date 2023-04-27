@@ -36,6 +36,13 @@
                 $('#canEdit').prop('disabled', false);
                 $('#canDelete').prop('disabled', false);
             }
+
+            if ($('.role_option').length > 0) {
+                $('.addition').prop('disabled', false);
+                $('.edition').prop('disabled', false);
+                $('.deletion').prop('disabled', false);
+            }
+
             $(formId).unbind('submit').submit();
         } else {
             // Show error on frontend

@@ -5,7 +5,7 @@ using System.Web;
 using learnnet.Helper;
 using learnnet.Models;
 
-public class Utils
+public class Utils : Permission
 {
 
     readonly CustomQuery CQ = new CustomQuery();
@@ -43,6 +43,12 @@ public class Utils
     public static bool LoggedUser(string email)
     {
         return CustomQuery.LoggedInUser(email);
+    }
+
+    public static string GetUserRole(int id)
+    {
+        string role = CustomQuery.SelectUser(id).role;
+        return role;
     }
 
 }

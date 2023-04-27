@@ -20,10 +20,7 @@ namespace learnnet.Models
 
         public string role { get; set; }
 
-        public Previlege Previlege { get; set; }
-        public static object Identity { get; internal set; }
-
-        public Accesbility Accesbility { get; set; }
+        public Accessbility Accesbility { get; set; }
 
         public User()
         {
@@ -31,8 +28,7 @@ namespace learnnet.Models
             email = "";
             password = "";
             role = "user";
-            Previlege = new Previlege();
-            Accesbility = new Accesbility();
+            Accesbility = new Accessbility();
         }
     }
 }

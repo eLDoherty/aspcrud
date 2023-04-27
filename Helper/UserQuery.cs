@@ -174,49 +174,6 @@ namespace learnnet.Helper
             }
         }
 
-        /**
-         * Set user accesbility 
-         */
-        public static bool SetUserAccesbility(int id, bool productPage, bool categoryPage, bool mediaPage, bool draftPage)
-        {
-            int accessProduct = productPage ? 1 : 0;
-            int accessCategory = categoryPage ? 1 : 0;
-            int accessMedia = mediaPage ? 1 : 0;
-            int accessDraft = draftPage ? 1 : 0;
-
-            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
-
-            using (SqlConnection con = new SqlConnection(CS))
-            {
-                con.Open();
-                var query = @"INSERT INTO dbo.previlege (productPage ,categoryPage , mediaPage, draftPage , user_id) 
-                            VALUES ('" + accessProduct + "','" + accessCategory + "','" + accessMedia + "','" + accessDraft + "','" + id + "')";
-
-                using (SqlCommand command = new SqlCommand(query, con))
-                {
-                    try
-                    {
-                        var result = command.ExecuteNonQuery();
-
-                        if(result > 0)
-                        {
-                            return true;
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                    finally
-                    {
-                        con.Close();
-                    }
-
-                    return false;
-                }
-            }
-        }
-
         public static string Base64Encode(string plainText)
         {
             var plainTextBytes = Encoding.UTF8.GetBytes(plainText);

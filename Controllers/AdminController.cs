@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 using learnnet.Helper;
 using learnnet.Models;
 
@@ -42,8 +44,10 @@ namespace learnnet.Controllers
             if (AdminAuthorization())
             {
                 Previlege prevs = CustomQuery.UserPrevilege(id);
+                List<Section> sections = CustomQuery.AllSections();
                 User user = CustomQuery.SelectUser(id);
                 ViewBag.Previleges = prevs;
+                ViewBag.Sections = sections;
                 return View(user);
             }
             else
@@ -53,35 +57,28 @@ namespace learnnet.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult Edit(User user, FormCollection collection)
+        public ActionResult Edit(User user, string[] pageId, string[] addition, string[] edition, string[] deletion, string[] role)
         {
-
+            var page = pageId;
             // Collection from edit user form
-            var data = user;
-            var test = collection.GetValue("mediaPage");
-            var test1 = data;
-            bool create = collection.GetValue("canCreate") != null ? true : false;
-            bool edit = collection.GetValue("canEdit") != null ? true : false;
-            bool delete = collection.GetValue("canDelete") != null ? true : false;
-            bool productAccess = collection.GetValue("productPage") != null ? true : false;
-            bool categoryAccess = collection.GetValue("categoryPage") != null ? true : false;
-            bool mediaAccess = collection.GetValue("mediaPage") != null ? true : false;
-            bool draftAccess = collection.GetValue("draftPage") != null ? true : false;
+            int id = user.id;
+            var a = addition;
+            var b = edition;
+            var c = deletion;
+
+            var deleteOldAccessbility = CustomQuery.DeleteAccessbility(user.id);
+
+            for(int i = 0; i < page.Length; i++)
+            {
+                int sectionId = Convert.ToInt32(page[i]);
+                int add = addition[i] == "true" && addition[i] != null ? 1 : 0;
+                int edit = edition[i] == "true" && edition[i] != null ? 1 : 0;
+                int delete = deletion[i] == "true" && deletion[i] != null ? 1 : 0;
+                CustomQuery.AddAccessbility(sectionId, add, edit, delete, user.id, role[i]);
+            }
 
             // Edit user 
             var changeUser = UserQuery.EditUser(user);
-
-            // Delete Previous Previlege
-            var deleteOldPrevilege = CustomQuery.DeletePrevilege(user.id);
-
-            // Add newest previlege
-            var setPrevilege = UserQuery.SetPrevilegeUser(user.id, create, edit, delete);
-
-            // Delete old accesbility
-            var deleteOldAccess = CustomQuery.DeleteAccesbility(user.id);
-
-            // Add newest accesbility
-            var setUserAccesbility = UserQuery.SetUserAccesbility(user.id, productAccess, categoryAccess, mediaAccess, draftAccess);
 
             if (changeUser)
             {

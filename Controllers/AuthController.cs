@@ -18,7 +18,6 @@ namespace learnnet.Controllers
         [System.Web.Mvc.HttpGet]
         public ActionResult Login(string ReturnUrl)
         {
-            string test = ReturnUrl;
             if (CustomQuery.LoggedInUser(User.Identity.Name)) {
                 TempData["logged"] = "You are already logged in";
                 return RedirectToAction("Index", "Home");
@@ -54,7 +53,7 @@ namespace learnnet.Controllers
                 Response.Cookies.Add(cookie);
 
                 // Your redirect logic
-                TempData["autoLogout"] = "You're session has been expired, please login agan";
+                TempData["autoLogout"] = "You're session has been expired, please login again";
                 Response.Redirect(FormsAuthentication.GetRedirectUrl(user.email, false));
                 
                 // FormsAuthentication.SetAuthCookie(user.email, false);

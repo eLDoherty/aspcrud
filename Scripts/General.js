@@ -16,52 +16,72 @@
     });
 
     // Handle User role setting
-    if ($('#role').length > 0) {
-
-        var optionSelected = $('#role').find("option:selected");
-        var valueSelected = optionSelected.val();
-
-        if (valueSelected == "admin") {
-            $("#canCreate").prop("disabled", true);
-            $("#canEdit").prop("disabled", true);
-            $("#canDelete").prop("disabled", true);
-        } else if (valueSelected == "editor") {
-            $("#canCreate").prop("disabled", false);
-            $("#canEdit").prop("disabled", true);
-            $("#canDelete").prop("disabled", false);
-        } else {
-            $("#canCreate").prop("disabled", false);
-            $("#canEdit").prop("disabled", false);
-            $("#canDelete").prop("disabled", false);
-        }
-
-        $('#role').on('change', function () {
-            var optionSelected = $(this).find("option:selected");
-            var valueSelected = optionSelected.val();
-            if (valueSelected == "admin") {
-                $("#canCreate").prop("disabled", true);
-                $("#canCreate").prop("checked", true);
-                $("#canEdit").prop("disabled", true);
-                $("#canEdit").prop("checked", true);
-                $("#canDelete").prop("disabled", true); 
-                $("#canDelete").prop("checked", true);
-            } else if (valueSelected == "editor") {
-                $("#canCreate").prop("disabled", false);
-                $("#canCreate").prop("checked", false);
-                $("#canEdit").prop("disabled", true);
-                $("#canEdit").prop("checked", true);
-                $("#canDelete").prop("disabled", false);
-                $("#canDelete").prop("checked", false);
+    if ($('.role_option').length > 0) {
+        $('.role_option').on('change', function () {
+            if ($(this).val() == "admin") {
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.addition').prop('disabled', true);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.addition').siblings('.hiddenAddition').prop('disabled', true);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.addition').prop('checked', true);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.edition').prop('disabled', true);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.edition').siblings('.hiddenEdition').prop('disabled', true);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.edition').prop('checked', true);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.deletion').prop('disabled', true);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.deletion').siblings('.hiddenDeletion').prop('disabled', true);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.deletion').prop('checked', true);
+            } else if ($(this).val() == "editor") {
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.addition').prop('disabled', false);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.addition').siblings('.hiddenAddition').prop('disabled', false);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.addition').prop('checked', false);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.edition').prop('disabled', true);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.edition').siblings('.hiddenEdition').prop('disabled', true);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.edition').prop('checked', true);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.deletion').prop('disabled', false);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.deletion').siblings('.hiddenDeletion').prop('disabled', false);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.deletion').prop('checked', false);
             } else {
-                $("#canCreate").prop("disabled", false);
-                $("#canCreate").prop("checked", false);
-                $("#canEdit").prop("disabled", false);
-                $("#canEdit").prop("checked", false);
-                $("#canDelete").prop("disabled", false);
-                $("#canDelete").prop("checked", false);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.addition').prop('disabled', false);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.addition').siblings('.hiddenAddition').prop('disabled', false);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.addition').prop('checked', false);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.edition').prop('disabled', false);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.edition').siblings('.hiddenEdition').prop('disabled', false);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.edition').prop('checked', false);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.deletion').prop('disabled', false);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.deletion').siblings('.hiddenDeletion').prop('disabled', false);
+                $(this).closest('.dropdown-wrapper').siblings('.checkbox-holder').find('.deletion').prop('checked', false);
             }
         })
-
     }
+
+    // Checkbox handler
+    if ($('.addition').length > 0) {
+        $('.addition').on('change', function () {
+            if ($(this).is(":checked")) {
+                $(this).siblings('.hiddenAddition').prop('disabled', true);
+            } else {
+                $(this).siblings('.hiddenAddition').prop('disabled', false);
+            }
+        })
+    }
+
+    if ($('.edition').length > 0) {
+        $('.edition').on('change', function () {
+            if ($(this).is(":checked")) {
+                $(this).siblings('.hiddenEdition').prop('disabled', true);
+            } else {
+                $(this).siblings('.hiddenEdition').prop('disabled', false);
+            }
+        })
+    }
+
+    if ($('.deletion').length > 0) {
+        $('.deletion').on('change', function () {
+            if ($(this).is(":checked")) {
+                $(this).siblings('.hiddenDeletion').prop('disabled', true);
+            } else {
+                $(this).siblings('.hiddenDeletion').prop('disabled', false);
+            }
+        })
+    }
+
 
 })

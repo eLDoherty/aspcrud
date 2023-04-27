@@ -663,7 +663,6 @@ namespace learnnet.Helper
                             email = reader["email"].ToString(),
                             role = reader["role"].ToString(),
                             password = reader["password"].ToString(),
-                            Previlege = new Previlege()
                         };
                         Users.Add(usr);
                     }
@@ -781,7 +780,7 @@ namespace learnnet.Helper
         }
 
         // Find data by ID
-        public static User SelectUser(int id)
+        public static User SelectUser(int id) 
         {
             return GetAllUser()?.Where(data => data.id == id).FirstOrDefault();
         }
@@ -817,35 +816,99 @@ namespace learnnet.Helper
             }
         }
 
-        // Delete User Accesbility
-        public static bool DeleteAccesbility(int id)
+        // Get All Sections
+        public static List<Section> AllSections()
+        {
+            List<Section> sections = new List<Section>();
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            using (SqlConnection connection = new SqlConnection(CS))
+            {
+                connection.Open();
+                string query = "SELECT * FROM dbo.sections";
+                SqlCommand command = new SqlCommand(query, connection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        var sct = new Section
+                        {
+                            id = Convert.ToInt32(reader["id"]),
+                            name = reader["name"].ToString(),
+                        };
+                        sections.Add(sct);
+                    }
+                }
+
+            }
+            return sections;
+        }
+
+        // Delete previous accessbility
+        public static bool DeleteAccessbility(int userId)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
-                var query = "DELETE FROM dbo.accesbility WHERE user_id=" + id;
-                
-                using(SqlCommand command = new SqlCommand(query, con))
+                var query = "DELETE FROM dbo.accessbility WHERE userId=" + userId;
+                using (SqlCommand command = new SqlCommand(query, con))
                 {
                     try
                     {
                         var result = command.ExecuteNonQuery();
-                        if(result > 0)
+                        if (result > 0)
+                        {
+                            return true;
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                    return false;
+                }
+            }
+        }
+
+        // Insert new accessbility
+        public static bool AddAccessbility(int sectionId, int addition, int edition, int deletion, int userId, string role)
+        {
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(CS))
+
+            {
+                con.Open();
+                string query = "INSERT INTO dbo.accessbility (sectionId, addition, edition, deletion, userId, role) VALUES ('" + sectionId + "','" + addition + "','" + edition + "','" + deletion + "','" + userId + "','" + role + "')";
+                using (SqlCommand command = new SqlCommand(query, con))
+                {
+                    try
+                    {
+                        var result = command.ExecuteNonQuery();
+
+                        if (result > 0)
                         {
                             return true;
                         }
                     }
                     catch (Exception err)
                     {
-                        var error = err;
-                    } 
+                        var errs = err;
+                    }
                     finally
                     {
                         con.Close();
                     }
+                    return false;
                 }
-                return false;
             }
         }
 

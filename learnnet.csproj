@@ -154,10 +154,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\Permission.cs" />
     <Compile Include="Helper\CustomQuery.cs" />
     <Compile Include="Helper\UserQuery.cs" />
     <Compile Include="Helper\Utils.cs" />
-    <Compile Include="Models\Accesbility.cs" />
+    <Compile Include="Models\Accessbility.cs" />
+    <Compile Include="Models\Section.cs" />
     <Compile Include="Models\Previlege.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Country.cs" />
