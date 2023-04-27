@@ -15,7 +15,6 @@ namespace learnnet.Controllers
         readonly CustomQuery CQ = new CustomQuery();
         readonly Permission permission = new Permission();
 
-
         [Authorize]
         public ActionResult Index()
         {   
@@ -28,7 +27,7 @@ namespace learnnet.Controllers
         [Authorize]
         public ActionResult Draft()
         {
-            if (AdminAuthorization() || CustomQuery.IsEditor(User.Identity.Name))
+            if (Permission.CanEditProduct(CustomQuery.GetCurrentUserId(User.Identity.Name)))
             {
                 ViewBag.Description = "Your draft list, ready to publish";
                 var data = CustomQuery.GetData();
@@ -66,9 +65,8 @@ namespace learnnet.Controllers
         [System.Web.Mvc.HttpGet]
         public ActionResult Create()
         {
-            bool hasCreate = CustomQuery.HasCreatePermission(User.Identity.Name);
-
-            if (AdminAuthorization() || hasCreate)
+ 
+            if (Permission.CanAddProduct(CustomQuery.GetCurrentUserId(User.Identity.Name)))
             {
                 ViewBag.Categories = CustomQuery.GetCategories();
                 ViewBag.Countries = CustomQuery.getCountries();
@@ -116,9 +114,8 @@ namespace learnnet.Controllers
         [System.Web.Mvc.HttpGet]
         public ActionResult Edit(int id)
         {
-            bool hasEdit = CustomQuery.HasEditPermission(User.Identity.Name);
 
-            if (AdminAuthorization() || hasEdit)
+            if (Permission.CanEditProduct(CustomQuery.GetCurrentUserId(User.Identity.Name)))
             {
                 ViewBag.TableCategories = CustomQuery.GetCategories();
                 ViewBag.Categories = CustomQuery.GetCategoriesById(id);
@@ -166,9 +163,8 @@ namespace learnnet.Controllers
         [System.Web.Mvc.HttpGet]
         public ActionResult Delete(int id)
         {
-            bool hasDelete = CustomQuery.HasDeletePermission(User.Identity.Name);
 
-            if (AdminAuthorization() || hasDelete)
+            if (Permission.CanDeleteProduct(CustomQuery.GetCurrentUserId(User.Identity.Name)))
             {
                 var removeData = CustomQuery.DeletData(id);
                 if (removeData)
@@ -192,7 +188,7 @@ namespace learnnet.Controllers
         public ActionResult Category()
         {
 
-            if (AdminAuthorization())
+            if (Permission.CanAddCategory(CustomQuery.GetCurrentUserId(User.Identity.Name)))
             {
                 return View();
             }
@@ -221,7 +217,7 @@ namespace learnnet.Controllers
         [Authorize]
         public ActionResult Media()
         {
-            if (AdminAuthorization() || CustomQuery.IsEditor(User.Identity.Name))
+            if (Permission.CanAddMedia(CustomQuery.GetCurrentUserId(User.Identity.Name)))
             {
                 var data = CustomQuery.GetImageMedia();
                 ViewBag.Images = data;
@@ -257,19 +253,9 @@ namespace learnnet.Controllers
             return View();
         }
 
-        // Admin Authorization
-        protected bool AdminAuthorization()
-        {
-            if (!CustomQuery.IsAdmin(User.Identity.Name))
-            {
-                return false;
-            }
-            return true;
-        }
-
         protected ActionResult UnauthorizedRedirection()
         {
-            TempData["authorization"] = "Login as superadmin / authorize admin to access the page";
+            TempData["authorization"] = "Login as superadmin / authorized admin to access the page";
             return RedirectToAction("Index", "Home");
         }
     }

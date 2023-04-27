@@ -29,10 +29,14 @@
             </div>
             <div class="media-wrapper__button">
                 <button type="submit" class="btn btn-success" id="save_media">Save</button>
-            </div> 
+            </div>
         </div>
     }
-    <button class="btn btn-success" id="add_media">Add Media</button>
+    @if (Utils.CanAddMedia(Utils.CurrentUserId(User.Identity.Name)))
+    {
+        <button class="btn btn-success" id="add_media">Add Media</button>
+    }
+
     <div class="gallery-media-list row">
         @if (ViewBag.Images != null)
         {

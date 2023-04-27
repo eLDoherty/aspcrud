@@ -8,10 +8,6 @@
 <div class="jumbotron">
     <h1>ASP.NET</h1>
     <p class="lead">@ViewBag.Description</p>
-    @if (Utils.IsAdmin(User.Identity.Name.ToString()))
-    {
-        <p>@Html.ActionLink("Create Product", "Create", "Product", false, new { @class = "btn btn-success" })</p>
-    }
 </div>
 <p class="text-action-message">@TempData["message"]</p>
 <div class="product-filter">
@@ -57,24 +53,22 @@
                         <p class="short-description">@(new HtmlString(item.description))</p>
                         <div class="product-category">
                         </div>
-
-                        @if (Utils.IsEditor(User.Identity.Name.ToString()))
-                        {
-                            <div class="card-action">
-                                <div class="row">
+                        <div class="card-action">
+                            <div class="row">
+                                @if (Utils.CanEditProduct(Utils.CurrentUserId(User.Identity.Name)))
+                                {
                                     <div class="col-md-6">
                                         @Html.ActionLink("Edit", "Edit", "Product", new { id = item.id }, new { @class = "btn btn-info" })
                                     </div>
-                                    @if (Utils.IsAdmin(User.Identity.Name))
-                                    {
-                                        <div class="col-md-6">
-                                            @Html.ActionLink("Delete", "Delete", "Product", new { id = item.id }, new { @class = "btn btn-danger delete_button" })
-                                        </div>
-                                    }
-
-                                </div>
+                                }
+                                @if (Utils.CanDeleteProduct(Utils.CurrentUserId(User.Identity.Name)))
+                                {
+                                    <div class="col-md-6">
+                                        @Html.ActionLink("Delete", "Delete", "Product", new { id = item.id }, new { @class = "btn btn-danger delete_button" })
+                                    </div>
+                                }      
                             </div>
-                        }
+                        </div>
                     </div>
                 </div>
             }

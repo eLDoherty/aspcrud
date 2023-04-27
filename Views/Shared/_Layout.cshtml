@@ -22,23 +22,29 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
+                    @if (Utils.CanEditProduct(Utils.CurrentUserId(User.Identity.Name)))
+                    {
+                        <li>@Html.ActionLink("Draft", "Draft", "Product")</li>
+                    }
+                    @if (Utils.CanAddProduct(Utils.CurrentUserId(User.Identity.Name)))
+                    {
+                        <li>@Html.ActionLink("Create", "Create", "Product")</li>
+                    }
+                    @if (Utils.CanAddCategory(Utils.CurrentUserId(User.Identity.Name)))
+                    {
+                        <li>@Html.ActionLink("Category Setting", "Category", "Product")</li>
+                    }
+                    @if (Utils.CanAddMedia(Utils.CurrentUserId(User.Identity.Name)))
+                    {
+                        <li>@Html.ActionLink("Media", "Media", "Product")</li>
+                    }
+                    @if (Utils.CanAddUser(Utils.CurrentUserId(User.Identity.Name)))
+                    {
+                        <li>@Html.ActionLink("Manage User", "UserList", "Admin")</li>
+                    }
                     @if (!HttpContext.Current.User.Identity.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Login", "Login", "Auth")</li>
-                    }
-                    @if (Utils.IsEditor(User.Identity.Name.ToString()))
-                    {
-                        <li>@Html.ActionLink("Draft", "Draft", "Product")</li>
-                        if (Utils.IsSuperadmin(User.Identity.Name))
-                        {
-                            <li>@Html.ActionLink("Create", "Create", "Product")</li>
-                            <li>@Html.ActionLink("Category Setting", "Category", "Product")</li>
-                        }
-                        <li>@Html.ActionLink("Media", "Media", "Product")</li>
-                        if (Utils.IsSuperadmin(User.Identity.Name))
-                        {
-                            <li>@Html.ActionLink("Manage User", "UserList", "Admin")</li>
-                        }
                     }
                     @if (HttpContext.Current.User.Identity.IsAuthenticated)
                     {

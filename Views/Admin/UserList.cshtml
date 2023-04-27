@@ -19,20 +19,34 @@
                 {
                     if (user.username != "superadmin")
                     {
-                    <tr>
-                        <td>@user.id</td>
-                        <td>@user.username</td>
-                        <td>@user.email</td>
-                        <td>@user.role</td>
-                        <td> @Html.ActionLink("Delete", "DeleteUser", "Admin", new { id = user.id }, new { @class = "btn btn-danger" }) | @Html.ActionLink("Edit", "Edit", "Admin", new { id = user.id }, new { @class = "btn btn-info" })</td>
-                    </tr>
+                        <tr>
+                            <td>@user.id</td>
+                            <td>@user.username</td>
+                            <td>@user.email</td>
+                            <td>@user.role</td>
+                            <td>
+                                @if (Utils.CanDeleteUser(Utils.CurrentUserId(User.Identity.Name)))
+                                {
+                                    @Html.ActionLink("Delete", "DeleteUser", "Admin", new { id = user.id }, new { @class = "btn btn-danger" }) <span>|</span>
+                                }
+                                @if (Utils.CanEditUser(Utils.CurrentUserId(User.Identity.Name)))
+                                {
+                                    @Html.ActionLink("Edit", "Edit", "Admin", new { id = user.id }, new { @class = "btn btn-info" })
+                                }
+
+                            </td>
+                        </tr>
                     }
                 }
             }
 
         </tbody>
     </table>
-    @Html.ActionLink("Add User", "AddUser", "Admin", new { area = "" }, new { @class = "btn btn-success" })
+    @if (Utils.CanAddUser(Utils.CurrentUserId(User.Identity.Name)))
+    {
+        @Html.ActionLink("Add User", "AddUser", "Admin", new { area = "" }, new { @class = "btn btn-success" })
+    }
+
 </div>
 
 

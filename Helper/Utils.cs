@@ -51,6 +51,12 @@ public class Utils : Permission
         return role;
     }
 
+    public static int CurrentUserId(string email)
+    {
+        int id = CustomQuery.GetCurrentUserId(email);
+        return id;
+    }
+
 }
 
      

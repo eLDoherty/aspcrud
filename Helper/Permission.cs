@@ -23,7 +23,7 @@ namespace learnnet.Helper
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT role FROM dbo.accessbility WHERE userId = "+ userId +" AND sectionId =" +1+";", con)
+                SqlCommand cmd = new SqlCommand("SELECT role FROM dbo.accessbility WHERE userId = "+ userId +" AND sectionId =" +2+";", con)
                 {
                     CommandType = CommandType.Text
                 };
@@ -40,11 +40,11 @@ namespace learnnet.Helper
         public static bool CanAddProduct(int userId)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
-            string role = "";
+            int add = 0;
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT role FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '1' AND addition = '1';", con)
+                SqlCommand cmd = new SqlCommand("SELECT addition FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '2';", con)
                 {
                     CommandType = CommandType.Text
                 };
@@ -52,20 +52,21 @@ namespace learnnet.Helper
                 SqlDataReader rdr = cmd.ExecuteReader();
                 if (rdr.Read())
                 {
-                    role = rdr["role"].ToString();
+                    add = Convert.ToInt32(rdr["addition"]);
                 }
             }
-            return role != null || role.Length == 0 ? false : true;
+            bool status = add > 0 ? true : false;
+            return status;
         }
 
         public static bool CanEditProduct(int userId)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
-            string role = "";
+            int edit = 0;
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT role FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '1' AND edition = '1';", con)
+                SqlCommand cmd = new SqlCommand("SELECT edition FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '2';", con)
                 {
                     CommandType = CommandType.Text
                 };
@@ -73,20 +74,21 @@ namespace learnnet.Helper
                 SqlDataReader rdr = cmd.ExecuteReader();
                 if (rdr.Read())
                 {
-                    role = rdr["role"].ToString();
+                    edit = Convert.ToInt32(rdr["edition"]);
                 }
             }
-            return role != null || role.Length == 0 ? false : true;
+            bool status = edit > 0 ? true : false;
+            return status;
         }
 
         public static bool CanDeleteProduct(int userId)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
-            string role = "";
+            int delete = 0;
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT role FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '1' AND deletion = '1';", con)
+                SqlCommand cmd = new SqlCommand("SELECT deletion FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '2';", con)
                 {
                     CommandType = CommandType.Text
                 };
@@ -94,10 +96,11 @@ namespace learnnet.Helper
                 SqlDataReader rdr = cmd.ExecuteReader();
                 if (rdr.Read())
                 {
-                    role = rdr["role"].ToString();
+                    delete = Convert.ToInt32(rdr["deletion"]);
                 }
             }
-            return role != null || role.Length == 0 ? false : true;
+            bool status = delete > 0 ? true : false;
+            return status;
         }
 
         /**
@@ -110,7 +113,7 @@ namespace learnnet.Helper
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT role FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId =" + 2 + ";", con)
+                SqlCommand cmd = new SqlCommand("SELECT role FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId ='1';", con)
                 {
                     CommandType = CommandType.Text
                 };
@@ -127,11 +130,11 @@ namespace learnnet.Helper
         public static bool CanAddUser(int userId)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
-            string role = "";
+            int status = 0;
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT role FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '2' AND addition = '1';", con)
+                SqlCommand cmd = new SqlCommand("SELECT addition FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '1';", con)
                 {
                     CommandType = CommandType.Text
                 };
@@ -139,20 +142,20 @@ namespace learnnet.Helper
                 SqlDataReader rdr = cmd.ExecuteReader();
                 if (rdr.Read())
                 {
-                    role = rdr["role"].ToString();
+                    status = Convert.ToInt32(rdr["addition"]);
                 }
             }
-            return role != null || role.Length == 0 ? false : true;
+            return status > 0 ? true : false;
         }
 
         public static bool CanEditUser(int userId)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
-            string role = "";
+            int status = 0;
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT role FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '2' AND edition = '1';", con)
+                SqlCommand cmd = new SqlCommand("SELECT edition FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '1';", con)
                 {
                     CommandType = CommandType.Text
                 };
@@ -160,20 +163,20 @@ namespace learnnet.Helper
                 SqlDataReader rdr = cmd.ExecuteReader();
                 if (rdr.Read())
                 {
-                    role = rdr["role"].ToString();
+                    status = Convert.ToInt32(rdr["edition"]);
                 }
             }
-            return role != null || role.Length == 0 ? false : true;
+            return status > 0 ? true : false;
         }
 
         public static bool CanDeleteUser(int userId)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
-            string role = "";
+            int status = 0;
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT role FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '2' AND deletion = '1';", con)
+                SqlCommand cmd = new SqlCommand("SELECT deletion FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '1';", con)
                 {
                     CommandType = CommandType.Text
                 };
@@ -181,10 +184,10 @@ namespace learnnet.Helper
                 SqlDataReader rdr = cmd.ExecuteReader();
                 if (rdr.Read())
                 {
-                    role = rdr["role"].ToString();
+                    status = Convert.ToInt32(rdr["deletion"]);
                 }
             }
-            return role != null || role.Length == 0 ? false : true;
+            return status > 0 ? true : false;
         }
 
         /**
@@ -214,11 +217,11 @@ namespace learnnet.Helper
         public static bool CanAddCategory(int userId)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
-            string role = "";
+            int status = 0;
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT role FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '3' AND addition = '1';", con)
+                SqlCommand cmd = new SqlCommand("SELECT addition FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '3';", con)
                 {
                     CommandType = CommandType.Text
                 };
@@ -226,20 +229,20 @@ namespace learnnet.Helper
                 SqlDataReader rdr = cmd.ExecuteReader();
                 if (rdr.Read())
                 {
-                    role = rdr["role"].ToString();
+                    status = Convert.ToInt32(rdr["addition"]);
                 }
             }
-            return role != null || role.Length == 0 ? false : true;
+            return status > 0 ? true : false;
         }
 
         public static bool CanEditCategory(int userId)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
-            string role = "";
+            int status = 0;
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT role FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '3' AND edition = '1';", con)
+                SqlCommand cmd = new SqlCommand("SELECT edition FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '3';", con)
                 {
                     CommandType = CommandType.Text
                 };
@@ -247,20 +250,20 @@ namespace learnnet.Helper
                 SqlDataReader rdr = cmd.ExecuteReader();
                 if (rdr.Read())
                 {
-                    role = rdr["role"].ToString();
+                    status = Convert.ToInt32(rdr["edition"]);
                 }
             }
-            return role != null || role.Length == 0 ? false : true;
+            return status > 0 ? true : false;
         }
 
         public static bool CanDeleteCategory(int userId)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
-            string role = "";
+            int status = 0;
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT role FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '3' AND deletion = '1';", con)
+                SqlCommand cmd = new SqlCommand("SELECT deletion FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '3';", con)
                 {
                     CommandType = CommandType.Text
                 };
@@ -268,10 +271,10 @@ namespace learnnet.Helper
                 SqlDataReader rdr = cmd.ExecuteReader();
                 if (rdr.Read())
                 {
-                    role = rdr["role"].ToString();
+                    status = Convert.ToInt32(rdr["deletion"]);
                 }
             }
-            return role != null || role.Length == 0 ? false : true;
+            return status > 0 ? true : false;
         }
 
         /**
@@ -301,11 +304,11 @@ namespace learnnet.Helper
         public static bool CanAddMedia(int userId)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
-            string role = "";
+            int status = 0;
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT role FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '4' AND addition = '1';", con)
+                SqlCommand cmd = new SqlCommand("SELECT addition FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '4';", con)
                 {
                     CommandType = CommandType.Text
                 };
@@ -313,20 +316,20 @@ namespace learnnet.Helper
                 SqlDataReader rdr = cmd.ExecuteReader();
                 if (rdr.Read())
                 {
-                    role = rdr["role"].ToString();
+                    status = Convert.ToInt32(rdr["addition"]);
                 }
             }
-            return role != null || role.Length == 0 ? false : true;
+            return status > 0 ? true : false;
         }
 
         public static bool CanEditMedia(int userId)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
-            string role = "";
+            int status = 0;
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT role FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '4' AND edition = '1';", con)
+                SqlCommand cmd = new SqlCommand("SELECT edition FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '4';", con)
                 {
                     CommandType = CommandType.Text
                 };
@@ -334,20 +337,20 @@ namespace learnnet.Helper
                 SqlDataReader rdr = cmd.ExecuteReader();
                 if (rdr.Read())
                 {
-                    role = rdr["role"].ToString();
+                    status = Convert.ToInt32(rdr["edition"]);
                 }
             }
-            return role != null || role.Length == 0 ? false : true;
+            return status > 0 ? true : false;
         }
 
         public static bool CanDeleteMedia(int userId)
         {
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
-            string role = "";
+            int status = 0;
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT role FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '4' AND deletion = '1';", con)
+                SqlCommand cmd = new SqlCommand("SELECT deletion FROM dbo.accessbility WHERE userId = " + userId + " AND sectionId = '4';", con)
                 {
                     CommandType = CommandType.Text
                 };
@@ -355,10 +358,10 @@ namespace learnnet.Helper
                 SqlDataReader rdr = cmd.ExecuteReader();
                 if (rdr.Read())
                 {
-                    role = rdr["role"].ToString();
+                    status = Convert.ToInt32(rdr["deletion"]);
                 }
             }
-            return role != null || role.Length == 0 ? false : true;
+            return status > 0 ? true : false;
         }
 
         /**

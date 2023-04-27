@@ -52,7 +52,7 @@
         })
     }
 
-    // Checkbox handler
+    // Handle checkbox
     if ($('.addition').length > 0) {
         $('.addition').on('change', function () {
             if ($(this).is(":checked")) {

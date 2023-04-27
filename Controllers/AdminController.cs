@@ -10,20 +10,16 @@ namespace learnnet.Controllers
     {
         readonly CustomQuery CQ = new CustomQuery();
         readonly UserQuery UQ = new UserQuery();
+        readonly Permission PM = new Permission();
 
         // GET: Admin
+        [Authorize]
         public ActionResult UserList()
         {
             string test = Response.Cookies.ToString();
             bool isSuperadmin = CustomQuery.IsSuperAdmin(User.Identity.Name);
-            if (AdminAuthorization() && isSuperadmin)
-            {
-                var data = CustomQuery.GetAllUser();
-                return View(data);
-            }
-
-            return UnauthorizedRedirection();
-
+            var data = CustomQuery.GetAllUser();
+            return View(data);
         }
          
         public ActionResult DeleteUser(int id)
