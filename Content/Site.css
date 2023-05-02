@@ -159,25 +159,26 @@ body div.login-button-wrapper p {
     display: none;
 }
 
-#sortById, #sortByEmail, #sortByName {
+#sortById, #sortByEmail, #sortByName, #sortByRole {
     cursor: pointer;
 }
 
-.user_pagination_email, .user_pagination_name, .user_pagination_id {
+.user_pagination_email, .user_pagination_name, .user_pagination_id, .user_pagination_role {
     display: none;
 }
 
 span.arrow {
-    /*transform: rotate(-180deg); */
     transition: 0.3s;
-    /* rotate: 20deg; */
-    display: inline-block;
+    display: none;
 }
 
 span.arrow.active {
-    transform: rotate(-180deg);
     transition: 0.3s;
     display: inline-block;
+}
+
+span.arrow.active.rotated {
+    transform: rotate(-180deg);
     position: relative;
     bottom: 1px;
 }

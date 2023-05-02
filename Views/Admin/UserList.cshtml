@@ -6,11 +6,11 @@
 <div class="add-new-category__wrapper">
     <table class="table">
         <tr>
-            <th id="sortById" data-sorting="ASC" data-name="id">ID <span class="arrow">⬇</span></th>
-            <th id="sortByName" data-sorting="ASC" data-name="username">Name <span class="arrow">⬇</span></th>
-            <th id="sortByEmail" data-sorting="ASC" data-name="email">Email <span class="arrow">⬇</span></th>
-            <th>Role</th>
-            <th>Action</th>
+            <th class="col-md-1" id="sortById" data-sorting="ASC" data-name="id">ID <span class="arrow">⬇</span></th>
+            <th class="col-md-3"id="sortByName" data-sorting="ASC" data-name="username">Name <span class="arrow">⬇</span></th>
+            <th class="col-md-3" id="sortByEmail" data-sorting="ASC" data-name="email">Email <span class="arrow">⬇</span></th>
+            <th class="col-md-3" id="sortByRole" data-sorting="ASC" data-name="role">Role <span class="arrow">⬇</span></th>
+            <th class="col-md-2">Action</th>
         </tr>
         <tbody id="user_holder">
             @if (Model != null)
@@ -20,11 +20,11 @@
                     if (user.username != "superadmin")
                     {
                         <tr>
-                            <td>@user.id</td>
-                            <td>@user.username</td>
-                            <td>@user.email</td>
-                            <td>@user.role</td>
-                            <td>
+                            <td class="col-md-1">@user.id</td>
+                            <td class="col-md-3">@user.username</td>
+                            <td class="col-md-3">@user.email</td>
+                            <td class="col-md-3">@user.role</td>
+                            <td class="col-md-2">
                                 @if (Utils.CanDeleteUser(Utils.CurrentUserId(User.Identity.Name)))
                                 {
                                     @Html.ActionLink("Delete", "DeleteUser", "Admin", new { id = user.id }, new { @class = "btn btn-danger" }) <span>|</span>
@@ -73,6 +73,7 @@
 @Html.ActionLink("Hidden", "PaginationById", "Admin", null, new { @class = "user_pagination_id" })
 @Html.ActionLink("Hidden", "PaginationByUsername", "Admin", null, new { @class = "user_pagination_name" })
 @Html.ActionLink("Hidden", "PaginationByEmail", "Admin", null, new { @class = "user_pagination_email" })
+@Html.ActionLink("Hidden", "PaginationByRole", "Admin", null, new { @class = "user_pagination_role" })
 
 @if (Utils.CanDeleteUser(Utils.CurrentUserId(User.Identity.Name)))
 {

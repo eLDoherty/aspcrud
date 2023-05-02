@@ -74,8 +74,6 @@ namespace learnnet.Helper
                           FETCH NEXT " + rowsOfPage + " ROWS ONLY";
             }
 
-            var test1 = query;
-
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
@@ -105,12 +103,10 @@ namespace learnnet.Helper
         {
             List<User> users = new List<User>();
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
-            string extendQuery = "";
             string query = @"SELECT * FROM dbo.users
                             WHERE id != 1
                             ORDER BY id " + sorting + @" OFFSET (1-1)* " + rows + " ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
 
-            int test = extendQuery.Length;
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
@@ -140,12 +136,10 @@ namespace learnnet.Helper
         {
             List<User> users = new List<User>();
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
-            string extendQuery = "";
             string query = @"SELECT * FROM dbo.users
                             WHERE id != 1
                             ORDER BY username " + sorting + @" OFFSET (1-1)* "+ rows +" ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
 
-            int test = extendQuery.Length;
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
@@ -175,12 +169,10 @@ namespace learnnet.Helper
         {
             List<User> users = new List<User>();
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
-            string extendQuery = "";
             string query = @"SELECT * FROM dbo.users
-                            WHERE id != 1
-                            ORDER BY email "+ sorting +@" OFFSET (1-1)* "+ rows +" ROWS FETCH NEXT  "+ rows +"  ROWS ONLY";
+                             WHERE id != 1
+                             ORDER BY email "+ sorting +@" OFFSET (1-1)* "+ rows +" ROWS FETCH NEXT  "+ rows +"  ROWS ONLY";
 
-            int test = extendQuery.Length;
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
@@ -204,5 +196,40 @@ namespace learnnet.Helper
             }
             return users;
         }
+
+        // Order user by role
+        public static List<User> PaginateByUserRole(string sorting, int rows)
+        {
+            List<User> users = new List<User>();
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            string query = @"SELECT * FROM dbo.users
+                            WHERE id != 1
+                            ORDER BY role " + sorting + @" OFFSET (1-1)* " + rows + " ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
+
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand(query, con)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    var user = new User
+                    {
+                        id = Convert.ToInt32(rdr["id"]),
+                        username = rdr["username"].ToString(),
+                        email = rdr["email"].ToString(),
+                        role = rdr["role"].ToString()
+                    };
+                    users.Add(user);
+                }
+            }
+            return users;
+        }
+
+
     }
 }

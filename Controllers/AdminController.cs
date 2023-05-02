@@ -14,7 +14,7 @@ namespace learnnet.Controllers
         readonly Permission PM = new Permission();
         readonly Pagination PG = new Pagination();
 
-        // GET: Admin
+        // User list
         [Authorize]
         public ActionResult UserList()
         {
@@ -38,14 +38,15 @@ namespace learnnet.Controllers
             return JsonConvert.SerializeObject(data);
         }
 
+        // Ajax Per Step
         public string PaginationPerStep(int page, int rows, string sorting, string name)
         {
-
             var data = Pagination.PaginatePerStep(page, rows, sorting, name);
 
             return JsonConvert.SerializeObject(data);
         }
 
+        // Sorting ajax by user id
         public string PaginationById(string sorting, int rows)
         {
             var data = Pagination.PaginateByUserId(sorting, rows);
@@ -53,6 +54,7 @@ namespace learnnet.Controllers
             return JsonConvert.SerializeObject(data);
         }
 
+        // Sorting ajax by username
         public string PaginationByUsername(string sorting, int rows)
         {
             var data = Pagination.PaginateByUsername(sorting, rows);
@@ -60,6 +62,7 @@ namespace learnnet.Controllers
             return JsonConvert.SerializeObject(data);
         }
 
+        // Sorting ajax by user email
         public string PaginationByEmail(string sorting, int rows)
         {
             var data = Pagination.PaginateByUserEmail(sorting, rows);
@@ -67,6 +70,15 @@ namespace learnnet.Controllers
             return JsonConvert.SerializeObject(data);
         }
 
+        // Sorting ajax by role
+        public string PaginationByRole(string sorting, int rows)
+        {
+            var data = Pagination.PaginateByUserRole(sorting, rows);
+
+            return JsonConvert.SerializeObject(data);
+        }
+
+        // Delete user
         public ActionResult DeleteUser(int id) 
         {
             if (CustomQuery.DeleteUserById(id)) 
@@ -79,6 +91,7 @@ namespace learnnet.Controllers
 
         }
 
+        // Get Edit user Page
         [System.Web.Mvc.HttpGet]
         public ActionResult Edit(int id)
         {
@@ -97,6 +110,7 @@ namespace learnnet.Controllers
             }
         }
 
+        // Edit user
         [System.Web.Mvc.HttpPost]
         public ActionResult Edit(User user, string[] pageId, string[] addition, string[] edition, string[] deletion, string[] role)
         {
@@ -127,7 +141,7 @@ namespace learnnet.Controllers
             return View(user);   
         }
 
-        
+        // Add user
         public ActionResult AddUser()
         {
             bool isSuperadmin = CustomQuery.IsSuperAdmin(User.Identity.Name);
@@ -136,7 +150,7 @@ namespace learnnet.Controllers
             {
                 return View();
             }
-           else
+            else
             {
                 return UnauthorizedRedirection();
             }
@@ -168,6 +182,7 @@ namespace learnnet.Controllers
             return true;
         }
 
+        // Redirect unauthorized user from restricted page
         protected ActionResult UnauthorizedRedirection()
         {
             TempData["authorization"] = "Login as superadmin / authorize admin to access the page";
