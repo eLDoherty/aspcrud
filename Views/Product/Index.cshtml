@@ -23,13 +23,17 @@
     }
 </div>
 
-@if (Utils.IsEditor(User.Identity.Name))
+@if (Utils.CanEditProduct(Utils.CurrentUserId(User.Identity.Name)))
 {
     <div class="is_editor"></div>
 }
-@if (Utils.IsAdmin(User.Identity.Name))
+@if (Utils.CanDeleteProduct(Utils.CurrentUserId(User.Identity.Name)) && Utils.CanEditProduct(Utils.CurrentUserId(User.Identity.Name)))
 {
     <div class="appear_is_admin"></div>
+}
+@if (Utils.CanDeleteProduct(Utils.CurrentUserId(User.Identity.Name)))
+{
+    <div class="is_deletion"></div>
 }
 
 <div class="card-container" id="main_page">

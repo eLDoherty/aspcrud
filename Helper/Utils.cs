@@ -9,6 +9,7 @@ public class Utils : Permission
 {
 
     readonly CustomQuery CQ = new CustomQuery();
+    readonly Pagination PG = new Pagination();
 
     public static bool IsAdmin(string email)
     {
@@ -55,6 +56,36 @@ public class Utils : Permission
     {
         int id = CustomQuery.GetCurrentUserId(email);
         return id;
+    }
+
+    public static List<Section> AllSectionOrder()
+    {
+       return CustomQuery.AllSectionOrder();
+    }
+
+    public static string BaseURL()
+    {
+        return System.Configuration.ConfigurationManager.AppSettings["BaseRef"];
+    }
+
+    public static string SSLbaseUrl()
+    {
+        return System.Configuration.ConfigurationManager.AppSettings["BaseRefSSL"];
+
+    }
+    public static bool IsHasSomePermission(int sectionId, int userId)
+    {
+        if (GetAddPermission(sectionId, userId) || GetEditPermission(sectionId, userId) || GetDeletePermission(sectionId, userId))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    // Total user record
+    public static int TotalUser()
+    {
+        return Pagination.TotalUserRecord() - 1 ;
     }
 
 }

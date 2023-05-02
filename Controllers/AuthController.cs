@@ -41,7 +41,7 @@ namespace learnnet.Controllers
                     DateTime.Now.AddHours(1),              // expiryDate
                     false,                                 // true to persist across browser sessions
                     userData,                              // can be used to store additional user data
-                    FormsAuthentication.FormsCookiePath ); // // the path for the cookie
+                    FormsAuthentication.FormsCookiePath ); // the path for the cookie
 
                 // Encrypt the ticket using the machine key
                 // ticket.Expiration = DateTime.Now.AddSeconds(60);
@@ -55,9 +55,7 @@ namespace learnnet.Controllers
                 // Your redirect logic
                 TempData["autoLogout"] = "You're session has been expired, please login again";
                 Response.Redirect(FormsAuthentication.GetRedirectUrl(user.email, false));
-                
-                // FormsAuthentication.SetAuthCookie(user.email, false);
-                // return RedirectToAction("Index", "Home");
+            
             }
             else
             {
@@ -137,7 +135,6 @@ namespace learnnet.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
                 return RedirectToAction("Index");
             }
             catch
@@ -158,8 +155,6 @@ namespace learnnet.Controllers
         {
             try
             {
-               
-
                 return RedirectToAction("Index");
             }
             catch
@@ -180,8 +175,6 @@ namespace learnnet.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
-
                 return RedirectToAction("Index");
             }
             catch

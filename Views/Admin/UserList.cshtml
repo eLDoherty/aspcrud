@@ -6,13 +6,13 @@
 <div class="add-new-category__wrapper">
     <table class="table">
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
+            <th id="sortById" data-sorting="ASC" data-name="id">ID <span class="arrow">⬇</span></th>
+            <th id="sortByName" data-sorting="ASC" data-name="username">Name <span class="arrow">⬇</span></th>
+            <th id="sortByEmail" data-sorting="ASC" data-name="email">Email <span class="arrow">⬇</span></th>
             <th>Role</th>
             <th>Action</th>
         </tr>
-        <tbody>
+        <tbody id="user_holder">
             @if (Model != null)
             {
                 foreach (var user in Model)
@@ -42,11 +42,45 @@
 
         </tbody>
     </table>
+    <div class="user-pagination-wrapper">
+        <p class="total-user">Total user record: <span id="total_user">@Utils.TotalUser()</span></p>
+        <ul id="step_pagination" class="pagination step-pagination">
+            <li><button class="pagination-button" value="1">1</button></li>
+            <li><button class="pagination-button" value="2">2</button></li>
+            <li><button class="pagination-button" value="3">3</button></li>
+            <li><button class="pagination-button" value="4">4</button></li>
+        </ul>
+        <div class="show-per-page">
+            <p>Display per page:</p>
+            <select class="form-control" id="userPagination" name="userPagination">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+        </div>
+    </div>
     @if (Utils.CanAddUser(Utils.CurrentUserId(User.Identity.Name)))
     {
         @Html.ActionLink("Add User", "AddUser", "Admin", new { area = "" }, new { @class = "btn btn-success" })
     }
 
 </div>
+
+<span id="pagination_order" data-sorting="none" data-name="none"></span>
+
+@Html.ActionLink("Hidden", "PaginationPerPage", "Admin", null, new { @class = "user_list_endpoint" })
+@Html.ActionLink("Hidden", "PaginationPerStep", "Admin", null, new { @class = "user_list_endpoint_step" })
+@Html.ActionLink("Hidden", "PaginationById", "Admin", null, new { @class = "user_pagination_id" })
+@Html.ActionLink("Hidden", "PaginationByUsername", "Admin", null, new { @class = "user_pagination_name" })
+@Html.ActionLink("Hidden", "PaginationByEmail", "Admin", null, new { @class = "user_pagination_email" })
+
+@if (Utils.CanDeleteUser(Utils.CurrentUserId(User.Identity.Name)))
+{
+    <div class="user_can_delete"></div>
+}
+@if (Utils.CanEditUser(Utils.CurrentUserId(User.Identity.Name)))
+{
+    <div class="user_can_update"></div>
+}
 
 

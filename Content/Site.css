@@ -107,3 +107,77 @@ body div.login-button-wrapper p {
 .user-accesbility label {
     margin-right: 5px;
 }
+
+.user-pagination-wrapper {
+    padding-top: 15px;
+    border-top: 1px solid black;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.show-per-page {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.pagination-button.active {
+    background-color: seagreen;
+    color: white;
+}
+
+.step-pagination {
+    margin: 0;
+}
+
+#userPagination {
+    width: 70px;
+}
+
+.pagination-button {
+    background-color: #5bc0de;
+    color: white;
+    padding: 2px 7px;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+}
+
+.pagination-button:focus {
+    outline: none;
+    border: none;
+}
+
+.user_list_endpoint {
+    display: none;
+}
+
+.user_list_endpoint_step {
+    display: none;
+}
+
+#sortById, #sortByEmail, #sortByName {
+    cursor: pointer;
+}
+
+.user_pagination_email, .user_pagination_name, .user_pagination_id {
+    display: none;
+}
+
+span.arrow {
+    /*transform: rotate(-180deg); */
+    transition: 0.3s;
+    /* rotate: 20deg; */
+    display: inline-block;
+}
+
+span.arrow.active {
+    transform: rotate(-180deg);
+    transition: 0.3s;
+    display: inline-block;
+    position: relative;
+    bottom: 1px;
+}

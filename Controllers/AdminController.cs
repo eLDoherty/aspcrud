@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using learnnet.Helper;
 using learnnet.Models;
+using Newtonsoft.Json;
 
 namespace learnnet.Controllers
 {
@@ -11,6 +12,7 @@ namespace learnnet.Controllers
         readonly CustomQuery CQ = new CustomQuery();
         readonly UserQuery UQ = new UserQuery();
         readonly Permission PM = new Permission();
+        readonly Pagination PG = new Pagination();
 
         // GET: Admin
         [Authorize]
@@ -18,13 +20,56 @@ namespace learnnet.Controllers
         {
             string test = Response.Cookies.ToString();
             bool isSuperadmin = CustomQuery.IsSuperAdmin(User.Identity.Name);
-            var data = CustomQuery.GetAllUser();
+            var data = Pagination.PaginatePerPageUser(2);
             return View(data);
         }
-         
-        public ActionResult DeleteUser(int id)
+
+        // Order By ID
+        public string OrderUserById()
         {
-            if (CustomQuery.DeleteUserById(id))
+            return "";
+        }
+
+        // Handle Request Ajax Per Page 
+        public string PaginationPerPage(int totalDisplay)
+        {
+            var data = Pagination.PaginatePerPageUser(totalDisplay);
+
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public string PaginationPerStep(int page, int rows, string sorting, string name)
+        {
+
+            var data = Pagination.PaginatePerStep(page, rows, sorting, name);
+
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public string PaginationById(string sorting, int rows)
+        {
+            var data = Pagination.PaginateByUserId(sorting, rows);
+
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public string PaginationByUsername(string sorting, int rows)
+        {
+            var data = Pagination.PaginateByUsername(sorting, rows);
+
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public string PaginationByEmail(string sorting, int rows)
+        {
+            var data = Pagination.PaginateByUserEmail(sorting, rows);
+
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public ActionResult DeleteUser(int id) 
+        {
+            if (CustomQuery.DeleteUserById(id)) 
             {
                 TempData["message"] = "User has been deleted!";
                 return RedirectToAction("UserList", "Admin");
@@ -58,9 +103,6 @@ namespace learnnet.Controllers
             var page = pageId;
             // Collection from edit user form
             int id = user.id;
-            var a = addition;
-            var b = edition;
-            var c = deletion;
 
             var deleteOldAccessbility = CustomQuery.DeleteAccessbility(user.id);
 

@@ -36,7 +36,6 @@ namespace learnnet.Controllers
             return UnauthorizedRedirection();
         }
 
-
         // Pagination request from ajax
         [System.Web.Mvc.HttpPost]
         public string Pagination(int page)

@@ -420,6 +420,7 @@ namespace learnnet.Helper
             return accessbilities;
         }
 
+        // If has Create permission
         public static bool GetAddPermission(int userId, int sectionId)
         {
             var accessbility = GetAllAccessbility()?.Where(data => data.userId == userId && data.sectionId == sectionId).FirstOrDefault();
@@ -430,6 +431,7 @@ namespace learnnet.Helper
             return false;
         }
 
+        // If has Edit permission
         public static bool GetEditPermission(int userId, int sectionId)
         {
             var accessbility = GetAllAccessbility()?.Where(data => data.userId == userId && data.sectionId == sectionId).FirstOrDefault();
@@ -440,6 +442,7 @@ namespace learnnet.Helper
             return false;
         }
 
+        // If has Delete permission
         public static bool GetDeletePermission(int userId, int sectionId)
         {
             var accessbility = GetAllAccessbility()?.Where(data => data.userId == userId && data.sectionId == sectionId).FirstOrDefault();
@@ -470,6 +473,7 @@ namespace learnnet.Helper
             return false;
         }
 
+        // Full grant access to category
         public static bool FullAccessCategory(int userId)
         {
             if (CanAddCategory(userId) && CanEditCategory(userId) && CanDeleteCategory(userId))
@@ -479,6 +483,7 @@ namespace learnnet.Helper
             return false;
         }
 
+        // Full grant access to Media
         public static bool FullAccessMedia(int userId)
         {
             if(CanAddMedia(userId) && CanEditMedia(userId) && CanDeleteMedia(userId))
@@ -487,5 +492,8 @@ namespace learnnet.Helper
             }
             return false;
         }
+
+        // Check if user has permission on section ID
+
     }
 }

@@ -25,39 +25,42 @@
             @Html.ValidationMessageFor(model => Model.password, "", new { @class = "text-danger" })
             <input type="password" name="password" class="form-control" placeholder="Create new password" />
         </div>
-      
+
         foreach (var section in ViewBag.Sections)
         {
-            <div class="row user-accesbility">
-                <h4>@(section.name + " Accessbility")</h4>
-                <div class="form-group col-md-6 dropdown-wrapper">
-                    <select class="form-control role_option" selected="@Model.role" id=@("role" + section.id) name="role[]">
-                        <option value="admin" @(Utils.GetSectionRole(section.id , Model.id) == "admin" ? "selected" : "")>Admin</option>
-                        <option value="editor" @(Utils.GetSectionRole(section.id , Model.id) == "editor" ? "selected" : "")>Editor</option>
-                        <option value="user" @(Utils.GetSectionRole(section.id , Model.id) == "user" ? "selected" : "") readonly="readonly">User</option>
-                    </select>
-                    <input type="hidden" class="page_id" name="pageId[]" value=@(section.id) />
-                </div>
-                <div class="col-md-6 checkbox-holder">
-                    <div class="admin-setting" id="admin_setting">
-                        <div class="form-group checkbox-wrapper">
-                            <label for=@("addition" + section.id)>Add</label>
-                            <input class="hiddenAddition" name="addition[]" value="false" type="hidden" @(Utils.GetAddPermission(Model.id, section.id) ? "disabled" : "") />
-                            <input class="addition" id=@("addition" + section.id) value="true" name="addition[]" type="checkbox" @(Utils.GetAddPermission(Model.id, section.id) ? "checked disabled" : "") />
-                        </div>
-                        <div class="form-group checkbox-wrapper">
-                            <label for=@("edition" + section.id)>Edit</label>
-                            <input class="hiddenEdition" name="edition[]" value="false" type="hidden" @(Utils.GetEditPermission(Model.id, section.id) ? "disabled" : "") />
-                            <input class="edition" id=@("edition" + section.id) value="true" name="edition[]" type="checkbox" @(Utils.GetEditPermission(Model.id, section.id) ? "checked disabled" : "") />
-                        </div>
-                        <div class="from-group checkbox-wrapper">
-                            <label for=@("deletion" + section.id)>Delete</label>
-                            <input class="hiddenDeletion" name="deletion[]" value="false" type="hidden" @(Utils.GetDeletePermission(Model.id, section.id) ? "disabled" : "")/>
-                            <input class="deletion" id=@("deletion" + section.id) value="true" name="deletion[]" type="checkbox" @(Utils.GetDeletePermission(Model.id, section.id) ? "checked disabled" : "") />
+            if (section.name == "User" || section.name == "Product" || section.name == "Category" || section.name == "Media")
+            {
+                <div class="row user-accesbility">
+                    <h4>@(section.name + " Accessbility")</h4>
+                    <div class="form-group col-md-6 dropdown-wrapper">
+                        <select class="form-control role_option" selected="@Model.role" id=@("role" + section.id) name="role[]">
+                            <option value="admin" @(Utils.GetSectionRole(section.id, Model.id) == "admin" ? "selected" : "")>Admin</option>
+                            <option value="editor" @(Utils.GetSectionRole(section.id, Model.id) == "editor" ? "selected" : "")>Editor</option>
+                            <option value="user" @(Utils.GetSectionRole(section.id, Model.id) == "user" ? "selected" : "") readonly="readonly">User</option>
+                        </select>
+                        <input type="hidden" class="page_id" name="pageId[]" value=@(section.id) />
+                    </div>
+                    <div class="col-md-6 checkbox-holder">
+                        <div class="admin-setting" id="admin_setting">
+                            <div class="form-group checkbox-wrapper">
+                                <label for=@("addition" + section.id)>Add</label>
+                                <input class="hiddenAddition" name="addition[]" value="false" type="hidden" @(Utils.GetAddPermission(Model.id, section.id) ? "disabled" : "") />
+                                <input class="addition" id=@("addition" + section.id) value="true" name="addition[]" type="checkbox" @(Utils.GetAddPermission(Model.id, section.id) ? "checked disabled" : "") />
+                            </div>
+                            <div class="form-group checkbox-wrapper">
+                                <label for=@("edition" + section.id)>Edit</label>
+                                <input class="hiddenEdition" name="edition[]" value="false" type="hidden" @(Utils.GetEditPermission(Model.id, section.id) ? "disabled" : "") />
+                                <input class="edition" id=@("edition" + section.id) value="true" name="edition[]" type="checkbox" @(Utils.GetEditPermission(Model.id, section.id) ? "checked disabled" : "") />
+                            </div>
+                            <div class="from-group checkbox-wrapper">
+                                <label for=@("deletion" + section.id)>Delete</label>
+                                <input class="hiddenDeletion" name="deletion[]" value="false" type="hidden" @(Utils.GetDeletePermission(Model.id, section.id) ? "disabled" : "") />
+                                <input class="deletion" id=@("deletion" + section.id) value="true" name="deletion[]" type="checkbox" @(Utils.GetDeletePermission(Model.id, section.id) ? "checked disabled" : "") />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
         }
 
         <button id="edit_user" type="submit" class="btn btn-info">Change</button>

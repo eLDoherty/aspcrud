@@ -839,11 +839,45 @@ namespace learnnet.Helper
                         {
                             id = Convert.ToInt32(reader["id"]),
                             name = reader["name"].ToString(),
+                            permalink= reader["permalink"].ToString(),
+                            section_order = Convert.ToInt32(reader["section_order"])
                         };
                         sections.Add(sct);
                     }
                 }
+            }
+            return sections;
+        }
 
+        // Get All Sections
+        public static List<Section> AllSectionOrder()
+        {
+            List<Section> sections = new List<Section>();
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            using (SqlConnection connection = new SqlConnection(CS))
+            {
+                connection.Open();
+                string query = "SELECT * FROM dbo.sections ORDER BY section_order ASC";
+                SqlCommand command = new SqlCommand(query, connection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        var sct = new Section
+                        {
+                            id = Convert.ToInt32(reader["id"]),
+                            name = reader["name"].ToString(),
+                            permalink = reader["permalink"].ToString(),
+                            section_order = Convert.ToInt32(reader["section_order"])
+                        };
+                        sections.Add(sct);
+                    }
+                }
             }
             return sections;
         }
