@@ -175,10 +175,12 @@ span.arrow {
 span.arrow.active {
     transition: 0.3s;
     display: inline-block;
+    color: green;
 }
 
 span.arrow.active.rotated {
     transform: rotate(-180deg);
     position: relative;
     bottom: 1px;
+    color: #46b8da;
 }

@@ -189,6 +189,7 @@ namespace learnnet.Controllers
 
             if (Permission.CanAddCategory(CustomQuery.GetCurrentUserId(User.Identity.Name)))
             {
+                ViewBag.Category = CustomQuery.GetCategories();
                 return View();
             }
             return UnauthorizedRedirection();
@@ -205,11 +206,25 @@ namespace learnnet.Controllers
                 if (insertCatgeory)
                 {
                     TempData["message"] = "Category has been added!";
+                    ViewBag.Category = CustomQuery.GetCategories();
                     return View();
                 }
             }
             TempData["message"] = "Category not added!";
             return View(cat);
+        }
+
+        [System.Web.Mvc.HttpGet]
+        public ActionResult DeleteCategory(int id)
+        {
+            var deleteCategory = CustomQuery.DeleteCategoryById(id);
+            if(deleteCategory)
+            {
+                TempData["message"] = "Category has been deleted";
+                return RedirectToAction("Category", "Product");
+            }
+            TempData["message"] = "Category cant be deleted";
+            return RedirectToAction("Category", "Product");
         }
 
         // Media page

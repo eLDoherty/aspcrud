@@ -26,20 +26,37 @@
         var postPerPage = $(this).val();
         var steps = Math.ceil(parseInt(totalRecord) / parseInt(postPerPage));
 
+        if ($(this).val() > parseInt($('#total_user').text())) {
+            $('#step_pagination').hide();
+        }
+
+        if ($(this).val() < parseInt($('#total_user').text())) {
+            $('#step_pagination').show();
+        }
+
         // Remove curremt change on another sorting event
         if ($('#sortByName').find('.arrow').hasClass('active')) {
             $('#sortByName').attr('data-sorting', 'ASC');
             $('#sortByName').find('.arrow').removeClass('active');
+            $('#sortByName').find('.arrow').removeClass('rotated');
         }
 
         if ($('#sortByEmail').find('.arrow').hasClass('active')) {
             $('#sortByEmail').attr('data-sorting', 'ASC');
             $('#sortByEmail').find('.arrow').removeClass('active');
+            $('#sortByEmail').find('.arrow').removeClass('rotated');
         }
 
         if ($('#sortById').find('.arrow').hasClass('active')) {
             $('#sortById').attr('data-sorting', 'ASC');
             $('#sortById').find('.arrow').removeClass('active');
+            $('#sortById').find('.arrow').removeClass('rotated');
+        }
+
+        if ($('#sortByRole').find('.arrow').hasClass('active')) {
+            $('#sortByRole').attr('data-sorting', 'ASC');
+            $('#sortByRole').find('.arrow').removeClass('active');
+            $('#sortByRole').find('.arrow').removeClass('rotated');
         }
 
         $('#step_pagination').html('');
@@ -238,16 +255,19 @@
         if ($('#sortByName').find('.arrow').hasClass('active')) {
             $('#sortByName').attr('data-sorting', 'ASC');
             $('#sortByName').find('.arrow').removeClass('active');
+            $('#sortByName').find('.arrow').removeClass('rotated');
         }
 
         if ($('#sortByEmail').find('.arrow').hasClass('active')) {
             $('#sortByEmail').attr('data-sorting', 'ASC');
             $('#sortByEmail').find('.arrow').removeClass('active');
+            $('#sortByEmail').find('.arrow').removeClass('rotated');
         }  
 
         if ($('#sortByRole').find('.arrow').hasClass('active')) {
             $('#sortByRole').attr('data-sorting', 'ASC');
             $('#sortByRole').find('.arrow').removeClass('active');
+            $('#sortByRole').find('.arrow').removeClass('rotated');
         }
 
         // Set step pagination from begining again
@@ -342,16 +362,19 @@
         if ($('#sortById').find('.arrow').hasClass('active')) {
             $('#sortById').attr('data-sorting', 'ASC');
             $('#sortById').find('.arrow').removeClass('active');
+            $('#sortById').find('.arrow').removeClass('rotated');
         }
 
         if ($('#sortByEmail').find('.arrow').hasClass('active')) {
             $('#sortByEmail').attr('data-sorting', 'ASC');
             $('#sortByEmail').find('.arrow').removeClass('active');
+            $('#sortByEmail').find('.arrow').removeClass('rotated');
         }  
 
         if ($('#sortByRole').find('.arrow').hasClass('active')) {
             $('#sortByRole').attr('data-sorting', 'ASC');
             $('#sortByRole').find('.arrow').removeClass('active');
+            $('#sortByRole').find('.arrow').removeClass('rotated');
         }
 
         // Set step pagination from begining again
@@ -450,16 +473,19 @@
         if ($('#sortById').find('.arrow').hasClass('active')) {
             $('#sortById').attr('data-sorting', 'ASC');
             $('#sortById').find('.arrow').removeClass('active');
+            $('#sortById').find('.arrow').removeClass('rotated');
         }
 
         if ($('#sortByName').find('.arrow').hasClass('active')) {
             $('#sortByName').attr('data-sorting', 'ASC');
             $('#sortByName').find('.arrow').removeClass('active');
+            $('#sortByName').find('.arrow').removeClass('rotated');
         }   
 
         if ($('#sortByRole').find('.arrow').hasClass('active')) {
             $('#sortByRole').attr('data-sorting', 'ASC');
             $('#sortByRole').find('.arrow').removeClass('active');
+            $('#sortByRole').find('.arrow').removeClass('rotated');
         }
 
         $.ajax({
@@ -554,16 +580,19 @@
         if ($('#sortById').find('.arrow').hasClass('active')) {
             $('#sortById').attr('data-sorting', 'ASC');
             $('#sortById').find('.arrow').removeClass('active');
+            $('#sortById').find('.arrow').removeClass('rotated');
         }
 
         if ($('#sortByName').find('.arrow').hasClass('active')) {
             $('#sortByName').attr('data-sorting', 'ASC');
             $('#sortByName').find('.arrow').removeClass('active');
+            $('#sortByName').find('.arrow').removeClass('rotated');
         }
 
         if ($('#sortByEmail').find('.arrow').hasClass('active')) {
             $('#sortByEmail').attr('data-sorting', 'ASC');
             $('#sortByEmail').find('.arrow').removeClass('active');
+            $('#sortByEmail').find('.arrow').removeClass('rotated');
         }
 
         $.ajax({

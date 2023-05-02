@@ -4,6 +4,39 @@
 <p class="text-action-message">@TempData["message"]</p>
 
 <div class="add-new-category__wrapper">
+    <table class="table">
+        <tr>
+            <th class="col-md-1" id="sortById" data-sorting="ASC" data-name="id">ID <span class="arrow">⬇</span></th>
+            <th class="col-md-5" id="sortByName" data-sorting="ASC" data-name="username">Category <span class="arrow">⬇</span></th>
+            <th class="col-md-3">Action</th>
+        </tr>
+        <tbody id="user_holder">
+            @if (ViewBag.Category != null)
+            {
+                foreach (var category in ViewBag.Category)
+                {
+                    <tr>
+                        <td class="col-md-1">@category.id</td>
+                        <td class="col-md-5">@category.category</td>
+                        <td class="col-md-3">
+                            @if (Utils.CanDeleteUser(Utils.CurrentUserId(User.Identity.Name)))
+                            {
+                                @Html.ActionLink("Delete", "DeleteCategory", "Product", new { id = category.id }, new { @class = "btn btn-danger" }) <span>|</span>
+                            }
+                            @if (Utils.CanEditUser(Utils.CurrentUserId(User.Identity.Name)))
+                            {
+                                @Html.ActionLink("Edit", "EditCategory", "Product", new { id = category.id }, new { @class = "btn btn-info button_edit_category" })
+                            }
+
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+
+    <h3>Add new Category</h3>
     @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "create_product_form" }))
     {
         @Html.AntiForgeryToken();
@@ -13,10 +46,11 @@
                 @Html.EditorFor(model => Model.category, new { htmlAttributes = new { @class = "form-control", placeholder = "Category name" } })
             </div>
             <div class="col-md-4">
-                <input type="submit" id="button_insert_category" class="btn btn-success btn_submit_product" value="Add" />
+                <input type="submit" id="button_insert_category" class="btn btn-success btn_submit_product" value="Add New" />
             </div>
         </div>
     }
+
 </div>
 
 

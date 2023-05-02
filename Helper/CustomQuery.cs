@@ -279,6 +279,37 @@ namespace learnnet.Helper
             }
         }
 
+        // Delete category by id
+        public static bool DeleteCategoryById(int catId)
+        {
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                con.Open();
+                var query = "DELETE FROM dbo.categories WHERE id=" + catId;
+                using (SqlCommand command = new SqlCommand(query, con))
+                {
+                    try
+                    {
+                        var result = command.ExecuteNonQuery();
+                        if (result > 0)
+                        {
+                            return true;
+                        }
+                    }
+                    catch (Exception err)
+                    {
+                        var data = err;
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                    return false;
+                }
+            }
+        }
+
         // Get All Category
         public static List<Category> GetCategories()
         {

@@ -9,8 +9,8 @@
             <th class="col-md-1" id="sortById" data-sorting="ASC" data-name="id">ID <span class="arrow">⬇</span></th>
             <th class="col-md-3"id="sortByName" data-sorting="ASC" data-name="username">Name <span class="arrow">⬇</span></th>
             <th class="col-md-3" id="sortByEmail" data-sorting="ASC" data-name="email">Email <span class="arrow">⬇</span></th>
-            <th class="col-md-3" id="sortByRole" data-sorting="ASC" data-name="role">Role <span class="arrow">⬇</span></th>
-            <th class="col-md-2">Action</th>
+            <th class="col-md-2" id="sortByRole" data-sorting="ASC" data-name="role">Role <span class="arrow">⬇</span></th>
+            <th class="col-md-3">Action</th>
         </tr>
         <tbody id="user_holder">
             @if (Model != null)
@@ -23,8 +23,8 @@
                             <td class="col-md-1">@user.id</td>
                             <td class="col-md-3">@user.username</td>
                             <td class="col-md-3">@user.email</td>
-                            <td class="col-md-3">@user.role</td>
-                            <td class="col-md-2">
+                            <td class="col-md-2">@user.role</td>
+                            <td class="col-md-3">
                                 @if (Utils.CanDeleteUser(Utils.CurrentUserId(User.Identity.Name)))
                                 {
                                     @Html.ActionLink("Delete", "DeleteUser", "Admin", new { id = user.id }, new { @class = "btn btn-danger" }) <span>|</span>
@@ -45,10 +45,6 @@
     <div class="user-pagination-wrapper">
         <p class="total-user">Total user record: <span id="total_user">@Utils.TotalUser()</span></p>
         <ul id="step_pagination" class="pagination step-pagination">
-            <li><button class="pagination-button" value="1">1</button></li>
-            <li><button class="pagination-button" value="2">2</button></li>
-            <li><button class="pagination-button" value="3">3</button></li>
-            <li><button class="pagination-button" value="4">4</button></li>
         </ul>
         <div class="show-per-page">
             <p>Display per page:</p>

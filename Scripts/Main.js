@@ -1,5 +1,11 @@
 ﻿jQuery(document).ready(function ($) {
 
+    // Disabled edit category
+    $('.button_edit_category').on('click', function (e) {
+        e.preventDefault();
+        alert("Belum jadi :D");
+    })
+
     // Pagination with ajax
     $("#load_more_product").click(function () {
 
