@@ -243,6 +243,10 @@
             $('#sortByEmail').find('.arrow').removeClass('active');
         }  
 
+        // Set step pagination from begining again
+        $('#step_pagination li').find('.pagination-button').removeClass('active');
+        $('#step_pagination li:first-child').find('.pagination-button').toggleClass('active');
+
         $.ajax({
             url: endpoint,
             type: 'POST',
@@ -337,6 +341,10 @@
             $('#sortByEmail').find('.arrow').removeClass('active');
         }  
 
+        // Set step pagination from begining again
+        $('#step_pagination li').find('.pagination-button').removeClass('active');
+        $('#step_pagination li:first-child').find('.pagination-button').toggleClass('active');
+
         $.ajax({
             url: endpoint,
             type: 'POST',
@@ -419,6 +427,10 @@
         dataForOrder.attr('data-sorting', $(this).attr('data-sorting'));
         dataForOrder.attr('data-name', name);
         $(this).find('.arrow').toggleClass('active');
+
+        // Set step pagination from begining again
+        $('#step_pagination li').find('.pagination-button').removeClass('active');
+        $('#step_pagination li:first-child').find('.pagination-button').toggleClass('active');
 
         // Remove curremt change on another sorting event
         if ($('#sortById').find('.arrow').hasClass('active')) {
