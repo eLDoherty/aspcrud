@@ -11,7 +11,7 @@
     <table class="table">
         <tr>
             <th class="col-md-1" id="sortById" data-sorting="ASC" data-name="id">ID <span class="arrow">⬇</span></th>
-            <th class="col-md-5" id="sortByCategory" data-sorting="ASC" data-name="username">Category <span class="arrow">⬇</span></th>
+            <th class="col-md-5" id="sortByCategory" data-sorting="ASC" data-name="category">Category <span class="arrow">⬇</span></th>
             <th class="col-md-3">Action</th>
         </tr>
         <tbody id="user_holder">
@@ -67,4 +67,9 @@
     </form>
 </div>
 
+<span id="pagination_order" data-sorting="none" data-name="none"></span>
+
 @Html.ActionLink("Hidden", "PaginationPerPage", "Product", null, new { @class = "user_list_endpoint" })
+@Html.ActionLink("Hidden", "PaginationPerStep", "Product", null, new { @class = "user_list_endpoint_step" })
+@Html.ActionLink("Hidden", "PaginationCategoryById", "Product", null, new { @class = "category_pagination_id" })
+@Html.ActionLink("Hidden", "PaginationCategory", "Product", null, new { @class = "category_pagination_name" })

@@ -124,6 +124,7 @@ body div.login-button-wrapper p {
     justify-content: center;
 }
 
+
 .pagination-button.active {
     background-color: seagreen;
     color: white;
@@ -159,7 +160,7 @@ body div.login-button-wrapper p {
     display: none;
 }
 
-#sortById, #sortByEmail, #sortByName, #sortByRole {
+#sortById, #sortByEmail, #sortByName, #sortByRole, #sortByCategory {
     cursor: pointer;
 }
 

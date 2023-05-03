@@ -190,7 +190,7 @@ namespace learnnet.Controllers
         {
             if (Permission.CanAddCategory(CustomQuery.GetCurrentUserId(User.Identity.Name)))
             {
-                ViewBag.Category = CustomQuery.GetCategories();
+                ViewBag.Category = Paging.PaginatePerPageCategory(0);
                 return View();
             }
             return UnauthorizedRedirection();
@@ -256,15 +256,23 @@ namespace learnnet.Controllers
         // Ajax Per Step = Category
         public string PaginationPerStep(int page, int rows, string sorting, string name)
         {
-            var data = Paging.PaginatePerStep(page, rows, sorting, name);
+            var data = Paging.PaginatePerStepCategory(page, rows, sorting, name);
 
             return JsonConvert.SerializeObject(data);
         }
 
         // Sorting ajax by user id - Category
-        public string PaginationById(string sorting, int rows)
+        public string PaginationCategoryById(string sorting, int rows)
         {
-            var data = Paging.PaginateByUserId(sorting, rows);
+            var data = Paging.ShowCategoryByID(sorting, rows);
+
+            return JsonConvert.SerializeObject(data);
+        }
+
+        // Sorting ajax by user id - Category
+        public string PaginationCategory(string sorting, int rows)
+        {
+            var data = Paging.PaginateByCategory(sorting, rows);
 
             return JsonConvert.SerializeObject(data);
         }

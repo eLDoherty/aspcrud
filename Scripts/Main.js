@@ -332,7 +332,6 @@
             success: function (data) {
                 var categories = JSON.parse(data);
                 var parent = $('#user_holder');
-                console.log(categories);
                 parent.html("");
                 var item = "";
                 $.each(categories, function (key, cat) {
@@ -350,6 +349,160 @@
                 parent.append(item);
             }
 
+        });
+    });
+
+    // Handle user pagination step -- Category
+    $(document).on('click', '.pagination-button', function () {
+        var userListURLstep = $('.user_list_endpoint_step').attr('href');
+        $('.pagination-button').removeClass('active');
+        $(this).addClass('active');
+        var page = $(this).val();
+        var rows = $('#userPagination').val();
+        var sorting = $('#pagination_order').attr('data-sorting');
+        var name = $('#pagination_order').attr('data-name');
+
+        var data = {
+            page: page,
+            rows: rows,
+            sorting: sorting,
+            name: name,
+        }
+
+        $.ajax({
+            url: userListURLstep,
+            type: 'POST',
+            data: data,
+
+            success: function (data) {
+                var categories = JSON.parse(data);
+                var parent = $('#user_holder');
+                parent.html("");
+                var item = "";
+                $.each(categories, function (key, cat) {
+                    item += `
+                            <tr>
+                                <td class="col-md-1">${cat.id}</td>
+                                <td class="col-md-5 category-name">${cat.category}</td>
+                                <td class="col-md-3">
+                                    <a class="btn btn-danger" href="/Product/DeleteCategory/${cat.id}">Delete</a>
+                                    <span>|</span>
+                                    <a class="btn btn-info button_edit_category" href="/Product/EditCategory/${cat.id}">Edit</a>
+                                </td>
+                            </tr>`;
+                });
+                parent.append(item);
+            }
+        });
+    });
+
+    var dataForOrder = $('#pagination_order');
+
+    // Sort by category id
+    $('#sortById').on('click', function () {
+        $(this).attr('data-sorting') == 'ASC' ? $(this).attr('data-sorting', 'DESC') : $(this).attr('data-sorting', 'ASC');
+        var name = $(this).attr('data-name');
+        var sorting = $(this).attr('data-sorting');
+        var rows = $('#userPagination').val();
+        var endpoint = $('.category_pagination_id').attr('href');
+        dataForOrder.attr('data-sorting', $(this).attr('data-sorting'));
+        dataForOrder.attr('data-name', name);
+        $(this).find('.arrow').addClass('active');
+        $(this).find('.arrow').toggleClass('rotated'); $(this).find('.arrow').addClass('active');
+
+        console.log(name);
+
+        // Remove curremt change on another sorting event
+        if ($('#sortByCategory').find('.arrow').hasClass('active')) {
+            $('#sortByCategory').attr('data-sorting', 'ASC');
+            $('#sortByCategory').find('.arrow').removeClass('active');
+            $('#sortByCategory').find('.arrow').removeClass('rotated');
+        }
+
+        // Set step pagination from begining again
+        $('#step_pagination li').find('.pagination-button').removeClass('active');
+        $('#step_pagination li:first-child').find('.pagination-button').toggleClass('active');
+
+        $.ajax({
+            url: endpoint,
+            type: 'POST',
+            data: {
+                sorting: sorting,
+                rows: rows
+            },
+            success: function (data) {
+                var categories = JSON.parse(data);
+                var parent = $('#user_holder');
+                parent.html("");
+                var item = "";
+                $.each(categories, function (key, cat) {
+                    item += `
+                            <tr>
+                                <td class="col-md-1">${cat.id}</td>
+                                <td class="col-md-5 category-name">${cat.category}</td>
+                                <td class="col-md-3">
+                                    <a class="btn btn-danger" href="/Product/DeleteCategory/${cat.id}">Delete</a>
+                                    <span>|</span>
+                                    <a class="btn btn-info button_edit_category" href="/Product/EditCategory/${cat.id}">Edit</a>
+                                </td>
+                            </tr >`;
+                });
+                parent.append(item);
+            }
+        });
+    });
+
+    // Sort by category
+    $('#sortByCategory').on('click', function () {
+        $(this).attr('data-sorting') == 'ASC' ? $(this).attr('data-sorting', 'DESC') : $(this).attr('data-sorting', 'ASC');
+        var name = $(this).attr('data-name');
+        var sorting = $(this).attr('data-sorting');
+        var rows = $('#userPagination').val();
+        var endpoint = $('.category_pagination_id').attr('href');
+        dataForOrder.attr('data-sorting', $(this).attr('data-sorting'));
+        dataForOrder.attr('data-name', name);
+        $(this).find('.arrow').addClass('active');
+        $(this).find('.arrow').toggleClass('rotated'); $(this).find('.arrow').addClass('active');
+
+        console.log(name);
+
+        // Remove curremt change on another sorting event
+        if ($('#sortById').find('.arrow').hasClass('active')) {
+            $('#sortById').attr('data-sorting', 'ASC');
+            $('#sortById').find('.arrow').removeClass('active');
+            $('#sortById').find('.arrow').removeClass('rotated');
+        }
+
+        // Set step pagination from begining again
+        $('#step_pagination li').find('.pagination-button').removeClass('active');
+        $('#step_pagination li:first-child').find('.pagination-button').toggleClass('active');
+
+        $.ajax({
+            url: endpoint,
+            type: 'POST',
+            data: {
+                sorting: sorting,
+                rows: rows
+            },
+            success: function (data) {
+                var categories = JSON.parse(data);
+                var parent = $('#user_holder');
+                parent.html("");
+                var item = "";
+                $.each(categories, function (key, cat) {
+                    item += `
+                            <tr>
+                                <td class="col-md-1">${cat.id}</td>
+                                <td class="col-md-5 category-name">${cat.category}</td>
+                                <td class="col-md-3">
+                                    <a class="btn btn-danger" href="/Product/DeleteCategory/${cat.id}">Delete</a>
+                                    <span>|</span>
+                                    <a class="btn btn-info button_edit_category" href="/Product/EditCategory/${cat.id}">Edit</a>
+                                </td>
+                            </tr >`;
+                });
+                parent.append(item);
+            }
         });
     });
 

@@ -236,8 +236,16 @@ namespace learnnet.Helper
         {
             List<Category> categories = new List<Category>();
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
-            string query = "SELECT TOP(" + totalDisplay + ") * FROM dbo.categories";
-
+            string query = "";
+            if(totalDisplay > 0)
+            {
+                query = "SELECT TOP(" + totalDisplay + ") * FROM dbo.categories";
+            }
+            else
+            {
+                query = "SELECT TOP(2) * FROM dbo.categories";
+            }
+            
             using (SqlConnection con = new SqlConnection(CS))
             {
                 con.Open();
@@ -255,6 +263,112 @@ namespace learnnet.Helper
                         category = rdr["category"].ToString(),
                     };
                     categories.Add(cats);
+                }
+            }
+            return categories;
+        }
+
+        // Show per step category
+        public static List<Category> PaginatePerStepCategory(int page, int rows, string sorting, string name)
+        {
+            List<Category> categories = new List<Category>();
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            int pageNumber = page;
+            int rowsOfPage = rows;
+            string extendQuery = "";
+            string query = @"SELECT * FROM dbo.categories
+                            ORDER BY " + name + " " + sorting + @" OFFSET (" + page + "-1)* " + rows + " ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
+
+            if (sorting != "none" && name != "none")
+            {
+                extendQuery = name + " " + sorting;
+            }
+
+            if (extendQuery.Length == 0)
+            {
+                query = @"SELECT * FROM dbo.categories
+                          ORDER BY id OFFSET (" + pageNumber + "-1)*" + rowsOfPage + @" ROWS
+                          FETCH NEXT " + rowsOfPage + " ROWS ONLY";
+            }
+
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand(query, con)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    var category = new Category
+                    {
+                        id = Convert.ToInt32(rdr["id"]),
+                        category = rdr["category"].ToString(),
+                    };
+                    categories.Add(category);
+                }
+            }
+            return categories;
+        }
+
+        // Show category by ID
+        public static List<Category> ShowCategoryByID(string sorting, int rows)
+        {
+            List<Category> categories = new List<Category>();
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            string query = @"SELECT * FROM dbo.categories
+                            ORDER BY id " + sorting + @" OFFSET (1-1)* " + rows + " ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
+
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand(query, con)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    var Category = new Category
+                    {
+                        id = Convert.ToInt32(rdr["id"]),
+                        category = rdr["category"].ToString(),
+                    };
+                    categories.Add(Category);
+                }
+            }
+            return categories;
+        }
+
+        // PaginateByCategory
+        // Sort by category 
+        public static List<Category> PaginateByCategory(string sorting, int rows)
+        {
+            List<Category> categories = new List<Category>();
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            string query = @"SELECT * FROM dbo.categories
+                            ORDER BY category " + sorting + @" OFFSET (1-1)* " + rows + " ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
+
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand(query, con)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    var Category = new Category
+                    {
+                        id = Convert.ToInt32(rdr["id"]),
+                        category = rdr["Category"].ToString(),
+                    };
+                    categories.Add(Category);
                 }
             }
             return categories;

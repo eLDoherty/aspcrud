@@ -144,7 +144,6 @@
                 }
                 parent.append(item);
             }
-
         });
     });
 
