@@ -9,7 +9,7 @@ using System.Web;
 
 namespace learnnet.Helper
 {
-    public class Pagination : CustomQuery
+    public class Paging : CustomQuery
     {
 
         // User pagination
@@ -138,7 +138,7 @@ namespace learnnet.Helper
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             string query = @"SELECT * FROM dbo.users
                             WHERE id != 1
-                            ORDER BY username " + sorting + @" OFFSET (1-1)* "+ rows +" ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
+                            ORDER BY username " + sorting + " OFFSET (1-1)* "+ rows +" ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
 
             using (SqlConnection con = new SqlConnection(CS))
             {
@@ -171,7 +171,7 @@ namespace learnnet.Helper
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             string query = @"SELECT * FROM dbo.users
                              WHERE id != 1
-                             ORDER BY email "+ sorting +@" OFFSET (1-1)* "+ rows +" ROWS FETCH NEXT  "+ rows +"  ROWS ONLY";
+                             ORDER BY email "+ sorting +" OFFSET (1-1)* "+ rows +" ROWS FETCH NEXT  "+ rows +"  ROWS ONLY";
 
             using (SqlConnection con = new SqlConnection(CS))
             {
@@ -204,7 +204,7 @@ namespace learnnet.Helper
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             string query = @"SELECT * FROM dbo.users
                             WHERE id != 1
-                            ORDER BY role " + sorting + @" OFFSET (1-1)* " + rows + " ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
+                            ORDER BY role " + sorting + " OFFSET (1-1)* " + rows + " ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
 
             using (SqlConnection con = new SqlConnection(CS))
             {
@@ -230,6 +230,35 @@ namespace learnnet.Helper
             return users;
         }
 
+        // Pagination for category
+        // Show per page pagination
+        public static List<Category> PaginatePerPageCategory(int totalDisplay)
+        {
+            List<Category> categories = new List<Category>();
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            string query = "SELECT TOP(" + totalDisplay + ") * FROM dbo.categories";
+
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand(query, con)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    var cats = new Category
+                    {
+                        id = Convert.ToInt32(rdr["id"]),
+                        category = rdr["category"].ToString(),
+                    };
+                    categories.Add(cats);
+                }
+            }
+            return categories;
+        }
 
     }
 }

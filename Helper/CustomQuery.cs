@@ -310,6 +310,40 @@ namespace learnnet.Helper
             }
         }
 
+        // Edit Category
+        public static bool EditCategory(Category cat)
+        {
+            var data = cat;
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                con.Open();
+
+                string query = @"UPDATE dbo.categories SET category = '" +cat.category + "' WHERE id=" + cat.id;
+
+                using (SqlCommand command = new SqlCommand(query, con))
+                {
+                    try
+                    {
+                        var result = command.ExecuteNonQuery();
+                        if (result > 0)
+                        {
+                            return true;
+                        }
+                    }
+                    catch (Exception err)
+                    {
+                        var test = err;
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                    return false;
+                }
+            }
+        }
+
         // Get All Category
         public static List<Category> GetCategories()
         {

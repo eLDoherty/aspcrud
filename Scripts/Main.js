@@ -1,11 +1,5 @@
 ﻿jQuery(document).ready(function ($) {
 
-    // Disabled edit category
-    $('.button_edit_category').on('click', function (e) {
-        e.preventDefault();
-        alert("Belum jadi :D");
-    })
-
     // Pagination with ajax
     $("#load_more_product").click(function () {
 
@@ -237,5 +231,127 @@
                 $("#main_page").html(item);
             }
         })
-    })
+    });
+
+    // Modal edit category handler
+    $(document).on('click', '.button_edit_category',function (e) {
+        e.preventDefault();
+        var categoryName = $(this).parent().siblings('.category-name').text();
+        $('#catId').val($(this).attr('id'));
+        $('.edit-category-wrapper').slideDown();
+        $('#catName').val(categoryName);
+    });
+
+    $('#close-edit-category-modal').on('click', function () {
+        $('.edit-category-wrapper').slideUp();
+    });
+
+    // Category pagination
+    // Steps
+    var totalRecord = $('#total_user').text();
+    var postPerPage = $('#userPagination').val();
+    var steps = Math.ceil(parseInt(totalRecord) / parseInt(postPerPage));
+
+    $('#step_pagination').html('');
+
+    var step = '';
+
+    for (var i = 1; i <= steps; i++) {
+        if (i == 1) {
+            step += `<li><button class="pagination-button active" value="${i}">${i}</button></li>`
+        } else {
+            step += `<li><button class="pagination-button" value="${i}">${i}</button></li>`
+        }
+    }
+
+    $('#step_pagination').append(step);
+
+    // Handle user pagination per page
+    $('#userPagination').on('change', function (e) {
+        // Steps
+        var totalRecord = $('#total_user').text();
+        var postPerPage = $(this).val();
+        var steps = Math.ceil(parseInt(totalRecord) / parseInt(postPerPage));
+
+        if ($(this).val() > parseInt($('#total_user').text())) {
+            $('#step_pagination').hide();
+        }
+
+        if ($(this).val() < parseInt($('#total_user').text())) {
+            $('#step_pagination').show();
+        }
+
+        // Remove curremt change on another sorting event
+        if ($('#sortByName').find('.arrow').hasClass('active')) {
+            $('#sortByName').attr('data-sorting', 'ASC');
+            $('#sortByName').find('.arrow').removeClass('active');
+            $('#sortByName').find('.arrow').removeClass('rotated');
+        }
+
+        if ($('#sortByEmail').find('.arrow').hasClass('active')) {
+            $('#sortByEmail').attr('data-sorting', 'ASC');
+            $('#sortByEmail').find('.arrow').removeClass('active');
+            $('#sortByEmail').find('.arrow').removeClass('rotated');
+        }
+
+        if ($('#sortById').find('.arrow').hasClass('active')) {
+            $('#sortById').attr('data-sorting', 'ASC');
+            $('#sortById').find('.arrow').removeClass('active');
+            $('#sortById').find('.arrow').removeClass('rotated');
+        }
+
+        if ($('#sortByRole').find('.arrow').hasClass('active')) {
+            $('#sortByRole').attr('data-sorting', 'ASC');
+            $('#sortByRole').find('.arrow').removeClass('active');
+            $('#sortByRole').find('.arrow').removeClass('rotated');
+        }
+
+        $('#step_pagination').html('');
+
+        var step = '';
+
+        for (var i = 1; i <= steps; i++) {
+            if (i == 1) {
+                step += `<li><button class="pagination-button active" value="${i}">${i}</button></li>`
+            } else {
+                step += `<li><button class="pagination-button" value="${i}">${i}</button></li>`
+            }
+        }
+
+        $('#step_pagination').append(step);
+
+        var userListURL = $('.user_list_endpoint').attr('href');
+
+        // Ajax request total post per page
+        $.ajax({
+            url: userListURL,
+            type: 'POST',
+            data: {
+                totalDisplay: $(this).val()
+            },
+            success: function (data) {
+                var categories = JSON.parse(data);
+                var parent = $('#user_holder');
+                console.log(categories);
+                parent.html("");
+                var item = "";
+                $.each(categories, function (key, cat) {
+                    item += `
+                            <tr>
+                                <td class="col-md-1">${cat.id}</td>
+                                <td class="col-md-5 category-name">${cat.category}</td>
+                                <td class="col-md-3">
+                                    <a class="btn btn-danger" href="/Product/DeleteCategory/${cat.id}">Delete</a>
+                                    <span>|</span>
+                                    <a class="btn btn-info button_edit_category" href="/Poduct/EditCategory/${cat.id}">Edit</a>
+                                </td>
+                            </tr>`;
+                });    
+                parent.append(item);
+            }
+
+        });
+    });
+
 });
+

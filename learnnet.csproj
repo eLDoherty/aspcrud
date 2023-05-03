@@ -154,7 +154,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helper\Pagination.cs" />
+    <Compile Include="Helper\Paging.cs" />
     <Compile Include="Helper\Permission.cs" />
     <Compile Include="Helper\CustomQuery.cs" />
     <Compile Include="Helper\UserQuery.cs" />
@@ -284,6 +284,7 @@
     <Content Include="Views\Shared\_CrudLayout.cshtml" />
     <Content Include="Views\Product\Media.cshtml" />
     <Content Include="Views\Shared\_GeneralLayout.cshtml" />
+    <Content Include="Views\Shared\_Pagination.cshtml" />
     <None Include="Views\Shared\_ProductLayout.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

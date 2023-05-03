@@ -6,7 +6,7 @@ public class Utils : Permission
 {
 
     readonly CustomQuery CQ = new CustomQuery();
-    readonly Pagination PG = new Pagination();
+    readonly Paging PG = new Paging();
 
     public static bool IsAdmin(string email)
     {
@@ -82,7 +82,14 @@ public class Utils : Permission
     // Total user record
     public static int TotalUser()
     {
-        return Pagination.TotalUserRecord() - 1 ;
+        return Paging.TotalUserRecord() - 1 ;
+    }
+
+    // Total user record
+    public static object TotalCategory()
+    {
+        int totalCategory = CustomQuery.GetCategories().Count;
+        return totalCategory > 0 ? totalCategory : 0;
     }
 
 }

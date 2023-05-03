@@ -7,6 +7,7 @@ using System.Web;
 using System.IO;
 using System;
 using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 
 namespace learnnet.Controllers
 {
@@ -14,6 +15,7 @@ namespace learnnet.Controllers
     {
         readonly CustomQuery CQ = new CustomQuery();
         readonly Permission permission = new Permission();
+        readonly Paging PG = new Paging();
 
         [Authorize]
         public ActionResult Index()
@@ -186,14 +188,12 @@ namespace learnnet.Controllers
         [System.Web.Mvc.HttpGet]
         public ActionResult Category()
         {
-
             if (Permission.CanAddCategory(CustomQuery.GetCurrentUserId(User.Identity.Name)))
             {
                 ViewBag.Category = CustomQuery.GetCategories();
                 return View();
             }
             return UnauthorizedRedirection();
-       
         }
 
         // Product Category 
@@ -214,6 +214,24 @@ namespace learnnet.Controllers
             return View(cat);
         }
 
+        // Edit Category 
+        [System.Web.Mvc.HttpPost]
+        public ActionResult EditCategory(Category cat)
+        {
+            if (ModelState.IsValid)
+            {
+                var insertCatgeory = CustomQuery.EditCategory(cat);
+                if (insertCatgeory)
+                {
+                    ViewBag.Category = CustomQuery.GetCategories();
+                    TempData["message"] = "Category has been updated";
+                    return RedirectToAction("Category", "Product");
+                }
+            }
+            TempData["message"] = "Cant edit the category!";
+            return RedirectToAction("Category", "Product");
+        }
+
         [System.Web.Mvc.HttpGet]
         public ActionResult DeleteCategory(int id)
         {
@@ -225,6 +243,30 @@ namespace learnnet.Controllers
             }
             TempData["message"] = "Category cant be deleted";
             return RedirectToAction("Category", "Product");
+        }
+
+        // Handle Request Ajax Per Page - Category
+        public string PaginationPerPage(int totalDisplay)
+        {
+            var data = Paging.PaginatePerPageCategory(totalDisplay);
+
+            return JsonConvert.SerializeObject(data);
+        }
+
+        // Ajax Per Step = Category
+        public string PaginationPerStep(int page, int rows, string sorting, string name)
+        {
+            var data = Paging.PaginatePerStep(page, rows, sorting, name);
+
+            return JsonConvert.SerializeObject(data);
+        }
+
+        // Sorting ajax by user id - Category
+        public string PaginationById(string sorting, int rows)
+        {
+            var data = Paging.PaginateByUserId(sorting, rows);
+
+            return JsonConvert.SerializeObject(data);
         }
 
         // Media page

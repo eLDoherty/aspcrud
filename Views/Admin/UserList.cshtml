@@ -1,5 +1,9 @@
 ﻿@model  IEnumerable<learnnet.Models.User>
 
+@{ 
+    int totalUser = ViewBag.TotalData = Utils.TotalUser();
+}
+
 <h2>Manage user</h2>
 <p style="font-size: 28px;" class="text-action-message">@TempData["message"]</p>
 
@@ -14,7 +18,7 @@
         </tr>
         <tbody id="user_holder">
             @if (Model != null)
-            {
+            { 
                 foreach (var user in Model)
                 {
                     if (user.username != "superadmin")
@@ -42,19 +46,8 @@
 
         </tbody>
     </table>
-    <div class="user-pagination-wrapper">
-        <p class="total-user">Total user record: <span id="total_user">@Utils.TotalUser()</span></p>
-        <ul id="step_pagination" class="pagination step-pagination">
-        </ul>
-        <div class="show-per-page">
-            <p>Display per page:</p>
-            <select class="form-control" id="userPagination" name="userPagination">
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-            </select>
-        </div>
-    </div>
+    @Html.Partial("_Pagination", totalUser);
+
     @if (Utils.CanAddUser(Utils.CurrentUserId(User.Identity.Name)))
     {
         @Html.ActionLink("Add User", "AddUser", "Admin", new { area = "" }, new { @class = "btn btn-success" })

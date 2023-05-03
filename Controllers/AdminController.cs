@@ -12,7 +12,7 @@ namespace learnnet.Controllers
         readonly CustomQuery CQ = new CustomQuery();
         readonly UserQuery UQ = new UserQuery();
         readonly Permission PM = new Permission();
-        readonly Pagination PG = new Pagination();
+        readonly Paging PG = new Paging();
 
         // User list
         [Authorize]
@@ -20,7 +20,7 @@ namespace learnnet.Controllers
         {
             string test = Response.Cookies.ToString();
             bool isSuperadmin = CustomQuery.IsSuperAdmin(User.Identity.Name);
-            var data = Pagination.PaginatePerPageUser(2);
+            var data = Paging.PaginatePerPageUser(2);
             return View(data);
         }
 
@@ -33,7 +33,7 @@ namespace learnnet.Controllers
         // Handle Request Ajax Per Page 
         public string PaginationPerPage(int totalDisplay)
         {
-            var data = Pagination.PaginatePerPageUser(totalDisplay);
+            var data = Paging.PaginatePerPageUser(totalDisplay);
 
             return JsonConvert.SerializeObject(data);
         }
@@ -41,7 +41,7 @@ namespace learnnet.Controllers
         // Ajax Per Step
         public string PaginationPerStep(int page, int rows, string sorting, string name)
         {
-            var data = Pagination.PaginatePerStep(page, rows, sorting, name);
+            var data = Paging.PaginatePerStep(page, rows, sorting, name);
 
             return JsonConvert.SerializeObject(data);
         }
@@ -49,7 +49,7 @@ namespace learnnet.Controllers
         // Sorting ajax by user id
         public string PaginationById(string sorting, int rows)
         {
-            var data = Pagination.PaginateByUserId(sorting, rows);
+            var data = Paging.PaginateByUserId(sorting, rows);
 
             return JsonConvert.SerializeObject(data);
         }
@@ -57,7 +57,7 @@ namespace learnnet.Controllers
         // Sorting ajax by username
         public string PaginationByUsername(string sorting, int rows)
         {
-            var data = Pagination.PaginateByUsername(sorting, rows);
+            var data = Paging.PaginateByUsername(sorting, rows);
 
             return JsonConvert.SerializeObject(data);
         }
@@ -65,7 +65,7 @@ namespace learnnet.Controllers
         // Sorting ajax by user email
         public string PaginationByEmail(string sorting, int rows)
         {
-            var data = Pagination.PaginateByUserEmail(sorting, rows);
+            var data = Paging.PaginateByUserEmail(sorting, rows);
 
             return JsonConvert.SerializeObject(data);
         }
@@ -73,7 +73,7 @@ namespace learnnet.Controllers
         // Sorting ajax by role
         public string PaginationByRole(string sorting, int rows)
         {
-            var data = Pagination.PaginateByUserRole(sorting, rows);
+            var data = Paging.PaginateByUserRole(sorting, rows);
 
             return JsonConvert.SerializeObject(data);
         }

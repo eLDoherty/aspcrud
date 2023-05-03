@@ -1,13 +1,17 @@
 ﻿@model learnnet.Models.Category
 
-<h2>Category Settings</h2>
-<p class="text-action-message">@TempData["message"]</p>
+@{
+    int data = ViewBag.TotalData = Utils.TotalCategory();
+}
+
+<h2>Category Settings</h2><p class="text-action-message">@TempData["message"]</p>
+
 
 <div class="add-new-category__wrapper">
     <table class="table">
         <tr>
             <th class="col-md-1" id="sortById" data-sorting="ASC" data-name="id">ID <span class="arrow">⬇</span></th>
-            <th class="col-md-5" id="sortByName" data-sorting="ASC" data-name="username">Category <span class="arrow">⬇</span></th>
+            <th class="col-md-5" id="sortByCategory" data-sorting="ASC" data-name="username">Category <span class="arrow">⬇</span></th>
             <th class="col-md-3">Action</th>
         </tr>
         <tbody id="user_holder">
@@ -17,7 +21,7 @@
                 {
                     <tr>
                         <td class="col-md-1">@category.id</td>
-                        <td class="col-md-5">@category.category</td>
+                        <td class="col-md-5 category-name">@category.category</td>
                         <td class="col-md-3">
                             @if (Utils.CanDeleteUser(Utils.CurrentUserId(User.Identity.Name)))
                             {
@@ -25,9 +29,8 @@
                             }
                             @if (Utils.CanEditUser(Utils.CurrentUserId(User.Identity.Name)))
                             {
-                                @Html.ActionLink("Edit", "EditCategory", "Product", new { id = category.id }, new { @class = "btn btn-info button_edit_category" })
+                                @Html.ActionLink("Edit", "EditCategory", "Product", new { id = category.id }, new { @class = "btn btn-info button_edit_category", @id = category.id })
                             }
-
                         </td>
                     </tr>
                 }
@@ -36,10 +39,12 @@
         </tbody>
     </table>
 
+    @Html.Partial("_Pagination", data)
+
     <h3>Add new Category</h3>
     @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "create_product_form" }))
     {
-        @Html.AntiForgeryToken();
+        @Html.AntiForgeryToken()
         <div class="row">
             <div class="col-md-8">
                 @Html.ValidationMessageFor(model => Model.category, "", new { @class = "text-danger" })
@@ -50,7 +55,16 @@
             </div>
         </div>
     }
-
 </div>
 
+<div class="edit-category-wrapper">
+    <span id="close-edit-category-modal">⨯</span>
+    <h3>Edit the category :</h3>
+    <form action="/Product/EditCategory" method="POST" class="form-group">
+        <input type="hidden" value="0" name="id" id="catId" class="form-control" />
+        <input type="text" name="category" class="form-control" id="catName" placeholder="Input new category" />
+        <button type="submit" class="btn btn-warning">Save</button>
+    </form>
+</div>
 
+@Html.ActionLink("Hidden", "PaginationPerPage", "Product", null, new { @class = "user_list_endpoint" })
