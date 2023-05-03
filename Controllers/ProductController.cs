@@ -206,7 +206,7 @@ namespace learnnet.Controllers
                 if (insertCatgeory)
                 {
                     TempData["message"] = "Category has been added!";
-                    ViewBag.Category = CustomQuery.GetCategories();
+                    ViewBag.Category = Paging.PaginatePerPageCategory(0);
                     return View();
                 }
             }
@@ -223,7 +223,7 @@ namespace learnnet.Controllers
                 var insertCatgeory = CustomQuery.EditCategory(cat);
                 if (insertCatgeory)
                 {
-                    ViewBag.Category = CustomQuery.GetCategories();
+                    ViewBag.Category = Paging.PaginatePerPageCategory(0);
                     TempData["message"] = "Category has been updated";
                     return RedirectToAction("Category", "Product");
                 }

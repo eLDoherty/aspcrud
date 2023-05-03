@@ -458,7 +458,7 @@
         var name = $(this).attr('data-name');
         var sorting = $(this).attr('data-sorting');
         var rows = $('#userPagination').val();
-        var endpoint = $('.category_pagination_id').attr('href');
+        var endpoint = $('.category_pagination_name').attr('href');
         dataForOrder.attr('data-sorting', $(this).attr('data-sorting'));
         dataForOrder.attr('data-name', name);
         $(this).find('.arrow').addClass('active');
