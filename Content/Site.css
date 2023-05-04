@@ -164,7 +164,7 @@ body div.login-button-wrapper p {
     cursor: pointer;
 }
 
-.user_pagination_email, .user_pagination_name, .user_pagination_id, .user_pagination_role {
+.user_pagination_email, .user_pagination_name, .user_pagination_id, .user_pagination_role, .user_search, .search_category {
     display: none;
 }
 
@@ -184,4 +184,24 @@ span.arrow.active.rotated {
     position: relative;
     bottom: 1px;
     color: #46b8da;
+}
+
+a.category_pagination_name, a.category_pagination_id {
+    display: none;
+}
+
+.intro-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.intro-wrapper h2 {
+    margin: 10px 0;
+}
+
+input#search-user, input#search-category {
+    max-width: 220px;
+    margin-top: 10px;
 }

@@ -99,13 +99,13 @@ namespace learnnet.Helper
         }
 
         // Order user by ID Query
-        public static List<User> PaginateByUserId(string sorting, int rows)
+        public static List<User> PaginateByUserId(string sorting, int rows, int page)
         {
             List<User> users = new List<User>();
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             string query = @"SELECT * FROM dbo.users
                             WHERE id != 1
-                            ORDER BY id " + sorting + @" OFFSET (1-1)* " + rows + " ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
+                            ORDER BY id " + sorting + @" OFFSET ("+page+"-1)* " + rows + " ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
 
             using (SqlConnection con = new SqlConnection(CS))
             {
@@ -132,13 +132,13 @@ namespace learnnet.Helper
         }
 
         // Order user by username
-        public static List<User> PaginateByUsername(string sorting, int rows)
+        public static List<User> PaginateByUsername(string sorting, int rows, int page)
         {
             List<User> users = new List<User>();
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             string query = @"SELECT * FROM dbo.users
                             WHERE id != 1
-                            ORDER BY username " + sorting + " OFFSET (1-1)* "+ rows +" ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
+                            ORDER BY username " + sorting + " OFFSET ("+page+"-1)* "+ rows +" ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
 
             using (SqlConnection con = new SqlConnection(CS))
             {
@@ -165,13 +165,13 @@ namespace learnnet.Helper
         }
 
         // Order user by email
-        public static List<User> PaginateByUserEmail(string sorting, int rows)
+        public static List<User> PaginateByUserEmail(string sorting, int rows, int page)
         {
             List<User> users = new List<User>();
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             string query = @"SELECT * FROM dbo.users
                              WHERE id != 1
-                             ORDER BY email "+ sorting +" OFFSET (1-1)* "+ rows +" ROWS FETCH NEXT  "+ rows +"  ROWS ONLY";
+                             ORDER BY email "+ sorting +" OFFSET ("+page+"-1)* "+ rows +" ROWS FETCH NEXT  "+ rows +"  ROWS ONLY";
 
             using (SqlConnection con = new SqlConnection(CS))
             {
@@ -198,13 +198,13 @@ namespace learnnet.Helper
         }
 
         // Order user by role
-        public static List<User> PaginateByUserRole(string sorting, int rows)
+        public static List<User> PaginateByUserRole(string sorting, int rows, int page)
         {
             List<User> users = new List<User>();
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             string query = @"SELECT * FROM dbo.users
                             WHERE id != 1
-                            ORDER BY role " + sorting + " OFFSET (1-1)* " + rows + " ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
+                            ORDER BY role " + sorting + " OFFSET ("+page+"-1)* " + rows + " ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
 
             using (SqlConnection con = new SqlConnection(CS))
             {
@@ -314,12 +314,12 @@ namespace learnnet.Helper
         }
 
         // Show category by ID
-        public static List<Category> ShowCategoryByID(string sorting, int rows)
+        public static List<Category> ShowCategoryByID(string sorting, int rows, int page)
         {
             List<Category> categories = new List<Category>();
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             string query = @"SELECT * FROM dbo.categories
-                            ORDER BY id " + sorting + @" OFFSET (1-1)* " + rows + " ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
+                            ORDER BY id " + sorting + @" OFFSET ("+page+"-1)* " + rows + " ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
 
             using (SqlConnection con = new SqlConnection(CS))
             {
@@ -345,12 +345,12 @@ namespace learnnet.Helper
 
         // PaginateByCategory
         // Sort by category 
-        public static List<Category> PaginateByCategory(string sorting, int rows)
+        public static List<Category> PaginateByCategory(string sorting, int rows, int page)
         {
             List<Category> categories = new List<Category>();
             string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
             string query = @"SELECT * FROM dbo.categories
-                            ORDER BY category " + sorting + @" OFFSET (1-1)* " + rows + " ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
+                            ORDER BY category " + sorting + @" OFFSET ("+page+"-1)* " + rows + " ROWS FETCH NEXT  " + rows + "  ROWS ONLY";
 
             using (SqlConnection con = new SqlConnection(CS))
             {
@@ -373,6 +373,66 @@ namespace learnnet.Helper
             }
             return categories;
         }
+
+        // Search user
+        public static List<User> SearchUserAjax(string key)
+        {
+            List<User> users = new List<User>();
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            string query = "SELECT TOP(10) * FROM dbo.users WHERE username LIKE '%"+key+"%' OR email LIKE '%"+key+"%'";
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand(query, con)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    var user = new User
+                    {
+                        id = Convert.ToInt32(rdr["id"]),
+                        username = rdr["username"].ToString(),
+                        email = rdr["email"].ToString(),
+                        role = rdr["role"].ToString()
+                    };
+                    users.Add(user);
+                }
+            }
+            return users;
+        }
+
+        // Search Category
+        public static List<Category> SearchCategoryAjax(string key)
+        {
+            List<Category> categories = new List<Category>();
+            string CS = ConfigurationManager.ConnectionStrings["learnnet"].ConnectionString;
+            string extendQuery = "'%" + key + "%'";
+            string query = "SELECT TOP(10) * FROM dbo.categories WHERE category LIKE " + extendQuery;
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand(query, con)
+                {
+                    CommandType = CommandType.Text
+                };
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    var category = new Category
+                    {
+                        id = Convert.ToInt32(rdr["id"]),
+                        category = rdr["category"].ToString()
+                    };
+                    categories.Add(category);
+                }
+            }
+            return categories;
+        }
+
+
 
     }
 }

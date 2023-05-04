@@ -107,7 +107,7 @@
                     });
                 }
 
-                if (data.length < 3) {
+                if (data.length <= 3) {
                     $('#load_more_product').hide();
                 }
                 $("#main_page").append(item);
@@ -282,28 +282,16 @@
         }
 
         // Remove curremt change on another sorting event
-        if ($('#sortByName').find('.arrow').hasClass('active')) {
-            $('#sortByName').attr('data-sorting', 'ASC');
-            $('#sortByName').find('.arrow').removeClass('active');
-            $('#sortByName').find('.arrow').removeClass('rotated');
-        }
-
-        if ($('#sortByEmail').find('.arrow').hasClass('active')) {
-            $('#sortByEmail').attr('data-sorting', 'ASC');
-            $('#sortByEmail').find('.arrow').removeClass('active');
-            $('#sortByEmail').find('.arrow').removeClass('rotated');
-        }
-
         if ($('#sortById').find('.arrow').hasClass('active')) {
             $('#sortById').attr('data-sorting', 'ASC');
             $('#sortById').find('.arrow').removeClass('active');
             $('#sortById').find('.arrow').removeClass('rotated');
         }
 
-        if ($('#sortByRole').find('.arrow').hasClass('active')) {
-            $('#sortByRole').attr('data-sorting', 'ASC');
-            $('#sortByRole').find('.arrow').removeClass('active');
-            $('#sortByRole').find('.arrow').removeClass('rotated');
+        if ($('#sortByCategory').find('.arrow').hasClass('active')) {
+            $('#sortByCategory').attr('data-sorting', 'ASC');
+            $('#sortByCategory').find('.arrow').removeClass('active');
+            $('#sortByCategory').find('.arrow').removeClass('rotated');
         }
 
         $('#step_pagination').html('');
@@ -342,7 +330,7 @@
                                 <td class="col-md-3">
                                     <a class="btn btn-danger" href="/Product/DeleteCategory/${cat.id}">Delete</a>
                                     <span>|</span>
-                                    <a class="btn btn-info button_edit_category" href="/Poduct/EditCategory/${cat.id}">Edit</a>
+                                    <a class="btn btn-info button_edit_category" href="/Poduct/EditCategory/${cat.id}" id="${cat.id}">Edit</a>
                                 </td>
                             </tr>`;
                 });    
@@ -356,6 +344,7 @@
     $(document).on('click', '.pagination-button', function () {
         var userListURLstep = $('.user_list_endpoint_step').attr('href');
         $('.pagination-button').removeClass('active');
+        $('.sorter_name').attr('data-page', $(this).val());
         $(this).addClass('active');
         var page = $(this).val();
         var rows = $('#userPagination').val();
@@ -387,7 +376,7 @@
                                 <td class="col-md-3">
                                     <a class="btn btn-danger" href="/Product/DeleteCategory/${cat.id}">Delete</a>
                                     <span>|</span>
-                                    <a class="btn btn-info button_edit_category" href="/Product/EditCategory/${cat.id}">Edit</a>
+                                    <a class="btn btn-info button_edit_category" href="/Product/EditCategory/${cat.id}" id="${cat.id}">Edit</a>
                                 </td>
                             </tr>`;
                 });
@@ -404,13 +393,12 @@
         var name = $(this).attr('data-name');
         var sorting = $(this).attr('data-sorting');
         var rows = $('#userPagination').val();
+        var page = $(this).attr('data-page');
         var endpoint = $('.category_pagination_id').attr('href');
         dataForOrder.attr('data-sorting', $(this).attr('data-sorting'));
         dataForOrder.attr('data-name', name);
         $(this).find('.arrow').addClass('active');
         $(this).find('.arrow').toggleClass('rotated'); $(this).find('.arrow').addClass('active');
-
-        console.log(name);
 
         // Remove curremt change on another sorting event
         if ($('#sortByCategory').find('.arrow').hasClass('active')) {
@@ -419,16 +407,13 @@
             $('#sortByCategory').find('.arrow').removeClass('rotated');
         }
 
-        // Set step pagination from begining again
-        $('#step_pagination li').find('.pagination-button').removeClass('active');
-        $('#step_pagination li:first-child').find('.pagination-button').toggleClass('active');
-
         $.ajax({
             url: endpoint,
             type: 'POST',
             data: {
                 sorting: sorting,
-                rows: rows
+                rows: rows,
+                page: page
             },
             success: function (data) {
                 var categories = JSON.parse(data);
@@ -458,13 +443,12 @@
         var name = $(this).attr('data-name');
         var sorting = $(this).attr('data-sorting');
         var rows = $('#userPagination').val();
+        var page = $(this).attr('data-page');
         var endpoint = $('.category_pagination_name').attr('href');
         dataForOrder.attr('data-sorting', $(this).attr('data-sorting'));
         dataForOrder.attr('data-name', name);
         $(this).find('.arrow').addClass('active');
         $(this).find('.arrow').toggleClass('rotated'); $(this).find('.arrow').addClass('active');
-
-        console.log(name);
 
         // Remove curremt change on another sorting event
         if ($('#sortById').find('.arrow').hasClass('active')) {
@@ -473,16 +457,13 @@
             $('#sortById').find('.arrow').removeClass('rotated');
         }
 
-        // Set step pagination from begining again
-        $('#step_pagination li').find('.pagination-button').removeClass('active');
-        $('#step_pagination li:first-child').find('.pagination-button').toggleClass('active');
-
         $.ajax({
             url: endpoint,
             type: 'POST',
             data: {
                 sorting: sorting,
-                rows: rows
+                rows: rows,
+                page: page
             },
             success: function (data) {
                 var categories = JSON.parse(data);
@@ -497,7 +478,51 @@
                                 <td class="col-md-3">
                                     <a class="btn btn-danger" href="/Product/DeleteCategory/${cat.id}">Delete</a>
                                     <span>|</span>
-                                    <a class="btn btn-info button_edit_category" href="/Product/EditCategory/${cat.id}">Edit</a>
+                                    <a class="btn btn-info button_edit_category" href="/Product/EditCategory/${cat.id}" id="${cat.id}">Edit</a>
+                                </td>
+                            </tr >`;
+                });
+                parent.append(item);
+            }
+        });
+    });
+
+    // Search user ajaxify
+    $('#search-category').on('keyup', function () {
+        var key = $(this).val();
+        var endpoint = $('.search_category').attr('href');
+        $('.user-pagination-wrapper').hide();
+        if ($(this).val().length == 0) {
+            location.reload(true);
+        }
+
+        console.log(key);
+        $.ajax({
+            url: endpoint,
+            type: 'POST',
+            data: {
+                key: key
+            },
+            success: function (data) {
+                var categories = JSON.parse(data);
+                var parent = $('#user_holder');
+                parent.html("");
+                var item = "";
+
+                if (categories.length == 0) {
+                    $('#empty-category').text('Categories not found');
+                } else {
+                    $('#empty-category').text('');
+                }
+                $.each(categories, function (key, cat) {
+                    item += `
+                            <tr>
+                                <td class="col-md-1">${cat.id}</td>
+                                <td class="col-md-5 category-name">${cat.category}</td>
+                                <td class="col-md-3">
+                                    <a class="btn btn-danger" href="/Product/DeleteCategory/${cat.id}">Delete</a>
+                                    <span>|</span>
+                                    <a class="btn btn-info button_edit_category" href="/Product/EditCategory/${cat.id}" id="${cat.id}">Edit</a>
                                 </td>
                             </tr >`;
                 });

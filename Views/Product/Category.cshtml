@@ -4,14 +4,17 @@
     int data = ViewBag.TotalData = Utils.TotalCategory();
 }
 
-<h2>Category Settings</h2><p class="text-action-message">@TempData["message"]</p>
-
+<div class="intro-wrapper">
+    <h2 class="col-md-6">Category Settings</h2>
+    <input id="search-category" placeholder="Search category" class="form-control col-md-3" autofocus />
+</div>
+<p class="text-action-message">@TempData["message"]</p>
 
 <div class="add-new-category__wrapper">
     <table class="table">
         <tr>
-            <th class="col-md-1" id="sortById" data-sorting="ASC" data-name="id">ID <span class="arrow">⬇</span></th>
-            <th class="col-md-5" id="sortByCategory" data-sorting="ASC" data-name="category">Category <span class="arrow">⬇</span></th>
+            <th class="col-md-1 sorter_name" id="sortById" data-sorting="ASC" data-name="id" data-page="1">ID <span class="arrow">⬇</span></th>
+            <th class="col-md-5 sorter_name" id="sortByCategory" data-sorting="ASC" data-name="category" data-page="1">Category <span class="arrow">⬇</span></th>
             <th class="col-md-3">Action</th>
         </tr>
         <tbody id="user_holder">
@@ -38,6 +41,7 @@
 
         </tbody>
     </table>
+    <h1 style="text-align: center; font-style: italic; color: red; font-size: 18px;" id="empty-category"></h1>
 
     @Html.Partial("_Pagination", data)
 
@@ -73,3 +77,4 @@
 @Html.ActionLink("Hidden", "PaginationPerStep", "Product", null, new { @class = "user_list_endpoint_step" })
 @Html.ActionLink("Hidden", "PaginationCategoryById", "Product", null, new { @class = "category_pagination_id" })
 @Html.ActionLink("Hidden", "PaginationCategory", "Product", null, new { @class = "category_pagination_name" })
+@Html.ActionLink("Hidden", "SearchCategory", "Product", null, new { @class = "search_category" })

@@ -47,33 +47,41 @@ namespace learnnet.Controllers
         }
 
         // Sorting ajax by user id
-        public string PaginationById(string sorting, int rows)
+        public string PaginationById(string sorting, int rows, int page)
         {
-            var data = Paging.PaginateByUserId(sorting, rows);
+            var data = Paging.PaginateByUserId(sorting, rows, page);
 
             return JsonConvert.SerializeObject(data);
         }
 
         // Sorting ajax by username
-        public string PaginationByUsername(string sorting, int rows)
+        public string PaginationByUsername(string sorting, int rows, int page)
         {
-            var data = Paging.PaginateByUsername(sorting, rows);
+            var data = Paging.PaginateByUsername(sorting, rows, page);
 
             return JsonConvert.SerializeObject(data);
         }
 
         // Sorting ajax by user email
-        public string PaginationByEmail(string sorting, int rows)
+        public string PaginationByEmail(string sorting, int rows, int page)
         {
-            var data = Paging.PaginateByUserEmail(sorting, rows);
+            var data = Paging.PaginateByUserEmail(sorting, rows, page);
 
             return JsonConvert.SerializeObject(data);
         }
 
         // Sorting ajax by role
-        public string PaginationByRole(string sorting, int rows)
+        public string PaginationByRole(string sorting, int rows, int page)
         {
-            var data = Paging.PaginateByUserRole(sorting, rows);
+            var data = Paging.PaginateByUserRole(sorting, rows, page);
+
+            return JsonConvert.SerializeObject(data);
+        }
+
+        // Search user
+        public string SearchUser(string key)
+        {
+            var data = Paging.SearchUserAjax(key);
 
             return JsonConvert.SerializeObject(data);
         }
@@ -88,7 +96,6 @@ namespace learnnet.Controllers
             }
             TempData["message"] = "Failed delete user!";
             return RedirectToAction("UserList", "Admin");
-
         }
 
         // Get Edit user Page

@@ -218,6 +218,7 @@ namespace learnnet.Controllers
         [System.Web.Mvc.HttpPost]
         public ActionResult EditCategory(Category cat)
         {
+            var data = cat;
             if (ModelState.IsValid)
             {
                 var insertCatgeory = CustomQuery.EditCategory(cat);
@@ -262,18 +263,25 @@ namespace learnnet.Controllers
         }
 
         // Sorting ajax by user id - Category
-        public string PaginationCategoryById(string sorting, int rows)
+        public string PaginationCategoryById(string sorting, int rows, int page)
         {
-            var data = Paging.ShowCategoryByID(sorting, rows);
+            var data = Paging.ShowCategoryByID(sorting, rows, page);
 
             return JsonConvert.SerializeObject(data);
         }
 
         // Sorting ajax by user id - Category
-        public string PaginationCategory(string sorting, int rows)
+        public string PaginationCategory(string sorting, int rows, int page)
         {
-            var data = Paging.PaginateByCategory(sorting, rows);
+            var data = Paging.PaginateByCategory(sorting, rows, page);
 
+            return JsonConvert.SerializeObject(data);
+        }
+
+        // Search category
+        public string SearchCategory(string key)
+        {
+            var data = Paging.SearchCategoryAjax(key);
             return JsonConvert.SerializeObject(data);
         }
 
